@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">漢字古今中外讀音查詢</string>
+    <string name="settings">設置</string>
+    <string name="help">幫助</string>
+    <string name="about">關於</string>
+    <string name="about_message">漢字古今中外讀音查詢 V1.0\n2014.04.01\n\n作者：Maigo\nmaigoakisame@gmail.com</string>
+
+    <string name="ok">確定</string>
+
+    <string name="search_hint">輸入漢字或讀音</string>
+    <string name="search_for">查詢內容：</string>
+    <string name="search_as">查詢模式：</string>
+    <string name="search_options">查詢選項：</string>
+    <string name="option_kuangx_yonh_only">僅在《廣韻》內查找</string>
+    <string name="option_allow_variants">簡繁、異體轉換</string>
+    <string name="option_tone_insensitive">聲調不敏感</string>
+    <string name="no_matches">未找到符合條件的漢字。</string>
+
+    <string-array name="search_as">
+        <item>漢字</item>
+        <item>中古拼音</item>
+        <item>普通話</item>
+        <item>粵語</item>
+        <item>朝鮮語</item>
+        <item>越南語</item>
+        <item>日語吳音</item>
+        <item>日語漢音</item>
+        <item>日語（任意讀音）</item>
+    </string-array>
+
+    <string name="pref_key_kuangx_yonh_only">KUANGX_YONH_ONLY</string>
+    <string name="pref_key_allow_variants">ALLOW_VARIANTS</string>
+    <string name="pref_key_tone_insensitive">TONE_INSENSITIVE</string>
+
+    <string name="dict_link_mc">去 韻典網 查詢“X”字</string>
+    <string name="dict_link_pu">去 漢典網 查詢“X”字</string>
+    <string name="dict_link_ct">去 粵語審音配詞字庫 查詢“X”字</string>
+    <string name="dict_link_kr">去 Naver漢字辭典 查詢“X”字</string>
+    <string name="dict_link_vn">去 漢越辭典摘引 查詢“X”字</string>
+
+    <string name="pref_key_cantonese_romanization">CANTONESE_ROMANIZATION</string>
+    <string name="pref_title_cantonese_romanization">粵語拼音系統（用於輸入和顯示）</string>
+    <string-array name="pref_entries_cantonese_romanization">
+        <item>香港語言學學會式（粵拼）</item>
+        <item>教院式</item>
+        <item>耶魯式</item>
+        <item>劉錫祥式</item>
+    </string-array>
+
+    <string name="pref_key_korean_display">KOREAN_DISPLAY</string>
+    <string name="pref_title_korean_display">朝鮮語顯示方式</string>
+    <string-array name="pref_entries_korean_display">
+        <item>諺文</item>
+        <item>文觀部2000年式羅馬字</item>
+    </string-array>
+
+    <string name="pref_key_vietnamese_tone_position">VIETNAMESE_TONE_POSITION</string>
+    <string name="pref_title_vietnamese_tone_position">越南語聲調標記方式</string>
+    <string-array name="pref_entries_vietnamese_tone_position">
+        <item>舊式（hòa, thủy）</item>
+        <item>新式（hoà, thuỷ）</item>
+    </string-array>
+
+    <string name="pref_key_japanese_display">JAPANESE_DISPLAY</string>
+    <string name="pref_title_japanese_display">日語顯示方式</string>
+    <string-array name="pref_entries_japanese_display">
+        <item>平假名</item>
+        <item>片假名</item>
+        <item>日本式羅馬字</item>
+        <item>黑本式羅馬字</item>
+    </string-array>
+
+</resources>

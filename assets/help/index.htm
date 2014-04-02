@@ -1,0 +1,556 @@
+<meta http-equiv=content-type content="text/html;charset=utf-8">
+<title>漢字古今中外讀音查詢 幫助</title>
+<style>
+  body {font-size: 16px}
+  h1 {font-size: 24px; color: #9D261D}
+  h2 {font-size: 20px; color: #000080; text-indent: 10px}
+  img.icon {vertical-align: bottom; height: 18px; width: 18px}
+  img.example {width: 80%}
+  a:link {color: blue}
+  a:visited {color: blue}
+  a.switch {color: blue; text-decoration: underline; cursor: pointer}
+  table.switch {margin-left: 10%; width: 80%; background: #FFFFC0}
+  div.romanization {margin-left: 10%; width: 80%; background: #FFFFC0; display: none}
+  div.romanization table {border-width: 1px; border-style: outset; border-color: #E0E0E0; width: 100%}
+  div.romanization table th {border-width: 1px; border-style: inset; border-color: #E0E0E0; text-align: center}
+  div.romanization table td {border-width: 1px; border-style: inset; border-color: #E0E0E0; text-align: center}
+  div.romanization table tr.separator {height: 10px}
+  .emph {color: red}
+  .dim {color: #808080}
+</style>
+
+<script language=javascript>
+function toggle(id) {
+    if (document.getElementById("detail_" + id).style.display == "block") {
+        document.getElementById("detail_" + id).style.display = "none";
+        document.getElementById("switch_" + id).innerHTML = "展開";
+    }
+    else {
+        document.getElementById("detail_" + id).style.display = "block";
+        document.getElementById("switch_" + id).innerHTML = "收起";
+    }
+}
+</script>
+
+<h1>程序簡介</h1>
+
+<p>　　本程序可以查詢漢字在古今中外多種語言中的讀音（包括中古漢語、普通話、粵語、朝鮮語、越南語、日語），也可以通過這些語言中的讀音來反查漢字。收字範圍爲Unicode編碼4E00至9FA5（共20902字）；此範圍外的漢字多爲生僻字，且在手機上輸入、顯示均有不便，故未收錄。</p>
+<p>　　本程序有兩大優點：一是把各種語言的漢字發音數據庫集成在一起，免去了一一查詢每種語言讀音的麻煩；二是把數據庫放在本地，不需要連接互聯網，提高了查詢效率。</p>
+<p>　　本程序的主要目標用戶是希望尋找漢字中古音、各方言現代音及域外方音之間聯繫的音韻學愛好者。如果您只是在學習本程序涉及的方言或外語中的一種，那麼本程序只能給您提供有限的幫助，因爲它不含有多音字辨析及釋義的功能。建議您查詢“數據來源”一節中提到的資源。</p>
+
+<h1>數據來源</h1>
+
+<p>
+　　中古音來自北大中文論壇上的《<a href=http://www.pkucn.com/viewthread.php?tid=175767>廣韻全字表</a>》（鏈接現已失效）；<br>
+　　簡體、繁體、異體字轉換表來自<a href=http://ytenx.org/>韻典網</a>的<a href=https://github.com/BYVoid/ytenx>GitHub開源代碼庫</a>；<br>
+　　普通話讀音來自<a href=http://www.zdic.net/>漢典網</a>；<br>
+　　粵語讀音來自<a href=http://humanum.arts.cuhk.edu.hk/Lexis/lexi-can/>粵語審音配詞字庫</a>；<br>
+　　朝鮮語讀音來自<a href=http://hanja.naver.com/>Naver漢字辭典</a>；<br>
+　　越南語讀音來自<a href=http://hanviet.org/>漢越辭典摘引</a>；<br>
+　　日語讀音來自《漢字源》改訂第五版。《漢字源》區分了漢字的吳音、漢音、唐音與慣用音，並提供了“歷史假名遣”寫法。該辭典曾經有<a href=http://ocn.study.goo.ne.jp/online/contents/kanjigen/>在線版本</a>，但已於2014年1月底終止服務。
+</p>
+<p>　　在上述數據的基礎上，我對一些明顯的錯誤進行了修正。</p>
+
+<h1>界面介紹</h1>
+
+<p align=center><img class=example src=ex0.png></p>
+
+<p>　　程序介面分爲兩部分，上半部分爲輸入，下半部分爲查詢結果。</p>
+<p>　　在“查詢內容”欄中，可以輸入要查詢的漢字或讀音。若要同時查詢多個漢字或讀音，可以用空格隔開；若查詢內容爲漢字或朝鮮語諺文，可以不空格。</p>
+<p>　　在“查詢模式”欄中，可以指定查詢內容的類別，即漢字或某種語言的讀音。</p>
+<p>　　“查詢選項”包括以下三項：</p>
+<p>　　<b>(1) 僅在《廣韻》中查找：</b>在“查詢模式”不是“中古漢語”時有效。選中該項時，只返回《廣韻》中收錄的字，即數據庫中有中古音的字。這些字一般爲繁體字。當“查詢模式”爲“中古漢語”的時候，當然只能查到《廣韻》中的字。</p>
+<p>　　<b>(2) 簡繁、異體轉換：</b>僅在“查詢模式”爲“漢字”時有效。選中該項時，可以同時查詢所輸入漢字的簡體字、繁體字、異體字。如果在手機上輸入繁體字有困難，這個選項就很有用了。</p>
+<p>　　<b>(3) 聲調不敏感：</b>在“查詢模式”爲“中古漢語”、“普通話”、“粵語”、“越南語”時有效。選中該項時，可以同時查詢與所輸入的讀音聲母、韻母均相同但聲調不同的音節。</p>
+<p>　　查詢結果顯示了漢字的Unicode編碼及各種語言的讀音。點擊某一漢字的查詢結果可以呼出一個菜單，其中提供了去各個數據來源查詢該漢字的鏈接，如下圖。</p>
+
+<p align=center><img class=example src=dict_links.png></p>
+
+<p>　　另外，按手機上的“菜單”鍵可以呼出主菜單，其中有“設置”、“幫助”、“關於”三項功能。</p>
+
+<h1>查詢舉例</h1>
+
+<h2>1. 查詢“良”字的讀音</h2>
+
+<p align=center><img class=example src=ex1.png></p>
+
+<p>　　如圖，在“查詢內容”欄中輸入“良”字，“查詢模式”選擇“漢字”，然後按屏幕右上角的放大鏡圖標（或軟鍵盤右下角的搜索鍵），即可看到“良”字在各種語言中的讀音。</p>
+<p>　　有如下幾點需要說明：</p>
+<p>　　(1) 中古音採用<a href=http://zh.wikipedia.org/wiki/User:Polyhedron/%E4%B8%AD%E5%8F%A4%E6%BC%A2%E8%AA%9E%E6%8B%BC%E9%9F%B3>Polyhedron的中古拼音</a>表示，括號中的“來宕陽三開平”表示“來母、宕攝、陽韻、三等、開口、平聲”。</p>
+<p>　　(2) 本例中粵語讀音用耶魯式拼音表示，朝鮮語採用諺文，日語採用平假名。這幾種語言讀音的表示方式可以用菜單中“設置”功能設置。</p>
+<p>　　(3) 朝鮮語括號前的讀音爲漢字本來的讀音，也是朝鮮的標準音，而括號內的讀音爲韓國應用<a href=http://zh.wikipedia.org/wiki/%E9%A0%AD%E9%9F%B3%E6%B3%95%E5%89%87>頭音法則</a>之後的讀音。</p>
+<p>　　(4) 日語讀音的表示比較複雜：<br>
+　　(a) 每個漢字一般具有吳音、漢音兩種讀音，個別漢字還具有唐音和慣用音。這四種讀音分別用<img class=icon src=file:///android_res/drawable/lang_jp_go.png>、<img class=icon src=file:///android_res/drawable/lang_jp_kan.png>、<img class=icon src=file:///android_res/drawable/lang_jp_tou.png>、<img class=icon src=file:///android_res/drawable/lang_jp_kwan.png>表示。另外，對於一些生僻字，《漢字源》中沒有註明讀音的種類，也沒有提供“歷史假名遣”寫法，這一類“其他”讀音用<img class=icon src=file:///android_res/drawable/lang_jp_other.png>表示。<br>
+　　(b) 有的讀音會帶有括號，括號前的讀音爲“現代假名遣”寫法，括號內的讀音爲對應的“歷史假名遣”寫法。<br>
+　　(c) 讀音的顏色和粗細代表讀音的常用程度。<b>黑色粗體</b>爲“常用漢字表”內的讀音；黑色細體爲《漢字源》中列第一位，但不在“常用漢字表”中的讀音；<span class=dim>灰色細體</span>爲既不在“常用漢字表”中，也不在《漢字源》中列第一位的讀音。<br>
+</p>
+
+<h2>2. 查詢“乐”字的讀音</h2>
+
+<p align=center><img class=example src=ex2.png></p>
+
+<p>　　本例與上例相比，有兩個地方比較複雜：一是“乐”字的簡繁體不同，二是“乐”是個多音字。</p>
+<p>　　如果直接查詢“乐”字，會發現很多種語言的讀音查不到。這是因爲這些語言讀音的數據來源使用的是繁體字。爲了能夠查詢到這些讀音，需要勾選“簡繁、異體轉換”選項。這樣，就能夠查到大陸簡體字“乐”、繁體字“樂”和日本簡化字“楽”了。可以看到，繁體字“樂”的讀音是最全的。如果想只看繁體字“樂”，可以再勾選“僅在《廣韻》內查找”選項，《廣韻》中沒有的“乐”“楽”兩字就會被隱藏。</p>
+<p>　　“樂”是個多音字，它的多種中古音會分行顯示，並按《廣韻》中出現的順序排列。普通話、粵語、朝鮮語、越南語中的多種讀音用逗號分隔；粵語讀音按數據來源中例詞的數量降序排列，另外三者按數據來源中本來的順序排列，都近似達到按使用頻率降序排列的效果。而日語爲了能夠把不同義項的吳音、漢音等對應起來，採用數字來區分不同義項的讀音。可以看到，每種語言給出的讀音數目不同，順序也不盡相同。這受限於數據來源本身，用戶需要根據自己的音韻學知識來確定不同語言的讀音之間的對應關係。</p>
+
+<h2>3. 比較“心”“新”兩字的讀音</h2>
+
+<p align=center><img class=example src=ex3.png></p>
+
+<p>　　在“查詢內容”欄中輸入多個漢字（可以不空格），就可以同時顯示它們的讀音，方便比較。</p>
+<p>　　從本例中可以看出，“心”“新”兩字的差別在於韻尾不同。這個區別在普通話和日語現代假名遣中已經消失，但在粵語、朝鮮語、越南語及日語歷史假名遣中得到保留。</p>
+
+<h2>4. 查詢粵語中讀“hak1”的字</h2>
+
+<p align=center><img class=example src=ex4.png></p>
+
+<p>　　在“查詢內容”欄中輸入“hak1”，“查詢模式”選擇“粵語”，即可查到所有粵語中讀“hak1”的字。圖片中只截取了前兩個。</p>
+<p>　　圖片中，“克”字的粵語讀音注爲“hak1 (haak1)”，這表示“haak1”是“hak1”的異讀。</p>
+<p>　　如果同時勾選“聲調不敏感”，則可以同時查詢讀音爲hak但聲調不同的漢字。</p>
+
+<h2>5. 查詢朝鮮語中讀“권”的字</h2>
+
+<p align=center><img class=example src=ex5.png></p>
+
+<p>　　查詢朝鮮語時，可以在“查詢內容”欄中輸入諺文；若手機輸入不方便，也可以輸入羅馬字。在此，輸入“권”的羅馬字“gwon”。圖片截取了前兩個朝鮮語讀“권”的字。</p>
+<p>　　查詢普通話、越南語、日語時也都可以輸入羅馬字，詳細的羅馬字方案請參見“輸入和顯示方式”一節。</p>
+
+<h1>輸入及顯示方式</h1>
+
+<h2>中古漢語</h2>
+
+<p>　　中古音採用<a href=http://zh.wikipedia.org/wiki/User:Polyhedron/%E4%B8%AD%E5%8F%A4%E6%BC%A2%E8%AA%9E%E6%8B%BC%E9%9F%B3>Polyhedron的中古拼音</a>表示，同時附註《廣韻》中的聲母、韻攝、韻目、等、呼、聲調。對於“支脂祭真仙宵侵鹽”八個有重紐的韻，僅在聲母爲脣牙喉音時標註A、B類。</p>
+<p>　　廣韻韻目中缺少冬系上聲、臻系上聲、臻系去聲和痕系入聲，“韻典網”上把它們補全了，分別作“湩”、“[角秦]”、“櫬”、“麧”。由於“[角秦]”字不在本程序的收字範圍內，故以同韻目的“齔”字代替。</p>
+
+<h2>普通話</h2>
+
+<p>　　普通話採用漢語拼音顯示。在輸入時，可以用數字1、2、3、4代表聲調，放在音節末尾；字母ü可用v代替。例如查詢普通話讀lüè的字時可輸入lve4。本程序收錄的普通話讀音不涉及字母ê。</p>
+
+<h2>粵語</h2>
+
+<p>　　本程序支持如下四種粵語拼音系統：</p>
+<p>
+　　(1) 香港語言學學會式（粵拼）；<br>
+　　(2) 教院式；<br>
+　　(3) 耶魯式；<br>
+　　(4) 劉錫祥式。<br>
+</p>
+<p>　　在“設置”中可以選擇您習慣的粵語拼音系統。程序將用您選擇的拼音系統顯示粵語讀音，在根據粵語讀音查詢漢字時，您也可以輸入您選擇的拼音系統。</p>
+
+<p>　　四種拼音系統的對照表如下：</p>
+
+<table class=switch>
+  <tr><th align=left>粵語聲母對照表
+      <td align=right><a class=switch id=switch_ct_initial onclick="toggle('ct_initial')">展開</a>
+</table>
+<div class=romanization id=detail_ct_initial>
+  <table>
+    <tr><th>粵拼<th>教院式<th>耶魯式<th>劉錫祥式<th>例字
+    <tr><td>b<td>b<td>b<td>b<td>巴
+    <tr><th>c<th>ts<th>ch<th>ch<td>叉
+    <tr><td>d<td>d<td>d<td>d<td>打
+    <tr><td>f<td>f<td>f<td>f<td>花
+    <tr><td>g<td>g<td>g<td>g<td>家
+    <tr><td>gw<td>gw<td>gw<td>gw<td>瓜
+    <tr><td>h<td>h<td>h<td>h<td>哈
+    <tr><th>j<th>j<th>y<th>y<td>也
+    <tr><td>k<td>k<td>k<td>k<td>卡
+    <tr><td>kw<td>kw<td>kw<td>kw<td>誇
+    <tr><td>l<td>l<td>l<td>l<td>啦
+    <tr><td>m<td>m<td>m<td>m<td>媽
+    <tr><td>n<td>n<td>n<td>n<td>拿
+    <tr><td>ng<td>ng<td>ng<td>ng<td>牙
+    <tr><td>p<td>p<td>p<td>p<td>怕
+    <tr><td>s<td>s<td>s<td>s<td>沙
+    <tr><td>t<td>t<td>t<td>t<td>他
+    <tr><td>w<td>w<td>w<td>w<td>蛙
+    <tr><th>z<th>dz<th>j<th>j<td>渣
+  </table>
+  <br>
+  <div align=center><a class=switch onclick="toggle('ct_initial')">收起</a></div>
+</div>
+
+<br>
+
+<table class=switch>
+  <tr><th align=left>粵語韻母對照表
+      <td align=right><a class=switch id=switch_ct_final onclick="toggle('ct_final')">展開</a>
+</table>
+<div class=romanization id=detail_ct_final>
+  <table>
+    <tr><th>粵拼<th>教院式<th>耶魯式<th>劉錫祥式<th>例字
+    <tr><th>aa<th>aa<th>a<th>a<td>渣
+    <tr><td>aai<td>aai<td>aai<td>aai<td>齋
+    <tr><td>aau<td>aau<td>aau<td>aau<td>嘲
+    <tr><td>aam<td>aam<td>aam<td>aam<td>站
+    <tr><td>aan<td>aan<td>aan<td>aan<td>讚
+    <tr><td>aang<td>aang<td>aang<td>aang<td>掙
+    <tr><td>aap<td>aap<td>aap<td>aap<td>雜
+    <tr><td>aat<td>aat<td>aat<td>aat<td>扎
+    <tr><td>aak<td>aak<td>aak<td>aak<td>責
+    <tr><td>ai<td>ai<td>ai<td>ai<td>擠
+    <tr><td>au<td>au<td>au<td>au<td>周
+    <tr><td>am<td>am<td>am<td>am<td>斟
+    <tr><td>an<td>an<td>an<td>an<td>珍
+    <tr><td>ang<td>ang<td>ang<td>ang<td>增
+    <tr><td>ap<td>ap<td>ap<td>ap<td>汁
+    <tr><td>at<td>at<td>at<td>at<td>姪
+    <tr><td>ak<td>ak<td>ak<td>ak<td>則
+    <tr><td>e<td>e<td>e<td>e<td>些
+    <tr><td>ei<td>ei<td>ei<td>ei<td>四
+    <tr><td>eu<td>eu<th>eo<a href=#note_ct_final_1><sup>1</sup></a><td>eu<a href=#note_ct_final_1><sup>1</sup></a><td>掉
+    <tr><td>em<td>em<td>em<a href=#note_ct_final_1><sup>1</sup></a><td>em<a href=#note_ct_final_1><sup>1</sup></a><td>舐
+    <tr><td>eng<td>eng<td>eng<td>eng<td>鄭
+    <tr><td>ep<td>ep<td>ep<a href=#note_ct_final_1><sup>1</sup></a><td>ep<a href=#note_ct_final_1><sup>1</sup></a><td>夾
+    <tr><td>ek<td>ek<td>ek<td>ek<td>石
+    <tr><td>i<td>i<td>i<td>i<td>思
+    <tr><td>iu<td>iu<td>iu<td>iu<td>消
+    <tr><td>im<td>im<td>im<td>im<td>閃
+    <tr><td>in<td>in<td>in<td>in<td>先
+    <tr><td>ing<td>ing<td>ing<td>ing<td>升
+    <tr><td>ip<td>ip<td>ip<td>ip<td>攝
+    <tr><td>it<td>it<td>it<td>it<td>泄
+    <tr><td>ik<td>ik<td>ik<td>ik<td>識
+    <tr><td>o<td>o<td>o<th>oh<td>可
+    <tr><td>oi<td>oi<td>oi<td>oi<td>開
+    <tr><td>ou<td>ou<td>ou<th>o<td>好
+    <tr><td>on<td>on<td>on<td>on<td>看
+    <tr><td>ong<td>ong<td>ong<td>ong<td>康
+    <tr><td>ot<td>ot<td>ot<td>ot<td>喝
+    <tr><td>ok<td>ok<td>ok<td>ok<td>學
+    <tr><th>oe<th>oe<th>eu<th>euh<td>靴
+    <tr><th>oeng<th>oeng<th>eung<th>eung<td>雙
+    <tr><th>oek<th>oek<th>euk<th>euk<td>腳
+    <tr><th>eoi<th>oey<th>eui<th>ui<td>需
+    <tr><th>eon<th>oen<th>eun<th>un<td>詢
+    <tr><th>eot<th>oet<th>eut<th>ut<td>術
+    <tr><td>u<td>u<td>u<th>oo<td>夫
+    <tr><td>ui<td>ui<td>ui<th>ooi<td>灰
+    <tr><td>un<td>un<td>un<th>oon<td>歡
+    <tr><td>ung<td>ung<td>ung<td>ung<td>風
+    <tr><td>ut<td>ut<td>ut<th>oot<td>闊
+    <tr><td>uk<td>uk<td>uk<td>uk<td>福
+    <tr><th>yu<th>y<th>yu<th>ue<td>書
+    <tr><th>yun<th>yn<th>yun<th>uen<td>孫
+    <tr><th>yut<th>yt<th>yut<th>uet<td>雪
+    <tr><td>m<td>m<td>m<td>m<td>唔
+    <tr><td>ng<td>ng<td>ng<td>ng<td>吳
+  </table>
+  <p><b>注：</b></p>
+  <ol>
+    <li><a name=note_ct_final_1>粵拼及教院式拼音中的eu、em、ep僅用於拼寫“調、掉”“舐”“夾”等字的口語讀音，在耶魯式及劉錫祥式拼音中不存在。爲了拼音系統的完整性，本程序把這三個韻母照搬到耶魯式與劉錫祥式拼音中。由於在耶魯式拼音中eu已經被用來表示“靴”字的韻母，故把eu改拼成eo。
+  </ol>
+  <div align=center><a class=switch onclick="toggle('ct_final')">收起</a></div>
+</div>
+
+<br>
+
+<table class=switch>
+  <tr><th align=left>粵語聲調對照表
+      <td align=right><a class=switch id=switch_ct_tone onclick="toggle('ct_tone')">展開</a>
+</table>
+<div class=romanization id=detail_ct_tone>
+  <table>
+    <tr><th>聲調<th>粵拼<th>教院式<th>耶魯式<th>劉錫祥式<th>例字
+    <tr><td>陰平<td>1<td>1<td>1<td>1<td>詩
+    <tr><td>陰上<td>2<td>2<td>2<td>2<td>史
+    <tr><td>陰去<td>3<td>3<td>3<td>3<td>試
+    <tr><td>陽平<td>4<td>4<td>4<td>4<td>時
+    <tr><td>陽上<td>5<td>5<td>5<td>5<td>市
+    <tr><td>陽去<td>6<td>6<td>6<td>6<td>事
+    <tr><td>上陰入<td>1<th>7<td>1<td>1<td>色
+    <tr><td>下陰入<td>3<th>8<td>3<td>3<td>錫
+    <tr><td>陽入<td>6<th>9<td>6<td>6<td>食
+  </table>
+  <br>
+  <div align=center><a class=switch onclick="toggle('ct_tone')">收起</a></div>
+</div>
+
+<h2>朝鮮語</h2>
+
+<p>　　本程序支持兩種朝鮮語顯示方式：諺文和羅馬字（<a href=http://zh.wikipedia.org/wiki/%E6%96%87%E8%A7%82%E9%83%A8%E5%BC%8F>文觀部2000年式</a>），可以在“設置”中選擇。</p>
+<p>　　輸入朝鮮語時，可採用任一種方式輸入；若採用羅馬字輸入，程序還有一定的容錯功能。</p>
+<p>　　文觀部2000年式羅馬字規則詳見下表。括號外的拼寫爲標準拼法，括號內的拼寫爲容錯拼法。</p>
+
+<table class=switch>
+  <tr><th align=left>文觀部2000年式羅馬字：初聲
+      <td align=right><a class=switch id=switch_kr_initial onclick="toggle('kr_initial')">展開</a>
+</table>
+<div class=romanization id=detail_kr_initial>
+  <table>
+    <tr><th>字母<th>拼寫<th>字母<th>拼寫<th>字母<th>拼寫
+    <tr><td>ㄱ<td>g<td>ㅇ<td>(無)<td>ㄲ<td>kk (gg)
+    <tr><td>ㄴ<td>n<td>ㅈ<td>j<td>ㄸ<td>tt (dd)
+    <tr><td>ㄷ<td>d<td>ㅊ<td>ch<td>ㅃ<td>pp (bb)
+    <tr><td>ㄹ<td>r (l)<td>ㅋ<td>k<td>ㅆ<td>ss
+    <tr><td>ㅁ<td>m<td>ㅌ<td>t<td>ㅉ<td>jj
+    <tr><td>ㅂ<td>b<td>ㅍ<td>p<td><td>
+    <tr><td>ㅅ<td>s<td>ㅎ<td>h<td><td>
+  </table>
+  <p><b>注：</b>初聲ㄸ、ㅃ、ㅉ不出現在漢字音中，ㄲ、ㅆ、ㅋ只出現在少數漢字音中。</p>
+  <div align=center><a class=switch onclick="toggle('kr_initial')">收起</a></div>
+</div>
+
+<br>
+
+<table class=switch>
+  <tr><th align=left>文觀部2000年式羅馬字：中聲
+      <td align=right><a class=switch id=switch_kr_vowel onclick="toggle('kr_vowel')">展開</a>
+</table>
+<div class=romanization id=detail_kr_vowel>
+  <table>
+    <tr><th>字母<th>拼寫<th>字母<th>拼寫<th>字母<th>拼寫
+    <tr><td>ㅏ<td>a<td>ㅑ<td>ya<td>ㅘ<td>wa
+    <tr><td>ㅐ<td>ae<td>ㅒ<td>yae<td>ㅙ<td>wae
+    <tr><td>ㅓ<td>eo<td>ㅕ<td>yeo<td>ㅝ<td>wo (weo)
+    <tr><td>ㅔ<td>e<td>ㅖ<td>ye<td>ㅞ<td>we
+    <tr><td>ㅗ<td>o<td>ㅛ<td>yo<td>ㅚ<td>oe (oi)
+    <tr><td>ㅜ<td>u<td>ㅠ<td>yu<td>ㅟ<td>wi
+    <tr><td>ㅡ<td>eu<td><td><td>ㅢ<td>ui (eui)
+    <tr><td>ㅣ<td>i<td><td><td><td>
+  </table>
+  <p><b>注：</b>元音ㅒ不會出現在漢字音中。</p>
+  <div align=center><a class=switch onclick="toggle('kr_vowel')">收起</a></div>
+</div>
+
+<br>
+
+<table class=switch>
+  <tr><th align=left>文觀部2000年式羅馬字：終聲
+      <td align=right><a class=switch id=switch_kr_final onclick="toggle('kr_final')">展開</a>
+</table>
+<div class=romanization id=detail_kr_final>
+  <table>
+    <tr><th>字母<th>拼寫<th>字母<th>拼寫
+    <tr><td>ㄱ<td>k (g)<td>ㅇ<td>ng
+    <tr><td>ㄹ<td>l (r)<td>ㄴ<td>n
+    <tr><td>ㅂ<td>p (b)<td>ㅁ<td>m
+  </table>
+  <p><b>注：</b>漢字音中出現的終聲只有上述六種。</p>
+  <div align=center><a class=switch onclick="toggle('kr_final')">收起</a></div>
+</div>
+
+<h2>越南語</h2>
+
+<p>　　在顯示越南語時，聲調的位置存在兩套標準：舊式和新式。舊式追求音節的平衡與美觀；新式則追求音韻學上的合理性，把聲調標在主元音上。兩套標準的詳細規則可參見越南語維基百科<a href=http://vi.wikipedia.org/wiki/Quy_t%E1%BA%AFc_%C4%91%E1%BA%B7t_d%E1%BA%A5u_thanh_trong_ch%E1%BB%AF_qu%E1%BB%91c_ng%E1%BB%AF>越南語聲調標記規則</a>頁面。儘管兩套標準的出發點不同，二者標調的結果卻十分相似，僅在韻母爲oa、oe、uy的時候有差異。按舊式標準，聲調會標在第一個元音上，如：hòa、khỏe、thủy；按新式標準，聲調會標在第二個元音上，如：hoà、khoẻ、thuỷ。在漢字音中，不會出現韻母oe，所以兩套標準的差異僅限於韻母爲oa和uy的情況。在“設置”中，可以選擇您習慣的聲調位置。</p>
+<p>　　在輸入越南語時，可以輸入國語字（聲調位置採用舊式和新式標準均可）；若不方便輸入帶符號的字母和聲調，可以用Telex編碼代替。Telex編碼規則如下表。声调的编码可以紧跟带声调的字母，也可以放在音节的最后。例如cát既可以写成cast，也可以写成cats。</p>
+
+<table class=switch>
+  <tr><th align=left>越南語Telex編碼表
+      <td align=right><a class=switch id=switch_vn onclick="toggle('vn')">展開</a>
+</table>
+<div class=romanization id=detail_vn>
+  <table>
+    <tr><th>字母<th>編碼<th>聲調<th>編碼
+    <tr><td>ă<td>aw<td>&nbsp; (ngang)<td>(無)
+    <tr><td>â<td>aa<td>&#768; (huyền)<td>f
+    <tr><td>ê<td>ee<td>&#769; (sắc)<td>s
+    <tr><td>ô<td>oo<td>&#777; (hỏi)<td>r
+    <tr><td>ơ<td>ow<td>&#771; (ngã)<td>x
+    <tr><td>ư<td>uw<td>&#803; (nặng)<td>j
+    <tr><td>đ<td>dd<td><td>
+  </table>
+  <br>
+  <div align=center><a class=switch onclick="toggle('vn')">收起</a></div>
+</div>
+
+<h2>日語</h2>
+
+<p>　　本程序支持如下四種日語顯示方式，可以在“設置”中選擇：</p>
+<p>
+　　(1) 平假名；<br>
+　　(2) 片假名；<br>
+　　(3) 日本式羅馬字；<br>
+　　(4) 黑本式羅馬字。<br>
+</p>
+<p>　　兩種羅馬字的差別在於：日本式羅馬字試圖體現假名在五十音圖中的位置，而黑本式羅馬字試圖表現假名的實際發音。例如假名“ち”在日本式羅馬字中拼作“ti”，而在黑本式羅馬字中拼作“chi”。兩種羅馬字的對照表見下。</p>
+<p>　　在輸入日語時，可以採用四種書寫方式的任一種。</p>
+
+<table class=switch>
+  <tr><th align=left>日語假名與羅馬字對照表
+      <td align=right><a class=switch id=switch_jp onclick="toggle('jp')">展開</a>
+</table>
+<div class=romanization id=detail_jp>
+  <table>
+    <tr><th>平假名<td>あ<td>い<td>う<td>え<td>お
+    <tr><th>片假名<td>ア<td>イ<td>ウ<td>エ<td>オ
+    <tr><th>日本式羅馬字<td>a<td>i<td>u<td>e<td>o
+    <tr><th>黑本式羅馬字<td>a<td>i<td>u<td>e<td>o
+    <tr class=separator>
+    <tr><th>平假名<td>か<td>き<td>く<td>け<td>こ
+    <tr><th>片假名<td>カ<td>キ<td>ク<td>ケ<td>コ
+    <tr><th>日本式羅馬字<td>ka<td>ki<td>ku<td>ke<td>ko
+    <tr><th>黑本式羅馬字<td>ka<td>ki<td>ku<td>ke<td>ko
+    <tr class=separator>
+    <tr><th>平假名<td>が<td>ぎ<td>ぐ<td>げ<td>ご
+    <tr><th>片假名<td>ガ<td>ギ<td>グ<td>ゲ<td>ゴ
+    <tr><th>日本式羅馬字<td>ga<td>gi<td>gu<td>ge<td>go
+    <tr><th>黑本式羅馬字<td>ga<td>gi<td>gu<td>ge<td>go
+    <tr class=separator>
+    <tr><th>平假名<td>さ<td>し<td>す<td>せ<td>そ
+    <tr><th>片假名<td>サ<td>シ<td>ス<td>セ<td>ソ
+    <tr><th>日本式羅馬字<td>sa<td class=emph>si<td>su<td>se<td>so
+    <tr><th>黑本式羅馬字<td>sa<td class=emph>shi<td>su<td>se<td>so
+    <tr class=separator>
+    <tr><th>平假名<td>ざ<td>じ<td>ず<td>ぜ<td>ぞ
+    <tr><th>片假名<td>ザ<td>ジ<td>ズ<td>ゼ<td>ゾ
+    <tr><th>日本式羅馬字<td>za<td class=emph>zi<td>zu<td>ze<td>zo
+    <tr><th>黑本式羅馬字<td>za<td class=emph>ji<td>zu<td>ze<td>zo
+    <tr class=separator>
+    <tr><th>平假名<td>た<td>ち<td>つ<td>て<td>と
+    <tr><th>片假名<td>タ<td>チ<td>ツ<td>テ<td>ト
+    <tr><th>日本式羅馬字<td>ta<td class=emph>ti<td class=emph>tu<td>te<td>to
+    <tr><th>黑本式羅馬字<td>ta<td class=emph>chi<td class=emph>tsu<td>te<td>to
+    <tr class=separator>
+    <tr><th>平假名<td>だ<td class=dim>ぢ<td class=dim>づ<td>ぜ<td>ぞ
+    <tr><th>片假名<td>ダ<td class=dim>ヂ<td class=dim>ヅ<td>デ<td>ド
+    <tr><th>日本式羅馬字<td>da<td class=emph>di<td class=emph>du<td>de<td>do
+    <tr><th>黑本式羅馬字<td>da<td class=emph>dji<a href=#note_jp_1><sup>1</sup></a><td class=emph>dzu<a href=#note_jp_1><sup>1</sup></a><td>de<td>do
+    <tr class=separator>
+    <tr><th>平假名<td>な<td>に<td>ぬ<td>ね<td>の
+    <tr><th>片假名<td>ナ<td>ニ<td>ヌ<td>ネ<td>ノ
+    <tr><th>日本式羅馬字<td>na<td>ni<td>nu<td>ne<td>no
+    <tr><th>黑本式羅馬字<td>na<td>ni<td>nu<td>ne<td>no
+    <tr class=separator>
+    <tr><th>平假名<td>は<td>ひ<td>ふ<td>へ<td>ほ
+    <tr><th>片假名<td>ハ<td>ヒ<td>フ<td>ヘ<td>ホ
+    <tr><th>日本式羅馬字<td>ha<td>hi<td class=emph>hu<td>he<td>ho
+    <tr><th>黑本式羅馬字<td>ha<td>hi<td class=emph>fu<td>he<td>ho
+    <tr class=separator>
+    <tr><th>平假名<td>ば<td>び<td>ぶ<td>べ<td>ぼ
+    <tr><th>片假名<td>バ<td>ビ<td>ブ<td>ベ<td>ボ
+    <tr><th>日本式羅馬字<td>ba<td>bi<td>bu<td>be<td>bo
+    <tr><th>黑本式羅馬字<td>ba<td>bi<td>bu<td>be<td>bo
+    <tr class=separator>
+    <tr><th>平假名<td>ぱ<td>ぴ<td>ぷ<td>ぺ<td>ぽ
+    <tr><th>片假名<td>パ<td>ピ<td>プ<td>ペ<td>ポ
+    <tr><th>日本式羅馬字<td>pa<td>pi<td>pu<td>pe<td>po
+    <tr><th>黑本式羅馬字<td>pa<td>pi<td>pu<td>pe<td>po
+    <tr class=separator>
+    <tr><th>平假名<td>ま<td>み<td>む<td>め<td>も
+    <tr><th>片假名<td>マ<td>ミ<td>ム<td>メ<td>モ
+    <tr><th>日本式羅馬字<td>ma<td>mi<td>mu<td>me<td>mo
+    <tr><th>黑本式羅馬字<td>ma<td>mi<td>mu<td>me<td>mo
+    <tr class=separator>
+    <tr><th>平假名<td>や<td><td>ゆ<td><td>よ
+    <tr><th>片假名<td>ヤ<td><td>ユ<td><td>ヨ
+    <tr><th>日本式羅馬字<td>ya<td><td>yu<td><td>yo
+    <tr><th>黑本式羅馬字<td>ya<td><td>yu<td><td>yo
+    <tr class=separator>
+    <tr><th>平假名<td>ら<td>り<td>る<td>れ<td>ろ
+    <tr><th>片假名<td>ラ<td>リ<td>ル<td>レ<td>ロ
+    <tr><th>日本式羅馬字<td>ra<td>ri<td>ru<td>re<td>ro
+    <tr><th>黑本式羅馬字<td>ra<td>ri<td>ru<td>re<td>ro
+  </table>
+  <br>
+  <table>
+    <tr><th>平假名<td>わ<td class=dim>ゐ<td class=dim>ゑ<td class=dim>を
+    <tr><th>片假名<td>ワ<td class=dim>ヰ<td class=dim>ヱ<td class=dim>ヲ
+    <tr><th>日本式羅馬字<td>wa<td class=dim>wi<td class=dim>we<td class=dim>wo
+    <tr><th>黑本式羅馬字<td>wa<td class=dim>wi<td class=dim>we<td class=dim>wo
+    <tr class=separator>
+    <tr><th>平假名<td class=dim>くゎ<td class=dim>くゐ<td class=dim>くゑ<td class=dim>くを
+    <tr><th>片假名<td class=dim>クヮ<td class=dim>クヰ<td class=dim>クヱ<td class=dim>クヲ
+    <tr><th>日本式羅馬字<td class=dim>kwa<td class=dim>kwi<td class=dim>kwe<td class=dim>kwo
+    <tr><th>黑本式羅馬字<td class=dim>kwa<td class=dim>kwi<td class=dim>kwe<td class=dim>kwo
+    <tr class=separator>
+    <tr><th>平假名<td class=dim>ぐゎ<td class=dim>ぐゐ<td class=dim>ぐゑ<td class=dim>ぐを
+    <tr><th>片假名<td class=dim>グヮ<td class=dim>グヰ<td class=dim>グヱ<td class=dim>グヲ
+    <tr><th>日本式羅馬字<td class=dim>gwa<td class=dim>gwi<td class=dim>gwe<td class=dim>gwo
+    <tr><th>黑本式羅馬字<td class=dim>gwa<td class=dim>gwi<td class=dim>gwe<td class=dim>gwo
+  </table>
+  <br>
+  <table>
+    <tr><th>平假名<td>きゃ<td>きゅ<td>きょ
+    <tr><th>片假名<td>キャ<td>キュ<td>キョ
+    <tr><th>日本式羅馬字<td>kya<td>kyu<td>kyo
+    <tr><th>黑本式羅馬字<td>kya<td>kyu<td>kyo
+    <tr class=separator>
+    <tr><th>平假名<td>ぎゃ<td>ぎゅ<td>ぎょ
+    <tr><th>片假名<td>ギャ<td>ギュ<td>ギョ
+    <tr><th>日本式羅馬字<td>gya<td>gyu<td>gyo
+    <tr><th>黑本式羅馬字<td>gya<td>gyu<td>gyo
+    <tr class=separator>
+    <tr><th>平假名<td>しゃ<td>しゅ<td>しょ
+    <tr><th>片假名<td>シャ<td>シュ<td>ショ
+    <tr><th>日本式羅馬字<td class=emph>sya<td class=emph>syu<td class=emph>syo
+    <tr><th>黑本式羅馬字<td class=emph>sha<td class=emph>shu<td class=emph>sho
+    <tr class=separator>
+    <tr><th>平假名<td>じゃ<td>じゅ<td>じょ
+    <tr><th>片假名<td>ジャ<td>ジュ<td>ジョ
+    <tr><th>日本式羅馬字<td class=emph>zya<td class=emph>zyu<td class=emph>zyo
+    <tr><th>黑本式羅馬字<td class=emph>ja<td class=emph>ju<td class=emph>jo
+    <tr class=separator>
+    <tr><th>平假名<td>ちゃ<td>ちゅ<td>ちょ
+    <tr><th>片假名<td>チャ<td>チュ<td>チョ
+    <tr><th>日本式羅馬字<td class=emph>tya<td class=emph>tyu<td class=emph>tyo
+    <tr><th>黑本式羅馬字<td class=emph>cha<td class=emph>chu<td class=emph>cho
+    <tr class=separator>
+    <tr><th>平假名<td class=dim>ぢゃ<td class=dim>ぢゅ<td class=dim>ぢょ
+    <tr><th>片假名<td class=dim>ヂャ<td class=dim>ヂュ<td class=dim>ヂョ
+    <tr><th>日本式羅馬字<td class=emph>dya<td class=emph>dyu<td class=emph>dyo
+    <tr><th>黑本式羅馬字<td class=emph>dja<a href=#note_jp_1><sup>1</sup></a><td class=emph>dju<a href=#note_jp_1><sup>1</sup></a><td class=emph>djo<a href=#note_jp_1><sup>1</sup></a>
+    <tr class=separator>
+    <tr><th>平假名<td>にゃ<td>にゅ<td>にょ
+    <tr><th>片假名<td>ニャ<td>ニュ<td>ニョ
+    <tr><th>日本式羅馬字<td>nya<td>nyu<td>nyo
+    <tr><th>黑本式羅馬字<td>nya<td>nyu<td>nyo
+    <tr class=separator>
+    <tr><th>平假名<td>ひゃ<td>ひゅ<td>ひょ
+    <tr><th>片假名<td>ヒャ<td>ヒュ<td>ヒョ
+    <tr><th>日本式羅馬字<td>hya<td>hyu<td>hyo
+    <tr><th>黑本式羅馬字<td>hya<td>hyu<td>hyo
+    <tr class=separator>
+    <tr><th>平假名<td>びゃ<td>びゅ<td>びょ
+    <tr><th>片假名<td>ビャ<td>ビュ<td>ビョ
+    <tr><th>日本式羅馬字<td>bya<td>byu<td>byo
+    <tr><th>黑本式羅馬字<td>bya<td>byu<td>byo
+    <tr class=separator>
+    <tr><th>平假名<td>ぴゃ<td>ぴゅ<td>ぴょ
+    <tr><th>片假名<td>ピャ<td>ピュ<td>ピョ
+    <tr><th>日本式羅馬字<td>pya<td>pyu<td>pyo
+    <tr><th>黑本式羅馬字<td>pya<td>pyu<td>pyo
+    <tr class=separator>
+    <tr><th>平假名<td>みゃ<td>みゅ<td>みょ
+    <tr><th>片假名<td>みャ<td>みュ<td>みョ
+    <tr><th>日本式羅馬字<td>mya<td>myu<td>myo
+    <tr><th>黑本式羅馬字<td>mya<td>myu<td>myo
+    <tr class=separator>
+    <tr><th>平假名<td>りゃ<td>りゅ<td>りょ
+    <tr><th>片假名<td>リャ<td>リュ<td>リョ
+    <tr><th>日本式羅馬字<td>rya<td>ryu<td>ryo
+    <tr><th>黑本式羅馬字<td>rya<td>ryu<td>ryo
+    <tr class=separator>
+    <tr><th>平假名<td class=dim>ゐゃ<td class=dim>ゐゅ<td class=dim>ゐょ
+    <tr><th>片假名<td class=dim>ヰャ<td class=dim>ヰュ<td class=dim>ヰョ
+    <tr><th>日本式羅馬字<td class=dim>wya<td class=dim>wyu<td class=dim>wyo
+    <tr><th>黑本式羅馬字<td class=dim>wya<td class=dim>wyu<td class=dim>wyo
+    <tr class=separator>
+    <tr><th>平假名<td class=dim>くゐゃ<td class=dim>くゐゅ<td class=dim>くゐょ
+    <tr><th>片假名<td class=dim>クヰャ<td class=dim>クヰュ<td class=dim>クヰョ
+    <tr><th>日本式羅馬字<td class=dim>kwya<td class=dim>kwyu<td class=dim>kwyo
+    <tr><th>黑本式羅馬字<td class=dim>kwya<td class=dim>kwyu<td class=dim>kwyo
+    <tr class=separator>
+    <tr><th>平假名<td class=dim>ぐゐゃ<td class=dim>ぐゐゅ<td class=dim>ぐゐょ
+    <tr><th>片假名<td class=dim>グヰャ<td class=dim>グヰュ<td class=dim>グヰョ
+    <tr><th>日本式羅馬字<td class=dim>gwya<td class=dim>gwyu<td class=dim>gwyo
+    <tr><th>黑本式羅馬字<td class=dim>gwya<td class=dim>gwyu<td class=dim>gwyo
+  </table>
+  <br>
+  <table>
+    <tr><th>平假名<td>ん<td>っ<a href=#note_jp_2><sup>2</sup></a>
+    <tr><th>片假名<td>ン<td>ッ
+    <tr><th>日本式羅馬字<td>n<td>q
+    <tr><th>黑本式羅馬字<td>n<td>q
+  </table>
+  <p><b>注：</b></p>
+  <ol start=0>
+    <li><span class=emph>紅色</span>表示日本式與黑本式羅馬字拼寫不同之處；<span class=dim>灰色</span>表示只用於歷史假名遣的音節。
+    <li><a name=note_jp_1>在黑本式羅馬字中，爲了能夠區分“じ”、“ぢ”和“ず”、“づ”，在所有與“ぢ”“づ”有關的音節前加“d”。
+    <li><a name=note_jp_2>促音出現在個別發生了促音便的慣用音中，如“十”（じっ）。
+    <li>長音按假名原樣拼寫，即：う段長音拼作uu，え段長音拼作ei，お段長音拼作ou。
+  </ol>
+  <div align=center><a class=switch onclick="toggle('jp')">收起</a></div>
+</div>
+
+<br>

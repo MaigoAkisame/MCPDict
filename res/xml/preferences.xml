@@ -1,0 +1,27 @@
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <maigosoft.mcpdict.CustomListPreference
+        android:key="@string/pref_key_cantonese_romanization"
+        android:title="@string/pref_title_cantonese_romanization"
+        android:dialogTitle="@string/pref_title_cantonese_romanization"
+        android:entries="@array/pref_entries_cantonese_romanization"
+        android:defaultValue="0" />
+    <maigosoft.mcpdict.CustomListPreference
+        android:key="@string/pref_key_korean_display"
+        android:title="@string/pref_title_korean_display"
+        android:dialogTitle="@string/pref_title_korean_display"
+        android:entries="@array/pref_entries_korean_display"
+        android:defaultValue="0" />
+    <maigosoft.mcpdict.CustomListPreference
+        android:key="@string/pref_key_vietnamese_tone_position"
+        android:title="@string/pref_title_vietnamese_tone_position"
+        android:dialogTitle="@string/pref_title_vietnamese_tone_position"
+        android:entries="@array/pref_entries_vietnamese_tone_position"
+        android:defaultValue="0" />
+    <maigosoft.mcpdict.CustomListPreference
+        android:key="@string/pref_key_japanese_display"
+        android:title="@string/pref_title_japanese_display"
+        android:dialogTitle="@string/pref_title_japanese_display"
+        android:entries="@array/pref_entries_japanese_display"
+        android:defaultValue="0" />
+</PreferenceScreen>

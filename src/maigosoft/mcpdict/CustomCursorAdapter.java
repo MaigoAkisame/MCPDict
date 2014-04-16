@@ -41,6 +41,7 @@ public class CustomCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         String string;
+        StringBuilder sb;
         TextView textView;
 
         // Chinese character
@@ -53,6 +54,21 @@ public class CustomCursorAdapter extends CursorAdapter {
         string = cursor.getString(cursor.getColumnIndex(MCPDatabase.COLUMN_NAME_UNICODE));
         textView = (TextView) view.findViewById(R.id.text_unicode);
         textView.setText("U+" + string);
+
+        // Variants
+        string = cursor.getString(cursor.getColumnIndex(MCPDatabase.PSEUDO_COLUMN_NAME_VARIANTS));
+        textView = (TextView) view.findViewById(R.id.text_variants);
+        if (string == null) {
+            textView.setVisibility(View.GONE);
+        }
+        else {
+            sb = new StringBuilder();
+            for (String s : string.split(" ")) {
+                sb.append((char)Integer.parseInt(s, 16));
+            }
+            textView.setText("(" + sb.toString() + ")");
+            textView.setVisibility(View.VISIBLE);
+        }
 
         // Middle Chinese
         string = cursor.getString(cursor.getColumnIndex(MCPDatabase.COLUMN_NAME_MC));

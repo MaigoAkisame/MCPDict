@@ -33,6 +33,7 @@ public class MCPDatabase extends SQLiteAssetHelper {
     public static final String COLUMN_NAME_JP_TOU = "jp_tou";
     public static final String COLUMN_NAME_JP_KWAN = "jp_kwan";
     public static final String COLUMN_NAME_JP_OTHER = "jp_other";
+    public static final String PSEUDO_COLUMN_NAME_VARIANTS = "variants";
 
     // Must be the same order as defined in the string array "search_as"
     public static final int SEARCH_AS_HZ = 0;
@@ -69,18 +70,38 @@ public class MCPDatabase extends SQLiteAssetHelper {
 
         // Split the input string into keywords and canonicalize them
         List<String> keywords = new ArrayList<String>();
+        List<String> variants = new ArrayList<String>();
         if (mode == SEARCH_AS_HZ) {     // Each character is a query
             for (int i = 0; i < input.length(); i++) {
-                char unicode = input.charAt(i);
-                if (Orthography.Hanzi.isHanzi(unicode)) {
-                    // Only search for Chinese characters in this range
-                    if (allowVariants) {
-                        for (char c : Orthography.Hanzi.getVariants(unicode)) {
-                            keywords.add(String.format("%4X", (int)c));
+                char inputChar = input.charAt(i);
+                if (!Orthography.Hanzi.isHanzi(inputChar)) continue;
+                String inputHex = String.format("%4X", (int)inputChar);
+                if (!allowVariants) {
+                    keywords.add(inputHex);
+                }
+                else {
+                    for (char variantChar : Orthography.Hanzi.getVariants(inputChar)) {
+                        String variantHex = String.format("%4X", (int)variantChar);
+                        int p = keywords.indexOf(variantHex);
+                        if (variantChar == inputChar) {
+                            if (p >= 0) {       // The character itself must appear where it is
+                                keywords.remove(p);
+                                variants.remove(p);
+                            }
+                            keywords.add(inputHex);
+                            variants.add(null); // And no variant information is appended
                         }
-                    }
-                    else {
-                        keywords.add(String.format("%4X", (int)unicode));
+                        else {
+                            if (p == -1) {      // This variant character may have appeared before
+                                keywords.add(variantHex);
+                                variants.add(inputHex);
+                            }
+                            else {
+                                if (variants.get(p) != null) {
+                                    variants.set(p, variants.get(p) + " " + inputHex);
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -145,8 +166,10 @@ public class MCPDatabase extends SQLiteAssetHelper {
         List<String> queries = new ArrayList<String>();
         List<String> args = new ArrayList<String>();
         for (int i = 0; i < keywords.size(); i++) {
+            String variant = (allowVariants && variants.get(i) != null) ?
+                             ("\"" + variants.get(i) + "\"") : "null";
+            String[] projection = {"rowid AS _id", i + " AS rank", variant + " as " + PSEUDO_COLUMN_NAME_VARIANTS};
             for (String column : columns) {
-                String[] projection = {"rowid AS _id", i + " AS rank"};
                 queries.add(qb.buildQuery(projection, column + " MATCH ?", null, null, null, null));
                 args.add(keywords.get(i));
             }
@@ -157,7 +180,8 @@ public class MCPDatabase extends SQLiteAssetHelper {
         qb.setTables("(" + query + ") AS u, " + TABLE_NAME + " AS v");
         qb.setDistinct(true);
         String[] projection = {"_id",
-                   COLUMN_NAME_UNICODE, COLUMN_NAME_MC,
+                   COLUMN_NAME_UNICODE, PSEUDO_COLUMN_NAME_VARIANTS,
+                   COLUMN_NAME_MC,
                    COLUMN_NAME_PU, COLUMN_NAME_CT,
                    COLUMN_NAME_KR, COLUMN_NAME_VN,
                    COLUMN_NAME_JP_GO, COLUMN_NAME_JP_KAN,

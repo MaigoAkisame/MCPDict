@@ -166,7 +166,7 @@ public class MCPDatabase extends SQLiteAssetHelper {
         List<String> queries = new ArrayList<String>();
         List<String> args = new ArrayList<String>();
         for (int i = 0; i < keywords.size(); i++) {
-            String variant = (allowVariants && variants.get(i) != null) ?
+            String variant = (mode == SEARCH_AS_HZ && allowVariants && variants.get(i) != null) ?
                              ("\"" + variants.get(i) + "\"") : "null";
             String[] projection = {"rowid AS _id", i + " AS rank", variant + " as " + PSEUDO_COLUMN_NAME_VARIANTS};
             for (String column : columns) {

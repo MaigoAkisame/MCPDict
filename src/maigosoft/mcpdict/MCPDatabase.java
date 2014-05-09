@@ -19,7 +19,7 @@ public class MCPDatabase extends SQLiteAssetHelper {
     private Context context;
 
     private static final String DATABASE_NAME = "mcpdict";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private static final String TABLE_NAME = "mcpdict";
     public static final String COLUMN_NAME_UNICODE = "unicode";

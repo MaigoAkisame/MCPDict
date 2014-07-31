@@ -35,7 +35,13 @@ public class Orthography {
         }
 
         public static char[] getVariants(char c) {
-            return variants[c - FIRST_HANZI];
+            char[] var = variants[c - FIRST_HANZI];
+            if (var != null) {
+                return var;
+            }
+            else {
+                return new char[] {c};
+            }
         }
     }
 

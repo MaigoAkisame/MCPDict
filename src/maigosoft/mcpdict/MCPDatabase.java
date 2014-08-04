@@ -75,6 +75,7 @@ public class MCPDatabase extends SQLiteAssetHelper {
             for (int i = 0; i < input.length(); i++) {
                 char inputChar = input.charAt(i);
                 if (!Orthography.Hanzi.isHanzi(inputChar)) continue;
+                if (input.indexOf(inputChar) < i) continue;     // Ignore a character if it has appeared earlier
                 String inputHex = String.format("%4X", (int)inputChar);
                 if (!allowVariants) {
                     keywords.add(inputHex);

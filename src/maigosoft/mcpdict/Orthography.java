@@ -197,7 +197,8 @@ public class Orthography {
                     String value = map.get(key);
                     char base = value.charAt(0);
                     if (base != '_') sb.append(base);
-                    tone = value.charAt(1);
+                    char t = value.charAt(1);
+                    if (t != '_') tone = t;
                 }
                 else {
                     sb.append(s.charAt(i));
@@ -227,17 +228,20 @@ public class Orthography {
                 }
             }
             if (pos == -1) return null; // Fail
-            // Add tone to letter
-            String key = String.valueOf(s.charAt(pos)) + tone;
-            if (map.containsKey(key)) {
-                return s.substring(0, pos) + map.get(key) + s.substring(pos + 1, s.length());
+            // Transform the string and add tone to letter
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < s.length(); i++) {
+                char t = (i == pos) ? tone : '_';
+                String key = String.valueOf(s.charAt(i)) + t;
+                if (map.containsKey(key)) {
+                    sb.append(map.get(key));
+                }
+                else {
+                    sb.append(s.charAt(i));
+                    if (t != '_') sb.append(map.get("_" + t));
+                }
             }
-            else if (tone == '_') {
-                return s;
-            }
-            else {
-                return s.substring(0, pos + 1) + map.get("_" + tone) + s.substring(pos + 1, s.length());
-            }
+            return sb.toString();
         }
 
         public static List<String> getAllTones(String s) {

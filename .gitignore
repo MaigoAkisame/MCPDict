@@ -1,4 +1,4 @@
-bin
+bin/*
 !bin/MCPDict.apk
 prepare
 publish

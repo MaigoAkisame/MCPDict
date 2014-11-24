@@ -15,9 +15,9 @@ public class CustomListPreference extends DialogPreference {
 
     // Two differences from android.preference.ListPreference:
     // (1) Displays the currently selected entry as the summary
-    //     Reference: http://stackoverflow.com/questions/531427 (Youyougoslave's answer)
+    //     Reference: http://stackoverflow.com/a/8004498
     // (2) Stores the index of the selected entry (an integer) instead of a String into the SharedPreferences
-    //     Reference: http://stackoverflow.com/questions/5227478 (Bogus's answer)
+    //     Reference: http://stackoverflow.com/a/20295410
 
     private final static String ANDROID_NS = "http://schemas.android.com/apk/res/android";
         // This is specified by the xmlns:android attribute of the PreferenceScreen tag

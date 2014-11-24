@@ -43,6 +43,7 @@ public class MainActivity extends ActivityWithOptionsMenu {
         setContentView(R.layout.main_activity);
 
         // Force displaying the overflow menu in the action bar
+        // Reference: http://stackoverflow.com/a/11438245
         try {
             ViewConfiguration config = ViewConfiguration.get(this);
             Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");

@@ -1,5 +1,7 @@
 package maigosoft.mcpdict;
 
+import java.lang.reflect.Field;
+
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -7,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -38,6 +41,19 @@ public class MainActivity extends ActivityWithOptionsMenu {
         // Set up activity layout
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+
+        // Force displaying the overflow menu in the action bar
+        try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+            if (menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
+            }
+        }
+        catch (Exception e) {
+            // Ignore
+        }
 
         // Build the database
         db = new MCPDatabase(this);

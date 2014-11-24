@@ -3,11 +3,14 @@ package maigosoft.mcpdict;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import android.app.ListFragment;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
+//Use android.app.ListFragment for API level >= 11
+import android.support.v4.widget.CursorAdapter;
+// Use android.widget.CursorAdapter for API level >= 11
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -15,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 

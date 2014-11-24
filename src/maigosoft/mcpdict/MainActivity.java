@@ -85,7 +85,8 @@ public class MainActivity extends ActivityWithOptionsMenu {
         checkBoxToneInsensitive.setOnCheckedChangeListener(checkBoxListener);
 
         // Get a reference to the search result fragment
-        fragmentResult = (SearchResultFragment) getFragmentManager().findFragmentById(R.id.fragment_search_result);
+        // Use getFragmentManager() for API level >= 11
+        fragmentResult = (SearchResultFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_search_result);
     }
 
     @Override
@@ -108,7 +109,7 @@ public class MainActivity extends ActivityWithOptionsMenu {
         sp.edit().putBoolean(r.getString(R.string.pref_key_kuangx_yonh_only), checkBoxKuangxYonhOnly.isChecked())
                  .putBoolean(r.getString(R.string.pref_key_allow_variants), checkBoxAllowVariants.isChecked())
                  .putBoolean(r.getString(R.string.pref_key_tone_insensitive), checkBoxToneInsensitive.isChecked())
-                 .apply();
+                 .commit();     // Use apply() for API level >= 9
     }
 
     private void updateCheckBoxesEnabled() {

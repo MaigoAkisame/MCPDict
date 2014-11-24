@@ -171,7 +171,8 @@ public class MCPDatabase extends SQLiteAssetHelper {
                              ("\"" + variants.get(i) + "\"") : "null";
             String[] projection = {"rowid AS _id", i + " AS rank", variant + " as " + PSEUDO_COLUMN_NAME_VARIANTS};
             for (String column : columns) {
-                queries.add(qb.buildQuery(projection, column + " MATCH ?", null, null, null, null));
+                queries.add(qb.buildQuery(projection, column + " MATCH ?", null, null, null, null, null));
+                    // For API level >= 11, omit the third argument (the first null)
                 args.add(keywords.get(i));
             }
         }
@@ -192,7 +193,8 @@ public class MCPDatabase extends SQLiteAssetHelper {
         if (kuangxYonhOnly) {
             selection += " AND " + COLUMN_NAME_MC + " IS NOT NULL";
         }
-        query = qb.buildQuery(projection, selection, null, null, "rank", null);
+        query = qb.buildQuery(projection, selection, null, null, null, "rank", null);
+            // For API level >= 11, omit the third argument (the first null)
 
         // Search
         SQLiteDatabase db = getReadableDatabase();

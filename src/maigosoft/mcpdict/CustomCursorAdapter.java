@@ -3,19 +3,19 @@ package maigosoft.mcpdict;
 import java.util.ArrayList;
 import java.util.List;
 
-import maigosoft.mcpdict.R;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.CursorAdapter;
+// Use android.widget.CursorAdapter for API level >= 11
 import android.text.Spannable;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;

@@ -1,15 +1,16 @@
 package maigosoft.mcpdict;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class ActivityWithOptionsMenu extends Activity {
+public class ActivityWithOptionsMenu extends FragmentActivity {
+    // Use android.app.Activity for API level >= 11
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -1,7 +1,10 @@
 package maigosoft.mcpdict;
 
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
+import android.support.v4.preference.PreferenceFragment;
+// This requires adding the following project as a library project:
+//   https://github.com/kolavar/android-support-v4-preferencefragment
+// Use android.preference.PreferenceFragment for API level >= 11
 
 public class SettingsFragment extends PreferenceFragment {
     @Override

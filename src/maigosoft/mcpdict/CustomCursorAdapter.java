@@ -183,9 +183,9 @@ public class CustomCursorAdapter extends CursorAdapter {
         }
     }
 
-    private abstract class Displayer {
-        protected final String LINE_BREAK = System.getProperty("line.separator");
-        private static final String NULL_STRING = "-";
+    public abstract class Displayer {
+        public final String LINE_BREAK = System.getProperty("line.separator");
+        public static final String NULL_STRING = "-";
 
         public String display(String s) {
             if (s == null) return NULL_STRING;

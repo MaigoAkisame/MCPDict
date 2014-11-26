@@ -23,6 +23,9 @@ import android.widget.TextView;
 
 public class SearchResultFragment extends ListFragment {
 
+    private static final int[] DICT_LINK_VIEW_IDS = {
+        R.id.text_mc, R.id.text_pu, R.id.text_ct, R.id.text_kr, R.id.text_vn
+    };
     private static final String[] DICT_LINK_BASES = {
         "http://ytenx.org/zim?kyonh=1&dzih=",                               // plus UTF-8 encoded string
         "http://www.zdic.net/sousuo/?q=",                                   // plus UTF-8 encoded string
@@ -59,7 +62,8 @@ public class SearchResultFragment extends ListFragment {
         int position = info.position - list.getFirstVisiblePosition();
             // info.position is the position of the item in the entire list
             // but list.getChildAt() on the next line requires the position of the item in currently visible items
-        TextView text = (TextView) (list.getChildAt(position).findViewById(R.id.text_hz));
+        View entry = list.getChildAt(position);
+        TextView text = (TextView) entry.findViewById(R.id.text_hz);
         String s = text.getText().toString();
         // Generate links to external dictionaries
         String utf8 = null;
@@ -68,6 +72,13 @@ public class SearchResultFragment extends ListFragment {
         try {big5 = URLEncoder.encode(s, "big5");} catch (UnsupportedEncodingException e) {}
         if (big5.equals("%3F")) big5 = null;    // Unsupported character
         String[] linkArgs = {utf8, utf8, big5, utf8, utf8};
+        // Invalidate links where no pronunciation is available
+        for (int i = 0; i < DICT_LINK_VIEW_IDS.length; i++) {
+            text = (TextView) entry.findViewById(DICT_LINK_VIEW_IDS[i]);
+            if (text.getText().toString().equals(CustomCursorAdapter.Displayer.NULL_STRING)) {
+                linkArgs[i] = null;
+            }
+        }
 
         // Inflate the menu
         getActivity().getMenuInflater().inflate(R.menu.dict_links, menu);
@@ -75,7 +86,7 @@ public class SearchResultFragment extends ListFragment {
             MenuItem item = menu.getItem(i);
             // Replace the placeholders in the menu items with the character to look up
             item.setTitle(item.getTitle().toString().replace("X", s));
-            // Set the intent of each menu item so we don't to implement onContextItemSelected
+            // Set the intent of each menu item so we don't have to implement onContextItemSelected
             if (linkArgs[i] != null) {
                 item.setEnabled(true);
                 item.setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse(DICT_LINK_BASES[i] + linkArgs[i])));

@@ -20,7 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
 
-public class CustomCursorAdapter extends CursorAdapter {
+public class CustomCursorAdapter extends CursorAdapter implements Masks {
 
     private Context context;
     private int layout;
@@ -43,6 +43,7 @@ public class CustomCursorAdapter extends CursorAdapter {
         String string;
         StringBuilder sb;
         TextView textView;
+        int tag = 0;
 
         // Chinese character
         string = cursor.getString(cursor.getColumnIndex(MCPDatabase.COLUMN_NAME_UNICODE));
@@ -77,6 +78,7 @@ public class CustomCursorAdapter extends CursorAdapter {
         textView = (TextView) view.findViewById(R.id.text_mc_detail);
         if (string != null) {
             textView.setText(middleChineseDetailDisplayer.display(string));
+            tag |= MASK_MC;
         }
         else {
             textView.setText("");
@@ -86,31 +88,37 @@ public class CustomCursorAdapter extends CursorAdapter {
         string = cursor.getString(cursor.getColumnIndex(MCPDatabase.COLUMN_NAME_PU));
         textView = (TextView) view.findViewById(R.id.text_pu);
         textView.setText(mandarinDisplayer.display(string));
+        if (string != null) tag |= MASK_PU;
 
         // Cantonese
         string = cursor.getString(cursor.getColumnIndex(MCPDatabase.COLUMN_NAME_CT));
         textView = (TextView) view.findViewById(R.id.text_ct);
         textView.setText(cantoneseDisplayer.display(string));
+        if (string != null) tag |= MASK_CT;
 
         // Korean
         string = cursor.getString(cursor.getColumnIndex(MCPDatabase.COLUMN_NAME_KR));
         textView = (TextView) view.findViewById(R.id.text_kr);
         textView.setText(koreanDisplayer.display(string));
+        if (string != null) tag |= MASK_KR;
 
         // Vietnamese
         string = cursor.getString(cursor.getColumnIndex(MCPDatabase.COLUMN_NAME_VN));
         textView = (TextView) view.findViewById(R.id.text_vn);
         textView.setText(vietnameseDisplayer.display(string));
+        if (string != null) tag |= MASK_VN;
 
         // Japanese go-on
         string = cursor.getString(cursor.getColumnIndex(MCPDatabase.COLUMN_NAME_JP_GO));
         textView = (TextView) view.findViewById(R.id.text_jp_go);
         setRichText(textView, japaneseDisplayer.display(string));
+        if (string != null) tag |= MASK_JP_GO;
 
         // Japanese kan-on
         string = cursor.getString(cursor.getColumnIndex(MCPDatabase.COLUMN_NAME_JP_KAN));
         textView = (TextView) view.findViewById(R.id.text_jp_kan);
         setRichText(textView, japaneseDisplayer.display(string));
+        if (string != null) tag |= MASK_JP_KAN;
 
         // Japanese extras
         ImageView[] imageViewJPExtras = {
@@ -131,6 +139,7 @@ public class CustomCursorAdapter extends CursorAdapter {
             imageViewJPExtras[i].setImageResource(R.drawable.lang_jp_tou);
             setRichText(textViewJPExtras[i], japaneseDisplayer.display(string));
             i++;
+            tag |= MASK_JP_TOU;
         }
 
         // Japanese kwan'you-on
@@ -139,6 +148,7 @@ public class CustomCursorAdapter extends CursorAdapter {
             imageViewJPExtras[i].setImageResource(R.drawable.lang_jp_kwan);
             setRichText(textViewJPExtras[i], japaneseDisplayer.display(string));
             i++;
+            tag |= MASK_JP_KWAN;
         }
 
         // Japanese other pronunciations
@@ -147,6 +157,7 @@ public class CustomCursorAdapter extends CursorAdapter {
             imageViewJPExtras[i].setImageResource(R.drawable.lang_jp_other);
             setRichText(textViewJPExtras[i], japaneseDisplayer.display(string));
             i++;
+            tag |= MASK_JP_OTHER;
         }
 
         for (int j = 0; j < i; j++) {
@@ -157,6 +168,9 @@ public class CustomCursorAdapter extends CursorAdapter {
             imageViewJPExtras[j].setVisibility(View.GONE);
             textViewJPExtras[j].setVisibility(View.GONE);
         }
+
+        // Set the view's tag to indicate which readings exist
+        view.setTag(tag);
     }
 
     public void setRichText(TextView view, String richTextString) {
@@ -183,9 +197,8 @@ public class CustomCursorAdapter extends CursorAdapter {
         }
     }
 
-    public abstract class Displayer {
-        public final String LINE_BREAK = System.getProperty("line.separator");
-        public static final String NULL_STRING = "-";
+    private abstract static class Displayer {
+        protected static final String NULL_STRING = "-";
 
         public String display(String s) {
             if (s == null) return NULL_STRING;
@@ -218,16 +231,19 @@ public class CustomCursorAdapter extends CursorAdapter {
     }
 
     private final Displayer middleChineseDisplayer = new Displayer() {
-        public String lineBreak(String s) {return s.replace(",", LINE_BREAK);}
+        public String lineBreak(String s) {return s.replace(",", "\n");}
         public String displayOne(String s) {return Orthography.MiddleChinese.display(s);}
     };
+
     private final Displayer middleChineseDetailDisplayer = new Displayer() {
-        public String lineBreak(String s) {return s.replace(",", LINE_BREAK);}
+        public String lineBreak(String s) {return s.replace(",", "\n");}
         public String displayOne(String s) {return "(" + Orthography.MiddleChinese.detail(s) + ")";}
     };
+
     private final Displayer mandarinDisplayer = new Displayer() {
         public String displayOne(String s) {return Orthography.Mandarin.display(s);}
     };
+
     private final Displayer cantoneseDisplayer = new Displayer() {
         public String displayOne(String s) {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
@@ -236,6 +252,7 @@ public class CustomCursorAdapter extends CursorAdapter {
             return Orthography.Cantonese.display(s, system);
         }
     };
+
     private final Displayer koreanDisplayer = new Displayer() {
         public String displayOne(String s) {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
@@ -244,6 +261,7 @@ public class CustomCursorAdapter extends CursorAdapter {
             return Orthography.Korean.display(s, style);
         }
     };
+
     private final Displayer vietnameseDisplayer = new Displayer() {
         public String displayOne(String s) {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
@@ -252,13 +270,15 @@ public class CustomCursorAdapter extends CursorAdapter {
             return Orthography.Vietnamese.display(s, style);
         }
     };
+
     private final Displayer japaneseDisplayer = new Displayer() {
         public String lineBreak(String s) {
             if (s.charAt(0) == '[') {
-                s = '[' + s.substring(1).replace("[", LINE_BREAK + "[");
+                s = '[' + s.substring(1).replace("[", "\n[");
             }
             return s;
         }
+
         public String displayOne(String s) {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
             Resources r = context.getResources();

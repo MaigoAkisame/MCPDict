@@ -59,6 +59,7 @@ public class MCPDatabase extends SQLiteAssetHelper {
         setForcedUpgradeVersion(DATABASE_VERSION);
     }
 
+    @SuppressWarnings("deprecation")
     public Cursor search(String input, int mode) {
         // Get options and settings from SharedPreferences
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);

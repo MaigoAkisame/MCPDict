@@ -1,0 +1,67 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/menu_item_copy_readings"
+        android:title="@string/copy_readings" >
+        <menu>
+            <item
+                android:id="@+id/menu_item_copy_all"
+                android:title="@string/copy_all" />
+            <item
+                android:id="@+id/menu_item_copy_mc"
+                android:title="@string/copy_mc" />
+            <item
+                android:id="@+id/menu_item_copy_pu"
+                android:title="@string/copy_pu" />
+            <item
+                android:id="@+id/menu_item_copy_ct"
+                android:title="@string/copy_ct" />
+            <item
+                android:id="@+id/menu_item_copy_kr"
+                android:title="@string/copy_kr" />
+            <item
+                android:id="@+id/menu_item_copy_vn"
+                android:title="@string/copy_vn" />
+            <item
+                android:id="@+id/menu_item_copy_jp_all"
+                android:title="@string/copy_jp_all" />
+            <item
+                android:id="@+id/menu_item_copy_jp_go"
+                android:title="@string/copy_jp_go" />
+            <item
+                android:id="@+id/menu_item_copy_jp_kan"
+                android:title="@string/copy_jp_kan" />
+            <item
+                android:id="@+id/menu_item_copy_jp_tou"
+                android:title="@string/copy_jp_tou" />
+            <item
+                android:id="@+id/menu_item_copy_jp_kwan"
+                android:title="@string/copy_jp_kwan" />
+            <item
+                android:id="@+id/menu_item_copy_jp_other"
+                android:title="@string/copy_jp_other" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/menu_item_dict_links"
+        android:title="@string/dict_links" >
+        <menu
+            xmlns:android="http://schemas.android.com/apk/res/android" >
+            <item
+                android:id="@+id/menu_item_link_mc"
+                android:title="@string/dict_link_mc" />
+            <item
+                android:id="@+id/menu_item_link_pu"
+                android:title="@string/dict_link_pu" />
+            <item
+                android:id="@+id/menu_item_link_ct"
+                android:title="@string/dict_link_ct" />
+            <item
+                android:id="@+id/menu_item_link_kr"
+                android:title="@string/dict_link_kr" />
+            <item
+                android:id="@+id/menu_item_link_vn"
+                android:title="@string/dict_link_vn" />
+        </menu>
+    </item>
+</menu>

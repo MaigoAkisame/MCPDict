@@ -36,7 +36,7 @@
 
     <string name="copy_readings">複製“X”字的讀音</string>
     <string name="dict_links">去在線詞典查詢“X”字</string>
-    
+
     <string name="copy_all">複製“X”字的所有讀音</string>
     <string name="copy_mc">複製“X”字的中古漢語讀音</string>
     <string name="copy_pu">複製“X”字的普通話讀音</string>
@@ -49,15 +49,20 @@
     <string name="copy_jp_tou">複製“X”字的日語唐音</string>
     <string name="copy_jp_kwan">複製“X”字的日語慣用音</string>
     <string name="copy_jp_other">複製“X”字的日語其他讀音</string>
-    
+
+    <string name="copy_done">已將 X 複製到剪貼板</string>
+
     <string name="dict_link_mc">去 韻典網 查詢“X”字</string>
     <string name="dict_link_pu">去 漢典網 查詢“X”字</string>
     <string name="dict_link_ct">去 粵語審音配詞字庫 查詢“X”字</string>
     <string name="dict_link_kr">去 Naver漢字辭典 查詢“X”字</string>
     <string name="dict_link_vn">去 漢越辭典摘引 查詢“X”字</string>
 
-    <string name="copy_done">已將 X 複製到剪貼板</string>
-    
+    <string name="favorite_add">把“X”字加入生字本</string>
+    <string name="favorite_remove">把“X”字從生字本中刪除</string>
+    <string name="favorite_add_done">已將“X”字加入生字本</string>
+    <string name="favorite_remove_done">已將“X”字從生字本中刪除</string>
+
     <string name="pref_key_cantonese_romanization">CANTONESE_ROMANIZATION</string>
     <string name="pref_title_cantonese_romanization">粵語拼音系統（用於輸入和顯示）</string>
     <string-array name="pref_entries_cantonese_romanization">

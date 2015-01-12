@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.support.v4.app.ListFragment;
 // Use android.app.ListFragment for API level >= 11
 import android.support.v4.widget.CursorAdapter;
 import android.text.ClipboardManager;
+import android.util.Log;
 // Use android.widget.CursorAdapter for API level >= 11
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -29,13 +31,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mobiRic.ui.widget.Boast;
+
 @SuppressLint("UseSparseArrays")
 @SuppressWarnings("deprecation")
 public class SearchResultFragment extends ListFragment implements Masks {
 
     private static final Map<Integer, Integer> COPY_MENU_ITEM_TO_MASK = new HashMap<Integer, Integer>();
     static {
-        COPY_MENU_ITEM_TO_MASK.put(R.id.menu_item_copy_all,      MASK_ALL);
+        COPY_MENU_ITEM_TO_MASK.put(R.id.menu_item_copy_all,      MASK_ALL_READINGS);
         COPY_MENU_ITEM_TO_MASK.put(R.id.menu_item_copy_mc,       MASK_MC);
         COPY_MENU_ITEM_TO_MASK.put(R.id.menu_item_copy_pu,       MASK_PU);
         COPY_MENU_ITEM_TO_MASK.put(R.id.menu_item_copy_ct,       MASK_CT);
@@ -88,12 +92,14 @@ public class SearchResultFragment extends ListFragment implements Masks {
 
     @Override
     public void onListItemClick(ListView list, View view, int position, long id) {
+        Log.d("FRAG", "clicked");
         // Show context menu on short clicks, too
         list.showContextMenuForChild(view);
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
+        Log.d("FRAG", "create menu");
         // Find the Chinese character in the view being clicked
         ListView list = (ListView) view;
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
@@ -109,6 +115,7 @@ public class SearchResultFragment extends ListFragment implements Masks {
         getActivity().getMenuInflater().inflate(R.menu.search_result_context_menu, menu);
         SubMenu menuCopy = menu.getItem(0).getSubMenu();
         SubMenu menuDictLinks = menu.getItem(1).getSubMenu();
+        MenuItem item;
 
         // Determine whether to retain each item in the "copy" sub-menu
         for (int i = menuCopy.size() - 1; i >= 0; i--) {
@@ -126,7 +133,7 @@ public class SearchResultFragment extends ListFragment implements Masks {
         if (big5.equals("%3F")) big5 = null;    // Unsupported character
         String[] linkArgs = {utf8, utf8, big5, utf8, utf8};
         for (int i = 0; i < menuDictLinks.size(); i++) {
-            MenuItem item = menuDictLinks.getItem(i);
+            item = menuDictLinks.getItem(i);
             if ((tag & DICT_LINK_MASKS[i]) != 0) {
                 item.setEnabled(true);
                 item.setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse(DICT_LINK_BASES[i] + linkArgs[i])));
@@ -136,10 +143,14 @@ public class SearchResultFragment extends ListFragment implements Masks {
             }
         }
 
+        // Determine the functionality of the "favorite" item
+        item = menu.getItem(2);
+        item.setTitle((tag & MASK_FAVORITE) == 0 ? R.string.favorite_add : R.string.favorite_remove);
+
         // Replace the placeholders in the menu items with the character selected
         for (Menu m : new Menu[] {menu, menuCopy, menuDictLinks}) {
             for (int i = 0; i < m.size(); i++) {
-                MenuItem item = m.getItem(i);
+                item = m.getItem(i);
                 item.setTitle(item.getTitle().toString().replace("X", hanzi));
             }
         }
@@ -152,10 +163,14 @@ public class SearchResultFragment extends ListFragment implements Masks {
             String text = getReading(selectedEntry, COPY_MENU_ITEM_TO_MASK.get(item.getItemId()));
             ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
             clipboard.setText(text);
-            String label = item.getTitle().toString().substring(2);    // this is ugly
+            String label = item.getTitle().toString().substring(2);     // this is ugly
             Resources r = getActivity().getResources();
             String message = r.getString(R.string.copy_done).replace("X", label);
-            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+            Boast.showText(getActivity(), message, Toast.LENGTH_SHORT);
+            return true;
+        }
+        else if (item.getItemId() == R.id.menu_item_favorite) {
+            selectedEntry.findViewById(R.id.button_favorite).performClick();
             return true;
         }
         else {
@@ -212,7 +227,7 @@ public class SearchResultFragment extends ListFragment implements Masks {
             if ((tag & MASK_JP_KWAN) > 0)  sb.append(formatReading("慣", getReading(entry, MASK_JP_KWAN)));
             if ((tag & MASK_JP_OTHER) > 0) sb.append(formatReading("他", getReading(entry, MASK_JP_OTHER)));
             return sb.toString();
-        case MASK_ALL:
+        case MASK_ALL_READINGS:
             sb = new StringBuilder();
             String hanzi = ((TextView) entry.findViewById(R.id.text_hz)).getText().toString();
             String unicode = ((TextView) entry.findViewById(R.id.text_unicode)).getText().toString();

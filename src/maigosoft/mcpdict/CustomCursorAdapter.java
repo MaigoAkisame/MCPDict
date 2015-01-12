@@ -16,9 +16,13 @@ import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
+import android.widget.Toast;
+
+import com.mobiRic.ui.widget.Boast;
 
 public class CustomCursorAdapter extends CursorAdapter implements Masks {
 
@@ -39,25 +43,26 @@ public class CustomCursorAdapter extends CursorAdapter implements Masks {
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(final View view, final Context context, Cursor cursor) {
+        final char c;
         String string;
         StringBuilder sb;
         TextView textView;
         int tag = 0;
 
-        // Chinese character
-        string = cursor.getString(cursor.getColumnIndex(MCPDatabase.COLUMN_NAME_UNICODE));
-        string = String.valueOf((char)Integer.parseInt(string, 16));
-        textView = (TextView) view.findViewById(R.id.text_hz);
-        textView.setText(string);
-
         // Unicode
-        string = cursor.getString(cursor.getColumnIndex(MCPDatabase.COLUMN_NAME_UNICODE));
+        string = cursor.getString(cursor.getColumnIndex("unicode"));
         textView = (TextView) view.findViewById(R.id.text_unicode);
         textView.setText("U+" + string);
 
+        // Chinese character
+        c = (char)Integer.parseInt(string, 16);
+        string = String.valueOf(c);
+        textView = (TextView) view.findViewById(R.id.text_hz);
+        textView.setText(string);
+
         // Variants
-        string = cursor.getString(cursor.getColumnIndex(MCPDatabase.PSEUDO_COLUMN_NAME_VARIANTS));
+        string = cursor.getString(cursor.getColumnIndex("variants"));
         textView = (TextView) view.findViewById(R.id.text_variants);
         if (string == null) {
             textView.setVisibility(View.GONE);
@@ -72,7 +77,7 @@ public class CustomCursorAdapter extends CursorAdapter implements Masks {
         }
 
         // Middle Chinese
-        string = cursor.getString(cursor.getColumnIndex(MCPDatabase.COLUMN_NAME_MC));
+        string = cursor.getString(cursor.getColumnIndex("mc"));
         textView = (TextView) view.findViewById(R.id.text_mc);
         textView.setText(middleChineseDisplayer.display(string));
         textView = (TextView) view.findViewById(R.id.text_mc_detail);
@@ -85,37 +90,37 @@ public class CustomCursorAdapter extends CursorAdapter implements Masks {
         }
 
         // Mandarin
-        string = cursor.getString(cursor.getColumnIndex(MCPDatabase.COLUMN_NAME_PU));
+        string = cursor.getString(cursor.getColumnIndex("pu"));
         textView = (TextView) view.findViewById(R.id.text_pu);
         textView.setText(mandarinDisplayer.display(string));
         if (string != null) tag |= MASK_PU;
 
         // Cantonese
-        string = cursor.getString(cursor.getColumnIndex(MCPDatabase.COLUMN_NAME_CT));
+        string = cursor.getString(cursor.getColumnIndex("ct"));
         textView = (TextView) view.findViewById(R.id.text_ct);
         textView.setText(cantoneseDisplayer.display(string));
         if (string != null) tag |= MASK_CT;
 
         // Korean
-        string = cursor.getString(cursor.getColumnIndex(MCPDatabase.COLUMN_NAME_KR));
+        string = cursor.getString(cursor.getColumnIndex("kr"));
         textView = (TextView) view.findViewById(R.id.text_kr);
         textView.setText(koreanDisplayer.display(string));
         if (string != null) tag |= MASK_KR;
 
         // Vietnamese
-        string = cursor.getString(cursor.getColumnIndex(MCPDatabase.COLUMN_NAME_VN));
+        string = cursor.getString(cursor.getColumnIndex("vn"));
         textView = (TextView) view.findViewById(R.id.text_vn);
         textView.setText(vietnameseDisplayer.display(string));
         if (string != null) tag |= MASK_VN;
 
         // Japanese go-on
-        string = cursor.getString(cursor.getColumnIndex(MCPDatabase.COLUMN_NAME_JP_GO));
+        string = cursor.getString(cursor.getColumnIndex("jp_go"));
         textView = (TextView) view.findViewById(R.id.text_jp_go);
         setRichText(textView, japaneseDisplayer.display(string));
         if (string != null) tag |= MASK_JP_GO;
 
         // Japanese kan-on
-        string = cursor.getString(cursor.getColumnIndex(MCPDatabase.COLUMN_NAME_JP_KAN));
+        string = cursor.getString(cursor.getColumnIndex("jp_kan"));
         textView = (TextView) view.findViewById(R.id.text_jp_kan);
         setRichText(textView, japaneseDisplayer.display(string));
         if (string != null) tag |= MASK_JP_KAN;
@@ -134,7 +139,7 @@ public class CustomCursorAdapter extends CursorAdapter implements Masks {
         int i = 0;
 
         // Japanese tou-on
-        string = cursor.getString(cursor.getColumnIndex(MCPDatabase.COLUMN_NAME_JP_TOU));
+        string = cursor.getString(cursor.getColumnIndex("jp_tou"));
         if (string != null) {
             imageViewJPExtras[i].setImageResource(R.drawable.lang_jp_tou);
             setRichText(textViewJPExtras[i], japaneseDisplayer.display(string));
@@ -143,7 +148,7 @@ public class CustomCursorAdapter extends CursorAdapter implements Masks {
         }
 
         // Japanese kwan'you-on
-        string = cursor.getString(cursor.getColumnIndex(MCPDatabase.COLUMN_NAME_JP_KWAN));
+        string = cursor.getString(cursor.getColumnIndex("jp_kwan"));
         if (string != null) {
             imageViewJPExtras[i].setImageResource(R.drawable.lang_jp_kwan);
             setRichText(textViewJPExtras[i], japaneseDisplayer.display(string));
@@ -152,7 +157,7 @@ public class CustomCursorAdapter extends CursorAdapter implements Masks {
         }
 
         // Japanese other pronunciations
-        string = cursor.getString(cursor.getColumnIndex(MCPDatabase.COLUMN_NAME_JP_OTHER));
+        string = cursor.getString(cursor.getColumnIndex("jp_other"));
         if (string != null) {
             imageViewJPExtras[i].setImageResource(R.drawable.lang_jp_other);
             setRichText(textViewJPExtras[i], japaneseDisplayer.display(string));
@@ -167,6 +172,25 @@ public class CustomCursorAdapter extends CursorAdapter implements Masks {
         for (int j = i; j < 3; j++) {
             imageViewJPExtras[j].setVisibility(View.GONE);
             textViewJPExtras[j].setVisibility(View.GONE);
+        }
+
+        // Favorite button
+        boolean favorite = cursor.getInt(cursor.getColumnIndex("favorite")) == 1;
+        final Button star = (Button) view.findViewById(R.id.button_favorite);
+        star.setBackgroundResource(favorite ? R.drawable.ic_star_yellow : R.drawable.ic_star_white);
+        star.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                boolean favorite = UserDatabase.toggleFavorite(c);
+                star.setBackgroundResource(favorite ? R.drawable.ic_star_yellow : R.drawable.ic_star_white);
+                view.setTag((Integer) view.getTag() ^ MASK_FAVORITE);
+                int messageId = favorite ? R.string.favorite_add_done : R.string.favorite_remove_done;
+                Resources r = context.getResources();
+                String message = r.getString(messageId).replace("X", String.valueOf(c));
+                Boast.showText(context, message, Toast.LENGTH_SHORT);
+            }
+        });
+        if (favorite) {
+            tag |= MASK_FAVORITE;
         }
 
         // Set the view's tag to indicate which readings exist

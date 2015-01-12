@@ -64,4 +64,7 @@
                 android:title="@string/dict_link_vn" />
         </menu>
     </item>
+    <item
+        android:id="@+id/menu_item_favorite"
+        android:title="@string/favorite_add" />
 </menu>

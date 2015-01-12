@@ -19,7 +19,6 @@ import android.widget.Spinner;
 
 public class MainActivity extends ActivityWithOptionsMenu {
 
-    private MCPDatabase db;
     private CustomSearchView searchView;
     private Spinner spinnerSearchAs;
     private CheckBox checkBoxKuangxYonhOnly;
@@ -29,11 +28,19 @@ public class MainActivity extends ActivityWithOptionsMenu {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Initialize the orthography module on a separate thread
+        // Initialize the orthography and database modules on separate threads
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
                 Orthography.initialize(getResources());
+                return null;
+            }
+        }.execute();
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                UserDatabase.initialize(MainActivity.this);
+                MCPDatabase.initialize(MainActivity.this);
                 return null;
             }
         }.execute();
@@ -55,9 +62,6 @@ public class MainActivity extends ActivityWithOptionsMenu {
         catch (Exception e) {
             // Ignore
         }
-
-        // Build the database
-        db = new MCPDatabase(this);
 
         // Set up the search view
         searchView = (CustomSearchView) findViewById(R.id.search_view);
@@ -150,7 +154,7 @@ public class MainActivity extends ActivityWithOptionsMenu {
         new AsyncTask<Void, Void, Cursor>() {
             @Override
             protected Cursor doInBackground(Void... params) {
-                return db.search(query, pos);
+                return MCPDatabase.search(query, pos);
             }
             @Override
             protected void onPostExecute(Cursor data) {

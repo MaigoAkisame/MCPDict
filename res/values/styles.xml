@@ -1,5 +1,6 @@
 <resources
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -13,10 +14,11 @@
         -->
     </style>
 
-    <!-- Application theme. -->
+    <!-- Application theme -->
+    <!-- Reference for tools:targetApi="11" : http://stackoverflow.com/a/18216531 -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-        <item name="android:actionBarStyle">@style/ActionBarStyle</item>
+        <item name="android:actionBarStyle" tools:targetApi="11">@style/ActionBarStyle</item>
         <item name="android:editTextStyle">@style/EditTextStyle</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>
         <item name="android:itemTextAppearance">@style/MenuItemStyle</item>
@@ -24,7 +26,7 @@
 
     <style name="ActionBarStyle" parent="android:Widget.ActionBar">
         <item name="android:background">#00AAFF</item>
-        <item name="android:titleTextStyle">@style/ActionBarTitleTextStyle</item>
+        <item name="android:titleTextStyle" tools:targetApi="11">@style/ActionBarTitleTextStyle</item>
     </style>
 
     <style name="ActionBarTitleTextStyle">

@@ -3,4 +3,4 @@ bin/*
 gen
 prepare
 publish
-trimSpaces.sh
+pretty.py

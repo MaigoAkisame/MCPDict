@@ -39,6 +39,8 @@ public class SearchResultFragment extends ListFragment implements Masks {
 
     private static final Map<Integer, Integer> COPY_MENU_ITEM_TO_MASK = new HashMap<Integer, Integer>();
     static {
+        COPY_MENU_ITEM_TO_MASK.put(R.id.menu_item_copy_hz,       MASK_HZ);
+        COPY_MENU_ITEM_TO_MASK.put(R.id.menu_item_copy_unicode,  MASK_UNICODE);
         COPY_MENU_ITEM_TO_MASK.put(R.id.menu_item_copy_all,      MASK_ALL_READINGS);
         COPY_MENU_ITEM_TO_MASK.put(R.id.menu_item_copy_mc,       MASK_MC);
         COPY_MENU_ITEM_TO_MASK.put(R.id.menu_item_copy_pu,       MASK_PU);
@@ -160,7 +162,7 @@ public class SearchResultFragment extends ListFragment implements Masks {
     public boolean onContextItemSelected(MenuItem item) {
         if (COPY_MENU_ITEM_TO_MASK.containsKey(item.getItemId())) {
             // Generate the text to copy to the clipboard
-            String text = getReading(selectedEntry, COPY_MENU_ITEM_TO_MASK.get(item.getItemId()));
+            String text = getCopyText(selectedEntry, COPY_MENU_ITEM_TO_MASK.get(item.getItemId()));
             ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
             clipboard.setText(text);
             String label = item.getTitle().toString().substring(2);     // this is ugly
@@ -179,7 +181,7 @@ public class SearchResultFragment extends ListFragment implements Masks {
         }
     }
 
-    private String getReading(View entry, int mask) {
+    private String getCopyText(View entry, int mask) {
         int tag = (Integer) entry.getTag();
         if ((tag & mask) == 0) return null;
 
@@ -191,6 +193,10 @@ public class SearchResultFragment extends ListFragment implements Masks {
         StringBuilder sb;
 
         switch (mask) {
+        case MASK_HZ:
+            return ((TextView) entry.findViewById(R.id.text_hz)).getText().toString();
+        case MASK_UNICODE:
+            return ((TextView) entry.findViewById(R.id.text_unicode)).getText().toString();
         case MASK_MC:
             String[] readings = ((TextView) entry.findViewById(R.id.text_mc)).getText().toString().split("\n");
             String[] details = ((TextView) entry.findViewById(R.id.text_mc_detail)).getText().toString().split("\n");
@@ -221,27 +227,27 @@ public class SearchResultFragment extends ListFragment implements Masks {
                                     ((tag & MASK_JP_KWAN) > 0 ? 1 : 0)].getText().toString();
         case MASK_JP_ALL:
             sb = new StringBuilder();
-            if ((tag & MASK_JP_GO) > 0)    sb.append(formatReading("吳", getReading(entry, MASK_JP_GO)));
-            if ((tag & MASK_JP_KAN) > 0)   sb.append(formatReading("漢", getReading(entry, MASK_JP_KAN)));
-            if ((tag & MASK_JP_TOU) > 0)   sb.append(formatReading("唐", getReading(entry, MASK_JP_TOU)));
-            if ((tag & MASK_JP_KWAN) > 0)  sb.append(formatReading("慣", getReading(entry, MASK_JP_KWAN)));
-            if ((tag & MASK_JP_OTHER) > 0) sb.append(formatReading("他", getReading(entry, MASK_JP_OTHER)));
+            if ((tag & MASK_JP_GO) > 0)    sb.append(formatReading("吳", getCopyText(entry, MASK_JP_GO)));
+            if ((tag & MASK_JP_KAN) > 0)   sb.append(formatReading("漢", getCopyText(entry, MASK_JP_KAN)));
+            if ((tag & MASK_JP_TOU) > 0)   sb.append(formatReading("唐", getCopyText(entry, MASK_JP_TOU)));
+            if ((tag & MASK_JP_KWAN) > 0)  sb.append(formatReading("慣", getCopyText(entry, MASK_JP_KWAN)));
+            if ((tag & MASK_JP_OTHER) > 0) sb.append(formatReading("他", getCopyText(entry, MASK_JP_OTHER)));
             return sb.toString();
         case MASK_ALL_READINGS:
             sb = new StringBuilder();
             String hanzi = ((TextView) entry.findViewById(R.id.text_hz)).getText().toString();
             String unicode = ((TextView) entry.findViewById(R.id.text_unicode)).getText().toString();
             sb.append(hanzi + " " + unicode + "\n");
-            if ((tag & MASK_MC) > 0)       sb.append(formatReading("中古",  getReading(entry, MASK_MC)));
-            if ((tag & MASK_PU) > 0)       sb.append(formatReading("普",   getReading(entry, MASK_PU)));
-            if ((tag & MASK_CT) > 0)       sb.append(formatReading("粵",   getReading(entry, MASK_CT)));
-            if ((tag & MASK_KR) > 0)       sb.append(formatReading("朝",   getReading(entry, MASK_KR)));
-            if ((tag & MASK_VN) > 0)       sb.append(formatReading("越",   getReading(entry, MASK_VN)));
-            if ((tag & MASK_JP_GO) > 0)    sb.append(formatReading("日·吳", getReading(entry, MASK_JP_GO)));
-            if ((tag & MASK_JP_KAN) > 0)   sb.append(formatReading("日·漢", getReading(entry, MASK_JP_KAN)));
-            if ((tag & MASK_JP_TOU) > 0)   sb.append(formatReading("日·唐", getReading(entry, MASK_JP_TOU)));
-            if ((tag & MASK_JP_KWAN) > 0)  sb.append(formatReading("日·慣", getReading(entry, MASK_JP_KWAN)));
-            if ((tag & MASK_JP_OTHER) > 0) sb.append(formatReading("日·他", getReading(entry, MASK_JP_OTHER)));
+            if ((tag & MASK_MC) > 0)       sb.append(formatReading("中古",  getCopyText(entry, MASK_MC)));
+            if ((tag & MASK_PU) > 0)       sb.append(formatReading("普",   getCopyText(entry, MASK_PU)));
+            if ((tag & MASK_CT) > 0)       sb.append(formatReading("粵",   getCopyText(entry, MASK_CT)));
+            if ((tag & MASK_KR) > 0)       sb.append(formatReading("朝",   getCopyText(entry, MASK_KR)));
+            if ((tag & MASK_VN) > 0)       sb.append(formatReading("越",   getCopyText(entry, MASK_VN)));
+            if ((tag & MASK_JP_GO) > 0)    sb.append(formatReading("日·吳", getCopyText(entry, MASK_JP_GO)));
+            if ((tag & MASK_JP_KAN) > 0)   sb.append(formatReading("日·漢", getCopyText(entry, MASK_JP_KAN)));
+            if ((tag & MASK_JP_TOU) > 0)   sb.append(formatReading("日·唐", getCopyText(entry, MASK_JP_TOU)));
+            if ((tag & MASK_JP_KWAN) > 0)  sb.append(formatReading("日·慣", getCopyText(entry, MASK_JP_KWAN)));
+            if ((tag & MASK_JP_OTHER) > 0) sb.append(formatReading("日·他", getCopyText(entry, MASK_JP_OTHER)));
             return sb.toString();
         }
         return null;

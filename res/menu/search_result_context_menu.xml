@@ -5,6 +5,12 @@
         android:title="@string/copy_readings" >
         <menu>
             <item
+                android:id="@+id/menu_item_copy_hz"
+                android:title="@string/copy_hz" />
+            <item
+                android:id="@+id/menu_item_copy_unicode"
+                android:title="@string/copy_unicode" />
+            <item
                 android:id="@+id/menu_item_copy_all"
                 android:title="@string/copy_all" />
             <item

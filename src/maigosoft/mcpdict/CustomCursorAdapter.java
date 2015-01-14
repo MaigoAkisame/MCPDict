@@ -54,12 +54,14 @@ public class CustomCursorAdapter extends CursorAdapter implements Masks {
         string = cursor.getString(cursor.getColumnIndex("unicode"));
         textView = (TextView) view.findViewById(R.id.text_unicode);
         textView.setText("U+" + string);
+        tag |= MASK_UNICODE;
 
         // Chinese character
         c = (char)Integer.parseInt(string, 16);
         string = String.valueOf(c);
         textView = (TextView) view.findViewById(R.id.text_hz);
         textView.setText(string);
+        tag |= MASK_HZ;
 
         // Variants
         string = cursor.getString(cursor.getColumnIndex("variants"));

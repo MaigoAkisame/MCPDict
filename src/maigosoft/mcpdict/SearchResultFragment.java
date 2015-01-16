@@ -16,7 +16,6 @@ import android.support.v4.app.ListFragment;
 // Use android.app.ListFragment for API level >= 11
 import android.support.v4.widget.CursorAdapter;
 import android.text.ClipboardManager;
-import android.util.Log;
 // Use android.widget.CursorAdapter for API level >= 11
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -94,14 +93,12 @@ public class SearchResultFragment extends ListFragment implements Masks {
 
     @Override
     public void onListItemClick(ListView list, View view, int position, long id) {
-        Log.d("FRAG", "clicked");
         // Show context menu on short clicks, too
         list.showContextMenuForChild(view);
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
-        Log.d("FRAG", "create menu");
         // Find the Chinese character in the view being clicked
         ListView list = (ListView) view;
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;

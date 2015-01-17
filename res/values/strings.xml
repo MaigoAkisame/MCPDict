@@ -9,6 +9,9 @@
 
     <string name="ok">確定</string>
 
+    <string name="tab_dictionary">字典</string>
+    <string name="tab_favorite">生字本</string>
+
     <string name="search_hint">輸入漢字或讀音</string>
     <string name="search_for">查詢內容：</string>
     <string name="search_as">查詢模式：</string>

@@ -13,10 +13,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-// Use android.app.ListFragment for API level >= 11
 import android.support.v4.widget.CursorAdapter;
+// Remove support.v4 for API level >= 11
 import android.text.ClipboardManager;
-// Use android.widget.CursorAdapter for API level >= 11
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;

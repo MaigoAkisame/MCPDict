@@ -9,7 +9,7 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.CursorAdapter;
-// Use android.widget.CursorAdapter for API level >= 11
+// Remove support.v4 for API level >= 11
 import android.text.Spannable;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;

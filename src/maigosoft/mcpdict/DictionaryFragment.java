@@ -19,6 +19,7 @@ import android.widget.Spinner;
 
 public class DictionaryFragment extends Fragment {
 
+    private View selfView = null;
     private CustomSearchView searchView;
     private Spinner spinnerSearchAs;
     private CheckBox checkBoxKuangxYonhOnly;
@@ -28,11 +29,19 @@ public class DictionaryFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Set up the view of the entire dictionary fragment
-        View fragment = inflater.inflate(R.layout.dictionary_fragment, container, false);
+        // A hack to enable nested fragments to be inflated from XML
+        // Reference: http://stackoverflow.com/a/14695397
+        if (selfView != null) {
+            ViewGroup parent = (ViewGroup) selfView.getParent();
+            if (parent != null) parent.removeView(selfView);
+            return selfView;
+        }
+
+        // Inflate the dictionary fragment
+        selfView = inflater.inflate(R.layout.dictionary_fragment, container, false);
 
         // Set up the search view
-        searchView = (CustomSearchView) fragment.findViewById(R.id.search_view);
+        searchView = (CustomSearchView) selfView.findViewById(R.id.search_view);
         searchView.setHint(getResources().getString(R.string.search_hint));
         searchView.setSearchButtonOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -41,7 +50,7 @@ public class DictionaryFragment extends Fragment {
         });
 
         // Set up the spinner
-        spinnerSearchAs = (Spinner) fragment.findViewById(R.id.spinner_search_as);
+        spinnerSearchAs = (Spinner) selfView.findViewById(R.id.spinner_search_as);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
             getActivity(), R.array.search_as, android.R.layout.simple_spinner_item
         );
@@ -58,9 +67,9 @@ public class DictionaryFragment extends Fragment {
         });
 
         // Set up the checkboxes
-        checkBoxKuangxYonhOnly = (CheckBox) fragment.findViewById(R.id.check_box_kuangx_yonh_only);
-        checkBoxAllowVariants = (CheckBox) fragment.findViewById(R.id.check_box_allow_variants);
-        checkBoxToneInsensitive = (CheckBox) fragment.findViewById(R.id.check_box_tone_insensitive);
+        checkBoxKuangxYonhOnly = (CheckBox) selfView.findViewById(R.id.check_box_kuangx_yonh_only);
+        checkBoxAllowVariants = (CheckBox) selfView.findViewById(R.id.check_box_allow_variants);
+        checkBoxToneInsensitive = (CheckBox) selfView.findViewById(R.id.check_box_tone_insensitive);
         loadCheckBoxes();
         updateCheckBoxesEnabled();
         CompoundButton.OnCheckedChangeListener checkBoxListener = new CompoundButton.OnCheckedChangeListener() {
@@ -77,7 +86,7 @@ public class DictionaryFragment extends Fragment {
         // Get a reference to the search result fragment
         fragmentResult = (SearchResultFragment) getFragmentManager().findFragmentById(R.id.fragment_search_result);
 
-        return fragment;
+        return selfView;
     }
 
     private void loadCheckBoxes() {

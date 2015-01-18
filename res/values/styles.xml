@@ -24,9 +24,9 @@
         <item name="android:itemTextAppearance">@style/MenuItemStyle</item>
     </style>
 
-    <style name="ActionBarStyle" parent="android:Widget.ActionBar">
+    <style name="ActionBarStyle" tools:targetApi="11" parent="android:Widget.ActionBar">
         <item name="android:background">#00AAFF</item>
-        <item name="android:titleTextStyle" tools:targetApi="11">@style/ActionBarTitleTextStyle</item>
+        <item name="android:titleTextStyle">@style/ActionBarTitleTextStyle</item>
     </style>
 
     <style name="ActionBarTitleTextStyle">

@@ -4,9 +4,7 @@ import java.lang.reflect.Field;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentTabHost;
 // Remove support.v4 for API level >= 11
 import android.view.ViewConfiguration;
 
@@ -50,12 +48,18 @@ public class MainActivity extends ActivityWithOptionsMenu {
         setContentView(R.layout.main_activity);
 
         // Set up the tabs
-        ViewPager pager = (ViewPager) findViewById(R.id.main_pager);
-        FragmentManager fm = getSupportFragmentManager();
-            // Use getFragmentManager() for API level >= 11
-        Fragment[] fragments = {new DictionaryFragment(), new FavoriteFragment()};
-        String[] titles = {getResources().getString(R.string.tab_dictionary),
-                           getResources().getString(R.string.tab_favorite)};
-        pager.setAdapter(new FragmentArrayPagerAdapter(fm, fragments, titles));
+        FragmentTabHost tabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+        tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
+        @SuppressWarnings("rawtypes")
+        Class[] fragmentClasses = {DictionaryFragment.class, FavoriteFragment.class};
+        int[] titleIds = {R.string.tab_dictionary, R.string.tab_favorite};
+        for (int i = 0; i < fragmentClasses.length; i++) {
+            String title = getResources().getString(titleIds[i]);
+            tabHost.addTab(
+                tabHost.newTabSpec(String.valueOf(i)).setIndicator(title),
+                fragmentClasses[i],
+                null
+            );
+        }
     }
 }

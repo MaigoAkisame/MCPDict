@@ -3,4 +3,6 @@ bin/*
 gen
 prepare
 publish
+jarlist.cache
+lint.xml
 pretty.py

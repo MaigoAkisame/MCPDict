@@ -11,14 +11,15 @@
 
         <TabWidget
             android:id="@android:id/tabs"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <FrameLayout
             android:id="@android:id/tabcontent"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
+
     </LinearLayout>
 
 </android.support.v4.app.FragmentTabHost>

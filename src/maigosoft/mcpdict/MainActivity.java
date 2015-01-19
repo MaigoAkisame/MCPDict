@@ -2,14 +2,21 @@ package maigosoft.mcpdict;
 
 import java.lang.reflect.Field;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
+import android.view.Gravity;
+import android.view.View;
+import android.view.View.MeasureSpec;
 // Remove support.v4 for API level >= 11
 import android.view.ViewConfiguration;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class MainActivity extends ActivityWithOptionsMenu {
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Initialize the orthography and database modules on separate threads
@@ -53,13 +60,43 @@ public class MainActivity extends ActivityWithOptionsMenu {
         @SuppressWarnings("rawtypes")
         Class[] fragmentClasses = {DictionaryFragment.class, FavoriteFragment.class};
         int[] titleIds = {R.string.tab_dictionary, R.string.tab_favorite};
-        for (int i = 0; i < fragmentClasses.length; i++) {
+        int nTabs = fragmentClasses.length;
+        for (int i = 0; i < nTabs; i++) {
             String title = getResources().getString(titleIds[i]);
             tabHost.addTab(
                 tabHost.newTabSpec(String.valueOf(i)).setIndicator(title),
                 fragmentClasses[i],
                 null
             );
+        }
+
+        // Styling of the tabs has to go here; XML doesn't work
+        int apiLevel = android.os.Build.VERSION.SDK_INT;
+        int tabWidth = getWindowManager().getDefaultDisplay().getWidth() / nTabs;
+        for (int i = 0; i < nTabs; i++) {
+            View tab = tabHost.getTabWidget().getChildAt(i);
+            TextView textView = (TextView) tab.findViewById(android.R.id.title);
+            // Set tab text size
+            textView.setTextSize(17);
+            if (apiLevel < 11) {                            // 1.x and 2.x
+                // The only problem with the default style is that the tabs are too tall;
+                //   we set it to 1.5 times the text height
+                textView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+                tab.getLayoutParams().height = (int) (textView.getMeasuredHeight() * 1.5);
+            }
+            else if (apiLevel >= 11 && apiLevel < 14) {     // 3.x
+                // Lots of problems with the default style:
+                //   * Text is white (selected tab) or gray (unselected tab)
+                //   * Text is not centered in tabs
+                //   * Tabs do not fill the screen width
+                //   * Tabs a little too tall
+                // We need to fix them one by one
+                textView.setTextColor(Color.BLACK);
+                ((RelativeLayout) tab).setHorizontalGravity(Gravity.CENTER);
+                tab.getLayoutParams().width = tabWidth;
+                textView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+                tab.getLayoutParams().height = (int) (textView.getMeasuredHeight() * 1.8);
+            }
         }
     }
 }

@@ -31,9 +31,9 @@ public class CustomSearchView extends RelativeLayout {
             context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.custom_search_view, this, true);
 
-        editText = (EditText) findViewById(R.id.search_query_text);
-        clearButton = (Button) findViewById(R.id.search_clear_button);
-        searchButton = (Button) findViewById(R.id.search_go_button);
+        editText = (EditText) findViewById(R.id.text_query);
+        clearButton = (Button) findViewById(R.id.button_clear);
+        searchButton = (Button) findViewById(R.id.button_search);
 
         // Toggle the clear button when user edits text
         editText.addTextChangedListener(new TextWatcher() {

@@ -8,11 +8,9 @@ import java.util.Map;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.support.v4.widget.CursorAdapter;
 // Remove support.v4 for API level >= 11
 import android.text.ClipboardManager;
@@ -33,7 +31,7 @@ import com.mobiRic.ui.widget.Boast;
 
 @SuppressLint("UseSparseArrays")
 @SuppressWarnings("deprecation")
-public class SearchResultFragment extends ListFragment implements Masks {
+public class SearchResultFragment extends ListFragmentWithMemory implements Masks {
 
     private static final Map<Integer, Integer> COPY_MENU_ITEM_TO_MASK = new HashMap<Integer, Integer>();
     static {
@@ -65,6 +63,7 @@ public class SearchResultFragment extends ListFragment implements Masks {
         "http://hanviet.org/hv_timchu.php?unichar=",                        // plus UTF-8 encoded string
     };  // Bases of links to external dictionaries
 
+    private View selfView;
     private ListView listView;
     private CursorAdapter adapter;
 
@@ -72,13 +71,24 @@ public class SearchResultFragment extends ListFragment implements Masks {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View fragment = inflater.inflate(R.layout.search_result_fragment, container, false);
-        listView = (ListView) fragment.findViewById(android.R.id.list);
+        // A hack to avoid nested fragments from being inflated twice
+        // Reference: http://stackoverflow.com/a/14695397
+        if (selfView != null) {
+            ViewGroup parent = (ViewGroup) selfView.getParent();
+            if (parent != null) parent.removeView(selfView);
+            return selfView;
+        }
+
+        // Inflate the fragment view
+        selfView = inflater.inflate(R.layout.search_result_fragment, container, false);
+
+        // Get a reference to the ListView
+        listView = (ListView) selfView.findViewById(android.R.id.list);
 
         // Set up a context menu for each item of the search result
         registerForContextMenu(listView);
 
-        return fragment;
+        return selfView;
     }
 
     @Override
@@ -86,8 +96,10 @@ public class SearchResultFragment extends ListFragment implements Masks {
         super.onActivityCreated(savedInstanceState);
 
         // Set up the adapter
-        adapter = new CustomCursorAdapter(getActivity(), R.layout.search_result_item, null);
-        setListAdapter(adapter);
+        if (adapter == null) {
+            adapter = new SearchResultCursorAdapter(getActivity(), R.layout.search_result_item, null);
+            setListAdapter(adapter);
+        }
     }
 
     @Override
@@ -143,7 +155,7 @@ public class SearchResultFragment extends ListFragment implements Masks {
 
         // Determine the functionality of the "favorite" item
         item = menu.getItem(2);
-        item.setTitle((tag & MASK_FAVORITE) == 0 ? R.string.favorite_add : R.string.favorite_remove);
+        item.setTitle((tag & MASK_FAVORITE) == 0 ? R.string.favorite_add : R.string.favorite_delete);
 
         // Replace the placeholders in the menu items with the character selected
         for (Menu m : new Menu[] {menu, menuCopy, menuDictLinks}) {
@@ -162,8 +174,7 @@ public class SearchResultFragment extends ListFragment implements Masks {
             ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
             clipboard.setText(text);
             String label = item.getTitle().toString().substring(2);     // this is ugly
-            Resources r = getActivity().getResources();
-            String message = r.getString(R.string.copy_done).replace("X", label);
+            String message = getString(R.string.copy_done).replace("X", label);
             Boast.showText(getActivity(), message, Toast.LENGTH_SHORT);
             return true;
         }
@@ -254,11 +265,11 @@ public class SearchResultFragment extends ListFragment implements Masks {
         return "[" + prefix + "]" + separator + reading + "\n";
     }
 
-    public void updateResults(Cursor data) {
+    public void setData(Cursor data, boolean scrollToTop) {
         if (adapter == null) return;
         adapter.changeCursor(data);
-        listView.setSelectionAfterHeaderView();     // Scroll to top
-        TextView emptyView = (TextView) getView().findViewById(android.R.id.empty);
-        emptyView.setText(getString(R.string.no_matches));
+        if (scrollToTop) listView.setSelectionAfterHeaderView();
+        TextView textEmpty = (TextView) selfView.findViewById(android.R.id.empty);
+        textEmpty.setText(getString(R.string.no_matches));
     }
 }

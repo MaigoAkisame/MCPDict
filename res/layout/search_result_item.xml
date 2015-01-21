@@ -2,15 +2,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:paddingTop="6dp"
     android:paddingBottom="6dp"
-    android:baselineAligned="false"
+    android:orientation="horizontal"
+    android:gravity="top"
     android:descendantFocusability="blocksDescendants" >
 
 <!--
     android:descendantFocusability="blocksDescendants" is necessary to make
-    a search result clickable with the presence of the favorite button inside it.
+    a search result item clickable with the presence of the "favorite" button inside it.
     Reference: http://stackoverflow.com/a/12528960
 -->
 
@@ -18,13 +18,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0"
-        android:gravity="center"
-        android:orientation="vertical"
         android:paddingLeft="2dp"
-        android:paddingRight="6dp">
+        android:paddingRight="6dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal" >
 
         <TextView
-            style="@style/FontEntry"
+            style="@style/FontSearchResultEntry"
             android:id="@+id/text_hz"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -58,6 +58,7 @@
             <LinearLayout
                 android:layout_span="3"
                 android:orientation="horizontal"
+                android:gravity="top"
                 android:baselineAligned="false" >
 <!--
     android:baselineAligned="false" is necessary to ensure correct vertical

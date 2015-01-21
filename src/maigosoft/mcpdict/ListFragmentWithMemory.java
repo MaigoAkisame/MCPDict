@@ -1,0 +1,41 @@
+// A list fragment that remembers its scroll position
+// Reference: http://stackoverflow.com/a/3035521
+
+package maigosoft.mcpdict;
+
+import android.os.Bundle;
+import android.support.v4.app.ListFragment;
+import android.view.View;
+import android.widget.AbsListView;
+import android.widget.ListView;
+
+public class ListFragmentWithMemory extends ListFragment implements AbsListView.OnScrollListener {
+
+    protected int index;
+    protected int y;
+
+    public ListFragmentWithMemory() {
+        setRetainInstance(true);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        // Load stored scroll position, and set up the OnScrollListener
+        // This must be done after super.onActivityCreated has been executed
+        ListView list = getListView();
+        list.setSelectionFromTop(index, y);
+        list.setOnScrollListener(this);
+    }
+
+    @Override
+    public void onScroll(AbsListView arg0, int arg1, int arg2, int arg3) {
+        ListView list = getListView();
+        index = list.getFirstVisiblePosition();
+        View v = list.getChildAt(0);
+        y = (v == null) ? 0 : (v.getTop() - list.getPaddingTop());
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView arg0, int arg1) {}
+}

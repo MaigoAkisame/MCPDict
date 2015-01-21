@@ -1,0 +1,54 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:descendantFocusability="blocksDescendants" >
+
+<!--
+    android:descendantFocusability="blocksDescendants" is necessary to make
+    a favorite item clickable with the presence of the "delete" button inside it.
+    Reference: http://stackoverflow.com/a/12528960
+-->
+
+    <Button
+        android:id="@+id/button_delete"
+        android:background="@drawable/ic_cancel"
+        android:layout_height="32dp"
+        android:layout_width="32dp" />
+
+    <TextView
+        style="@style/FontDim"
+        android:id="@+id/text_timestamp"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:gravity="end" />
+
+    <TextView
+        style="@style/FontFavoriteEntry"
+        android:id="@+id/text_hz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp" />
+
+    <TextView
+        style="@style/FontDim"
+        android:id="@+id/text_comment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="start"
+        android:singleLine="true"
+        android:ellipsize="end" />
+
+    <Button
+        android:id="@+id/button_edit"
+        android:background="@drawable/ic_edit"
+        android:layout_height="32dp"
+        android:layout_width="32dp" />
+
+</LinearLayout>

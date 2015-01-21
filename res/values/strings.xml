@@ -8,6 +8,7 @@
     <string name="about_message">漢字古今中外讀音查詢 V1.3\n2014.11.24\n\n作者：Maigo\nmaigoakisame@gmail.com</string>
 
     <string name="ok">確定</string>
+    <string name="cancel">取消</string>
 
     <string name="tab_dictionary">字典</string>
     <string name="tab_favorite">生字本</string>
@@ -64,9 +65,15 @@
     <string name="dict_link_vn">去 漢越辭典摘引 查詢“X”字</string>
 
     <string name="favorite_add">把“X”字加入生字本</string>
-    <string name="favorite_remove">把“X”字從生字本中刪除</string>
+    <string name="favorite_delete">把“X”字從生字本中刪除</string>
     <string name="favorite_add_done">已將“X”字加入生字本</string>
-    <string name="favorite_remove_done">已將“X”字從生字本中刪除</string>
+    <string name="favorite_delete_done">已將“X”字從生字本中刪除</string>
+
+    <string name="favorite_total">當前生字本中共有 X 個生字</string>
+    <string name="clear">清空</string>
+    <string name="favorite_clear">清空生字本</string>
+    <string name="favorite_clear_confirm">確定清空生字本嗎？清空後無法恢復！</string>
+    <string name="favorite_clear_done">已清空生字本</string>
 
     <string name="pref_key_cantonese_romanization">CANTONESE_ROMANIZATION</string>
     <string name="pref_title_cantonese_romanization">粵語拼音系統（用於輸入和顯示）</string>

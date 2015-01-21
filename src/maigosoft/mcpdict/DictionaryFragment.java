@@ -17,9 +17,9 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 
-public class DictionaryFragment extends Fragment {
+public class DictionaryFragment extends Fragment implements RefreshableFragment {
 
-    private View selfView = null;
+    private View selfView;
     private CustomSearchView searchView;
     private Spinner spinnerSearchAs;
     private CheckBox checkBoxKuangxYonhOnly;
@@ -29,7 +29,7 @@ public class DictionaryFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // A hack to enable nested fragments to be inflated from XML
+        // A hack to avoid nested fragments from being inflated twice
         // Reference: http://stackoverflow.com/a/14695397
         if (selfView != null) {
             ViewGroup parent = (ViewGroup) selfView.getParent();
@@ -37,7 +37,7 @@ public class DictionaryFragment extends Fragment {
             return selfView;
         }
 
-        // Inflate the dictionary fragment
+        // Inflate the fragment view
         selfView = inflater.inflate(R.layout.dictionary_fragment, container, false);
 
         // Set up the search view
@@ -57,10 +57,19 @@ public class DictionaryFragment extends Fragment {
         adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
         spinnerSearchAs.setAdapter(adapter);
         spinnerSearchAs.setOnItemSelectedListener(new OnItemSelectedListener() {
+            private boolean initialized = false;
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                updateCheckBoxesEnabled();
-                searchView.clickSearchButton();
+                // This method will be called for the first time when the UI is being drawn
+                // We don't want this to trigger the search button,
+                //   because that will reset the scroll position of the search results
+                if (initialized) {
+                    updateCheckBoxesEnabled();
+                    searchView.clickSearchButton();
+                }
+                else {
+                    initialized = true;
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
@@ -83,7 +92,7 @@ public class DictionaryFragment extends Fragment {
         checkBoxAllowVariants.setOnCheckedChangeListener(checkBoxListener);
         checkBoxToneInsensitive.setOnCheckedChangeListener(checkBoxListener);
 
-        // Get a reference to the search result fragment
+        // Get a reference to the SearchResultFragment
         fragmentResult = (SearchResultFragment) getFragmentManager().findFragmentById(R.id.fragment_search_result);
 
         return selfView;
@@ -117,6 +126,11 @@ public class DictionaryFragment extends Fragment {
     }
 
     private void search() {
+        refresh(true);
+    }
+
+    @Override
+    public void refresh(final boolean scrollToTop) {
         final String query = searchView.getQuery();
         if (query.equals("")) return;
         final int pos = spinnerSearchAs.getSelectedItemPosition();
@@ -131,7 +145,7 @@ public class DictionaryFragment extends Fragment {
             }
             @Override
             protected void onPostExecute(Cursor data) {
-                fragmentResult.updateResults(data);
+                fragmentResult.setData(data, scrollToTop);
             }
         }.execute();
     }

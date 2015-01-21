@@ -5,6 +5,8 @@ import java.lang.reflect.Field;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTabHost;
 import android.view.Gravity;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.view.View.MeasureSpec;
 // Remove support.v4 for API level >= 11
 import android.view.ViewConfiguration;
 import android.widget.RelativeLayout;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 public class MainActivity extends ActivityWithOptionsMenu {
@@ -56,7 +59,8 @@ public class MainActivity extends ActivityWithOptionsMenu {
 
         // Set up the tabs
         FragmentTabHost tabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
-        tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
+        final FragmentManager fm = getSupportFragmentManager();
+        tabHost.setup(this, fm, android.R.id.tabcontent);
         @SuppressWarnings("rawtypes")
         Class[] fragmentClasses = {DictionaryFragment.class, FavoriteFragment.class};
         int[] titleIds = {R.string.tab_dictionary, R.string.tab_favorite};
@@ -69,6 +73,14 @@ public class MainActivity extends ActivityWithOptionsMenu {
                 null
             );
         }
+        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String tabId) {
+                fm.executePendingTransactions();
+                Fragment fragment = fm.findFragmentByTag(tabId);
+                ((RefreshableFragment) fragment).refresh(false);
+            }
+        });
 
         // Styling of the tabs has to go here; XML doesn't work
         int apiLevel = android.os.Build.VERSION.SDK_INT;

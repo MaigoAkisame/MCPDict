@@ -54,7 +54,7 @@
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="FontEntry">
+    <style name="FontSearchResultEntry">
         <item name="android:textColor">#9D261D</item>
         <item name="android:textSize">40sp</item>
     </style>
@@ -67,6 +67,11 @@
     <style name="FontDim">
         <item name="android:textColor">#808080</item>
         <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="FontFavoriteEntry">
+        <item name="android:textColor">#9D261D</item>
+        <item name="android:textSize">25sp</item>
     </style>
 
     <!-- Styles for ImageViews -->

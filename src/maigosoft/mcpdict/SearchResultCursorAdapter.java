@@ -24,13 +24,13 @@ import android.widget.Toast;
 
 import com.mobiRic.ui.widget.Boast;
 
-public class CustomCursorAdapter extends CursorAdapter implements Masks {
+public class SearchResultCursorAdapter extends CursorAdapter implements Masks {
 
     private Context context;
     private int layout;
     private LayoutInflater inflater;
 
-    public CustomCursorAdapter(Context context, int layout, Cursor c) {
+    public SearchResultCursorAdapter(Context context, int layout, Cursor c) {
         super(context, c, FLAG_REGISTER_CONTENT_OBSERVER);
         this.context = context;
         this.layout = layout;
@@ -176,18 +176,18 @@ public class CustomCursorAdapter extends CursorAdapter implements Masks {
             textViewJPExtras[j].setVisibility(View.GONE);
         }
 
-        // Favorite button
+        // "Favorite" button
         boolean favorite = cursor.getInt(cursor.getColumnIndex("favorite")) == 1;
-        final Button star = (Button) view.findViewById(R.id.button_favorite);
-        star.setBackgroundResource(favorite ? R.drawable.ic_star_yellow : R.drawable.ic_star_white);
-        star.setOnClickListener(new View.OnClickListener() {
+        final Button button = (Button) view.findViewById(R.id.button_favorite);
+        button.setBackgroundResource(favorite ? R.drawable.ic_star_yellow : R.drawable.ic_star_white);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 boolean favorite = UserDatabase.toggleFavorite(c);
-                star.setBackgroundResource(favorite ? R.drawable.ic_star_yellow : R.drawable.ic_star_white);
+                button.setBackgroundResource(favorite ? R.drawable.ic_star_yellow : R.drawable.ic_star_white);
                 view.setTag((Integer) view.getTag() ^ MASK_FAVORITE);
-                int messageId = favorite ? R.string.favorite_add_done : R.string.favorite_remove_done;
-                Resources r = context.getResources();
-                String message = r.getString(messageId).replace("X", String.valueOf(c));
+                int messageId = favorite ? R.string.favorite_add_done : R.string.favorite_delete_done;
+                String message = context.getResources().getString(messageId).replace("X", String.valueOf(c));
                 Boast.showText(context, message, Toast.LENGTH_SHORT);
             }
         });

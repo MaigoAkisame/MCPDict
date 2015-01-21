@@ -26,6 +26,14 @@ class UserDatabase extends SQLiteOpenHelper {
         return context.getDatabasePath(DATABASE_NAME).getAbsolutePath();
     }
 
+    public static Cursor selectAllFavorites() {
+        String query = "SELECT rowid AS _id, unicode, comment, " +
+                       "STRFTIME('%Y/%m/%d', timestamp, 'localtime') AS local_timestamp " +
+                       "FROM favorite ORDER BY timestamp DESC";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+
     // Returns the status after toggling
     public static boolean toggleFavorite(char c) {
         String unicode = String.format("%04X", (int)c);
@@ -34,6 +42,7 @@ class UserDatabase extends SQLiteOpenHelper {
         if (cursor.getCount() == 0) {
             ContentValues values = new ContentValues();
             values.put("unicode", unicode);
+            values.put("comment", "TODO");
             db.insert("favorite", null, values);
             return true;
         }
@@ -43,19 +52,26 @@ class UserDatabase extends SQLiteOpenHelper {
         }
     }
 
+    public static void deleteAllFavorites() {
+        db.delete("favorite", null, null);
+    }
+
     // NON-STATIC METHODS IMPLEMENTING THOSE OF THE ABSTRACT SUPER-CLASS
 
     public UserDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE favorite (" +
                    "    unicode TEXT," +
-                   "    timestamp INTEGER DEFAULT CURRENT_TIMESTAMP NOT NULL" +
+                   "    comment STRING," +
+                   "    timestamp REAL DEFAULT (JULIANDAY('now')) NOT NULL" +
                    ")");
     }
 
+    @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
 
 }

@@ -29,13 +29,12 @@ public class ListFragmentWithMemory extends ListFragment implements AbsListView.
     }
 
     @Override
-    public void onScroll(AbsListView arg0, int arg1, int arg2, int arg3) {
-        ListView list = getListView();
-        index = list.getFirstVisiblePosition();
+    public void onScroll(AbsListView list, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        index = firstVisibleItem;
         View v = list.getChildAt(0);
         y = (v == null) ? 0 : (v.getTop() - list.getPaddingTop());
     }
 
     @Override
-    public void onScrollStateChanged(AbsListView arg0, int arg1) {}
+    public void onScrollStateChanged(AbsListView list, int scrollState) {}
 }

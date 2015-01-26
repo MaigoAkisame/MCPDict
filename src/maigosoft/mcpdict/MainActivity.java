@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 public class MainActivity extends ActivityWithOptionsMenu {
 
+    private FragmentManager fm;
+
     @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class MainActivity extends ActivityWithOptionsMenu {
 
         // Force displaying the overflow menu in the action bar
         // Reference: http://stackoverflow.com/a/11438245
+        // Only works for Android 4.x
         try {
             ViewConfiguration config = ViewConfiguration.get(this);
             Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
@@ -59,16 +62,16 @@ public class MainActivity extends ActivityWithOptionsMenu {
 
         // Set up the tabs
         FragmentTabHost tabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
-        final FragmentManager fm = getSupportFragmentManager();
+        fm = getSupportFragmentManager();
         tabHost.setup(this, fm, android.R.id.tabcontent);
         @SuppressWarnings("rawtypes")
         Class[] fragmentClasses = {DictionaryFragment.class, FavoriteFragment.class};
         int[] titleIds = {R.string.tab_dictionary, R.string.tab_favorite};
         int nTabs = fragmentClasses.length;
         for (int i = 0; i < nTabs; i++) {
-            String title = getResources().getString(titleIds[i]);
+            String title = getString(titleIds[i]);
             tabHost.addTab(
-                tabHost.newTabSpec(String.valueOf(i)).setIndicator(title),
+                tabHost.newTabSpec(title).setIndicator(title),
                 fragmentClasses[i],
                 null
             );
@@ -110,5 +113,15 @@ public class MainActivity extends ActivityWithOptionsMenu {
                 tab.getLayoutParams().height = (int) (textView.getMeasuredHeight() * 1.8);
             }
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        // This method fires when the screen rotates
+        // At this moment, we must clean up all the sub-fragments in the favorite fragment
+        // [WTF] Don't ask me how I figured this out
+        FavoriteFragment fragment = (FavoriteFragment) fm.findFragmentByTag(getString(R.string.tab_favorite));
+        if (fragment != null) fragment.removeSubFragments();
+        super.onDestroy();
     }
 }

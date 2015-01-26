@@ -36,7 +36,7 @@ class UserDatabase extends SQLiteOpenHelper {
 
     // Returns the status after toggling
     public static boolean toggleFavorite(char c) {
-        String unicode = String.format("%04X", (int)c);
+        String unicode = String.format("%04X", (int) c);
         String[] args = {unicode};
         Cursor cursor = db.rawQuery("SELECT unicode FROM favorite WHERE unicode = ?", args);
         if (cursor.getCount() == 0) {
@@ -73,5 +73,4 @@ class UserDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
-
 }

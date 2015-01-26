@@ -50,8 +50,27 @@ public class MCPDatabase extends SQLiteAssetHelper {
         setForcedUpgradeVersion(DATABASE_VERSION);
     }
 
+
+    @SuppressWarnings("deprecation")
+    public static Cursor directSearch(char unicode) {
+        // Search for a single Chinese character without any conversions
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+        qb.setTables("mcpdict AS v LEFT JOIN user.favorite AS w ON v.unicode = w.unicode");
+        String[] projection = {"v.rowid AS _id",
+                   "v.unicode AS unicode", "NULL AS variants",
+                   "mc", "pu", "ct", "kr", "vn",
+                   "jp_go", "jp_kan", "jp_tou", "jp_kwan", "jp_other",
+                   "timestamp IS NOT NULL AS favorite"};
+        String selection = "v.unicode = ?";
+        String query = qb.buildQuery(projection, selection, null, null, null, null, null);
+        String[] args = {String.format("%04X", (int) unicode)};
+        return db.rawQuery(query, args);
+    }
+
     @SuppressWarnings("deprecation")
     public static Cursor search(String input, int mode) {
+        // Search for one or more keywords, considering mode and options
+
         // Get options and settings from SharedPreferences
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         Resources r = context.getResources();
@@ -68,15 +87,15 @@ public class MCPDatabase extends SQLiteAssetHelper {
                 char inputChar = input.charAt(i);
                 if (!Orthography.Hanzi.isHanzi(inputChar)) continue;
                 if (input.indexOf(inputChar) < i) continue;     // Ignore a character if it has appeared earlier
-                String inputHex = String.format("%04X", (int)inputChar);
+                String inputHex = String.format("%04X", (int) inputChar);
                 if (!allowVariants) {
                     keywords.add(inputHex);
                 }
                 else {
-                    for (char variantChar : Orthography.Hanzi.getVariants(inputChar)) {
-                        String variantHex = String.format("%04X", (int)variantChar);
+                    for (char variant : Orthography.Hanzi.getVariants(inputChar)) {
+                        String variantHex = String.format("%04X", (int) variant);
                         int p = keywords.indexOf(variantHex);
-                        if (variantChar == inputChar) {
+                        if (variant == inputChar) {
                             if (p >= 0) {       // The character itself must appear where it is
                                 keywords.remove(p);
                                 variants.remove(p);
@@ -184,7 +203,6 @@ public class MCPDatabase extends SQLiteAssetHelper {
             // For API level >= 11, omit the third argument (the first null)
 
         // Search
-        Cursor data = db.rawQuery(query, args.toArray(new String[0]));
-        return data;
+        return db.rawQuery(query, args.toArray(new String[0]));
     }
 }

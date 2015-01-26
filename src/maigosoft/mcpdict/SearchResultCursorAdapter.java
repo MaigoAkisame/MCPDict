@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.CursorAdapter;
 // Remove support.v4 for API level >= 11
@@ -29,12 +30,14 @@ public class SearchResultCursorAdapter extends CursorAdapter implements Masks {
     private Context context;
     private int layout;
     private LayoutInflater inflater;
+    private boolean showFavoriteButton;
 
-    public SearchResultCursorAdapter(Context context, int layout, Cursor c) {
-        super(context, c, FLAG_REGISTER_CONTENT_OBSERVER);
+    public SearchResultCursorAdapter(Context context, int layout, Cursor cursor, boolean showFavoriteButton) {
+        super(context, cursor, FLAG_REGISTER_CONTENT_OBSERVER);
         this.context = context;
         this.layout = layout;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.showFavoriteButton = showFavoriteButton;
     }
 
     @Override
@@ -44,7 +47,7 @@ public class SearchResultCursorAdapter extends CursorAdapter implements Masks {
 
     @Override
     public void bindView(final View view, final Context context, Cursor cursor) {
-        final char c;
+        final char unicode;
         String string;
         StringBuilder sb;
         TextView textView;
@@ -57,8 +60,8 @@ public class SearchResultCursorAdapter extends CursorAdapter implements Masks {
         tag |= MASK_UNICODE;
 
         // Chinese character
-        c = (char)Integer.parseInt(string, 16);
-        string = String.valueOf(c);
+        unicode = (char)Integer.parseInt(string, 16);
+        string = String.valueOf(unicode);
         textView = (TextView) view.findViewById(R.id.text_hz);
         textView.setText(string);
         tag |= MASK_HZ;
@@ -179,18 +182,23 @@ public class SearchResultCursorAdapter extends CursorAdapter implements Masks {
         // "Favorite" button
         boolean favorite = cursor.getInt(cursor.getColumnIndex("favorite")) == 1;
         final Button button = (Button) view.findViewById(R.id.button_favorite);
-        button.setBackgroundResource(favorite ? R.drawable.ic_star_yellow : R.drawable.ic_star_white);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean favorite = UserDatabase.toggleFavorite(c);
-                button.setBackgroundResource(favorite ? R.drawable.ic_star_yellow : R.drawable.ic_star_white);
-                view.setTag((Integer) view.getTag() ^ MASK_FAVORITE);
-                int messageId = favorite ? R.string.favorite_add_done : R.string.favorite_delete_done;
-                String message = context.getResources().getString(messageId).replace("X", String.valueOf(c));
-                Boast.showText(context, message, Toast.LENGTH_SHORT);
-            }
-        });
+        if (showFavoriteButton) {
+            button.setBackgroundResource(favorite ? R.drawable.ic_star_yellow : R.drawable.ic_star_white);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    boolean favorite = UserDatabase.toggleFavorite(unicode);
+                    button.setBackgroundResource(favorite ? R.drawable.ic_star_yellow : R.drawable.ic_star_white);
+                    view.setTag((Integer) view.getTag() ^ MASK_FAVORITE);
+                    int messageId = favorite ? R.string.favorite_add_done : R.string.favorite_delete_done;
+                    String message = context.getResources().getString(messageId).replace("X", String.valueOf(unicode));
+                    Boast.showText(context, message, Toast.LENGTH_SHORT);
+                }
+            });
+        }
+        else {
+            button.setVisibility(View.GONE);
+        }
         if (favorite) {
             tag |= MASK_FAVORITE;
         }
@@ -312,4 +320,16 @@ public class SearchResultCursorAdapter extends CursorAdapter implements Masks {
             return Orthography.Japanese.display(s, style);
         }
     };
+
+    // When the getView method of FavoriteCursorAdapter is overridden to make
+    //   each favorite item have its own view, switching tabs causes a crash
+    //   on Android 3.x and 4.x. The solution is to override the
+    //   unregisterDataSetObserver method of the SearchResultCursorAdapter class.
+    //   (Reference: http://stackoverflow.com/a/9173866)
+    @Override
+    public void unregisterDataSetObserver(DataSetObserver observer) {
+        if (observer != null) {
+            super.unregisterDataSetObserver(observer);
+        }
+    }
 }

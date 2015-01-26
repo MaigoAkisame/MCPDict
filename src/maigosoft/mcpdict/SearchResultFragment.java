@@ -29,10 +29,10 @@ import android.widget.Toast;
 
 import com.mobiRic.ui.widget.Boast;
 
-@SuppressLint("UseSparseArrays")
 @SuppressWarnings("deprecation")
 public class SearchResultFragment extends ListFragmentWithMemory implements Masks {
 
+    @SuppressLint("UseSparseArrays")
     private static final Map<Integer, Integer> COPY_MENU_ITEM_TO_MASK = new HashMap<Integer, Integer>();
     static {
         COPY_MENU_ITEM_TO_MASK.put(R.id.menu_item_copy_hz,       MASK_HZ);
@@ -97,7 +97,7 @@ public class SearchResultFragment extends ListFragmentWithMemory implements Mask
 
         // Set up the adapter
         if (adapter == null) {
-            adapter = new SearchResultCursorAdapter(getActivity(), R.layout.search_result_item, null);
+            adapter = new SearchResultCursorAdapter(getActivity(), R.layout.search_result_item, null, true);
             setListAdapter(adapter);
         }
     }

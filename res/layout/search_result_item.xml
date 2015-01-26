@@ -6,6 +6,7 @@
     android:paddingBottom="6dp"
     android:orientation="horizontal"
     android:gravity="top"
+    android:baselineAligned="false"
     android:descendantFocusability="blocksDescendants" >
 
 <!--
@@ -68,18 +69,18 @@
                 <TextView
                     style="@style/FontDetail"
                     android:id="@+id/text_mc"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
                 <TextView
                     style="@style/FontDetail"
                     android:id="@+id/text_mc_detail"
-                    android:layout_height="wrap_content"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1" />
                 <Button
                     android:id="@+id/button_favorite"
-                    android:layout_height="22dp"
-                    android:layout_width="22dp" />
+                    android:layout_width="22dp"
+                    android:layout_height="22dp" />
             </LinearLayout>
         </TableRow>
 

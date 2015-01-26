@@ -1,13 +1,13 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent" >
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
 
     <Button
         android:id="@+id/button_search"
         android:background="@drawable/ic_search"
-        android:layout_height="32dp"
         android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_alignParentRight="true" />
 
     <EditText
@@ -15,8 +15,8 @@
         android:id="@+id/text_query"
         android:inputType="text"
         android:imeOptions="actionSearch"
-        android:layout_height="wrap_content"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/button_search"
         android:layout_alignParentLeft="true"
         android:paddingRight="32dp" />
@@ -24,8 +24,8 @@
     <Button
         android:id="@+id/button_clear"
         android:background="@drawable/ic_cancel"
-        android:layout_height="32dp"
         android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_alignRight="@id/text_query" />
 
 </RelativeLayout>

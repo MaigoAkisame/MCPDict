@@ -50,23 +50,6 @@ public class MCPDatabase extends SQLiteAssetHelper {
         setForcedUpgradeVersion(DATABASE_VERSION);
     }
 
-
-    @SuppressWarnings("deprecation")
-    public static Cursor directSearch(char unicode) {
-        // Search for a single Chinese character without any conversions
-        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        qb.setTables("mcpdict AS v LEFT JOIN user.favorite AS w ON v.unicode = w.unicode");
-        String[] projection = {"v.rowid AS _id",
-                   "v.unicode AS unicode", "NULL AS variants",
-                   "mc", "pu", "ct", "kr", "vn",
-                   "jp_go", "jp_kan", "jp_tou", "jp_kwan", "jp_other",
-                   "timestamp IS NOT NULL AS favorite"};
-        String selection = "v.unicode = ?";
-        String query = qb.buildQuery(projection, selection, null, null, null, null, null);
-        String[] args = {String.format("%04X", (int) unicode)};
-        return db.rawQuery(query, args);
-    }
-
     @SuppressWarnings("deprecation")
     public static Cursor search(String input, int mode) {
         // Search for one or more keywords, considering mode and options
@@ -194,7 +177,7 @@ public class MCPDatabase extends SQLiteAssetHelper {
                    "v.unicode AS unicode", "variants",
                    "mc", "pu", "ct", "kr", "vn",
                    "jp_go", "jp_kan", "jp_tou", "jp_kwan", "jp_other",
-                   "timestamp IS NOT NULL AS favorite"};
+                   "timestamp IS NOT NULL AS is_favorite", "comment"};
         String selection = "u._id = v.rowid";
         if (kuangxYonhOnly) {
             selection += " AND mc IS NOT NULL";
@@ -205,4 +188,21 @@ public class MCPDatabase extends SQLiteAssetHelper {
         // Search
         return db.rawQuery(query, args.toArray(new String[0]));
     }
+
+    @SuppressWarnings("deprecation")
+    public static Cursor directSearch(char unicode) {
+        // Search for a single Chinese character without any conversions
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+        qb.setTables("mcpdict AS v LEFT JOIN user.favorite AS w ON v.unicode = w.unicode");
+        String[] projection = {"v.rowid AS _id",
+                   "v.unicode AS unicode", "NULL AS variants",
+                   "mc", "pu", "ct", "kr", "vn",
+                   "jp_go", "jp_kan", "jp_tou", "jp_kwan", "jp_other",
+                   "timestamp IS NOT NULL AS is_favorite", "comment"};
+        String selection = "v.unicode = ?";
+        String query = qb.buildQuery(projection, selection, null, null, null, null, null);
+        String[] args = {String.format("%04X", (int) unicode)};
+        return db.rawQuery(query, args);
+    }
+
 }

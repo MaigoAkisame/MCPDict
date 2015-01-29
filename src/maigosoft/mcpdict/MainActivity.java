@@ -5,13 +5,11 @@ import java.lang.reflect.Field;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTabHost;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.MeasureSpec;
-// Remove support.v4 for API level >= 11
 import android.view.ViewConfiguration;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
@@ -20,11 +18,12 @@ import android.widget.TextView;
 public class MainActivity extends ActivityWithOptionsMenu {
 
     private FragmentManager fm;
+    private RefreshableFragment currentFragment;
 
     @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Initialize the orthography and database modules on separate threads
+        // Initialize the some "static" classes on separate threads
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -32,11 +31,20 @@ public class MainActivity extends ActivityWithOptionsMenu {
                 return null;
             }
         }.execute();
+
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
                 UserDatabase.initialize(MainActivity.this);
                 MCPDatabase.initialize(MainActivity.this);
+                return null;
+            }
+        }.execute();
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                FavoriteDialogs.initialize(MainActivity.this);
                 return null;
             }
         }.execute();
@@ -80,8 +88,8 @@ public class MainActivity extends ActivityWithOptionsMenu {
             @Override
             public void onTabChanged(String tabId) {
                 fm.executePendingTransactions();
-                Fragment fragment = fm.findFragmentByTag(tabId);
-                ((RefreshableFragment) fragment).refresh(false);
+                currentFragment = (RefreshableFragment) fm.findFragmentByTag(tabId);
+                currentFragment.refresh(false);
             }
         });
 
@@ -115,13 +123,21 @@ public class MainActivity extends ActivityWithOptionsMenu {
         }
     }
 
+    public RefreshableFragment getCurrentFragment() {
+        return currentFragment;
+    }
+
+    public FavoriteCursorAdapter getFavoriteCursorAdapter() {
+        FavoriteFragment fragment = (FavoriteFragment) fm.findFragmentByTag(getString(R.string.tab_favorite));
+        return (FavoriteCursorAdapter) fragment.getListAdapter();
+    }
+
     @Override
     public void onDestroy() {
         // This method fires when the screen rotates
         // At this moment, we must clean up all the sub-fragments in the favorite fragment
         // [WTF] Don't ask me how I figured this out
-        FavoriteFragment fragment = (FavoriteFragment) fm.findFragmentByTag(getString(R.string.tab_favorite));
-        if (fragment != null) fragment.removeSubFragments();
+        getFavoriteCursorAdapter().clearFragments();
         super.onDestroy();
     }
 }

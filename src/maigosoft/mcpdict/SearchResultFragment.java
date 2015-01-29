@@ -11,8 +11,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.widget.CursorAdapter;
-// Remove support.v4 for API level >= 11
 import android.text.ClipboardManager;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -65,7 +63,7 @@ public class SearchResultFragment extends ListFragmentWithMemory implements Mask
 
     private View selfView;
     private ListView listView;
-    private CursorAdapter adapter;
+    private SearchResultCursorAdapter adapter;
 
     private View selectedEntry = null;
 
@@ -97,7 +95,9 @@ public class SearchResultFragment extends ListFragmentWithMemory implements Mask
 
         // Set up the adapter
         if (adapter == null) {
-            adapter = new SearchResultCursorAdapter(getActivity(), R.layout.search_result_item, null, true);
+            adapter = new SearchResultCursorAdapter(
+                getActivity(), R.layout.search_result_item, null, true
+            );
             setListAdapter(adapter);
         }
     }
@@ -119,6 +119,7 @@ public class SearchResultFragment extends ListFragmentWithMemory implements Mask
         selectedEntry = list.getChildAt(position);
         TextView text = (TextView) selectedEntry.findViewById(R.id.text_hz);
         String hanzi = text.getText().toString();
+        char unicode = hanzi.charAt(0);
         int tag = (Integer) selectedEntry.getTag();
 
         // Inflate the context menu
@@ -155,13 +156,13 @@ public class SearchResultFragment extends ListFragmentWithMemory implements Mask
 
         // Determine the functionality of the "favorite" item
         item = menu.getItem(2);
-        item.setTitle((tag & MASK_FAVORITE) == 0 ? R.string.favorite_add : R.string.favorite_delete);
+        item.setTitle((tag & MASK_FAVORITE) == 0 ? R.string.favorite_add : R.string.favorite_view_or_edit);
 
         // Replace the placeholders in the menu items with the character selected
         for (Menu m : new Menu[] {menu, menuCopy, menuDictLinks}) {
             for (int i = 0; i < m.size(); i++) {
                 item = m.getItem(i);
-                item.setTitle(item.getTitle().toString().replace("X", hanzi));
+                item.setTitle(String.format(item.getTitle().toString(), unicode));
             }
         }
     }
@@ -174,7 +175,7 @@ public class SearchResultFragment extends ListFragmentWithMemory implements Mask
             ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
             clipboard.setText(text);
             String label = item.getTitle().toString().substring(2);     // this is ugly
-            String message = getString(R.string.copy_done).replace("X", label);
+            String message = String.format(getString(R.string.copy_done), label);
             Boast.showText(getActivity(), message, Toast.LENGTH_SHORT);
             return true;
         }

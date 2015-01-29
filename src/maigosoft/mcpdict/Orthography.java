@@ -49,7 +49,7 @@ public class Orthography {
         private static Map<String, String> mapInitials = new HashMap<String, String>();
         private static Map<String, String> mapFinals = new HashMap<String, String>();
         private static Map<String, String> mapSjep = new HashMap<String, String>(); // 攝
-        private static Map<String, String> mapTongx = new HashMap<String, String>();    // 等
+        private static Map<String, String> mapTongx = new HashMap<String, String>();// 等
         private static Map<String, String> mapHo = new HashMap<String, String>();   // 呼
 
         public static String canonicalize(String s) {

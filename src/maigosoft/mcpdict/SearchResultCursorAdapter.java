@@ -10,7 +10,6 @@ import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.CursorAdapter;
-// Remove support.v4 for API level >= 11
 import android.text.Spannable;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
@@ -21,9 +20,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
-import android.widget.Toast;
-
-import com.mobiRic.ui.widget.Boast;
 
 public class SearchResultCursorAdapter extends CursorAdapter implements Masks {
 
@@ -60,7 +56,7 @@ public class SearchResultCursorAdapter extends CursorAdapter implements Masks {
         tag |= MASK_UNICODE;
 
         // Chinese character
-        unicode = (char)Integer.parseInt(string, 16);
+        unicode = (char) Integer.parseInt(string, 16);
         string = String.valueOf(unicode);
         textView = (TextView) view.findViewById(R.id.text_hz);
         textView.setText(string);
@@ -75,7 +71,7 @@ public class SearchResultCursorAdapter extends CursorAdapter implements Masks {
         else {
             sb = new StringBuilder();
             for (String s : string.split(" ")) {
-                sb.append((char)Integer.parseInt(s, 16));
+                sb.append((char) Integer.parseInt(s, 16));
             }
             textView.setText("(" + sb.toString() + ")");
             textView.setVisibility(View.VISIBLE);
@@ -180,19 +176,20 @@ public class SearchResultCursorAdapter extends CursorAdapter implements Masks {
         }
 
         // "Favorite" button
-        boolean favorite = cursor.getInt(cursor.getColumnIndex("favorite")) == 1;
-        final Button button = (Button) view.findViewById(R.id.button_favorite);
+        boolean favorite = cursor.getInt(cursor.getColumnIndex("is_favorite")) == 1;
+        Button button = (Button) view.findViewById(R.id.button_favorite);
         if (showFavoriteButton) {
             button.setBackgroundResource(favorite ? R.drawable.ic_star_yellow : R.drawable.ic_star_white);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    boolean favorite = UserDatabase.toggleFavorite(unicode);
-                    button.setBackgroundResource(favorite ? R.drawable.ic_star_yellow : R.drawable.ic_star_white);
-                    view.setTag((Integer) view.getTag() ^ MASK_FAVORITE);
-                    int messageId = favorite ? R.string.favorite_add_done : R.string.favorite_delete_done;
-                    String message = context.getResources().getString(messageId).replace("X", String.valueOf(unicode));
-                    Boast.showText(context, message, Toast.LENGTH_SHORT);
+                    int tag = (Integer) view.getTag();
+                    if ((tag & MASK_FAVORITE) == 0) {
+                        FavoriteDialogs.add(unicode);
+                    }
+                    else {
+                        FavoriteDialogs.view(unicode, view);
+                    }
                 }
             });
         }
@@ -202,6 +199,11 @@ public class SearchResultCursorAdapter extends CursorAdapter implements Masks {
         if (favorite) {
             tag |= MASK_FAVORITE;
         }
+
+        // Favorite comment
+        string = cursor.getString(cursor.getColumnIndex("comment"));
+        textView = (TextView) view.findViewById(R.id.text_comment);
+        textView.setText(string);
 
         // Set the view's tag to indicate which readings exist
         view.setTag(tag);

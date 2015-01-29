@@ -10,37 +10,54 @@
     android:gravity="top" >
 
     <LinearLayout
+        android:id="@+id/favorite_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical" >
+        android:orientation="vertical" >
 
-        <TextView
-            style="@style/FontLabel"
-            android:id="@+id/text_total"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical" >
 
-        <Button
-            android:id="@+id/button_clear"
-            android:text="@string/clear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center" />
+            <TextView
+                style="@style/FontLabel"
+                android:id="@+id/text_total"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center" />
+
+            <Button
+                android:id="@+id/button_clear"
+                android:text="@string/clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
 
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider" />
 
     <ListView
         android:id="@id/android:list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fadingEdgeLength="0dp" />
+
+    <TextView
+        style="@style/FontLabel"
+        android:id="@id/android:empty"
+        android:text="@string/favorite_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp"
+        android:gravity="center" />
 
 </LinearLayout>

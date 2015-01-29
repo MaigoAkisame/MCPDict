@@ -9,6 +9,10 @@
 
     <string name="ok">確定</string>
     <string name="cancel">取消</string>
+    <string name="back">返回</string>
+    <string name="save">保存</string>
+    <string name="delete">刪除</string>
+    <string name="clear">清空</string>
 
     <string name="tab_dictionary">字典</string>
     <string name="tab_favorite">生字本</string>
@@ -38,42 +42,55 @@
     <string name="pref_key_allow_variants">ALLOW_VARIANTS</string>
     <string name="pref_key_tone_insensitive">TONE_INSENSITIVE</string>
 
-    <string name="copy_readings">複製“X”字或其讀音</string>
-    <string name="dict_links">去在線詞典查詢“X”字</string>
+    <string name="copy_readings">複製“%c”字或其讀音</string>
+    <string name="dict_links">去在線詞典查詢“%c”字</string>
 
-    <string name="copy_hz">複製“X”字</string>
-    <string name="copy_unicode">複製“X”字的Unicode編碼</string>
-    <string name="copy_all">複製“X”字及其所有讀音</string>
-    <string name="copy_mc">複製“X”字的中古漢語讀音</string>
-    <string name="copy_pu">複製“X”字的普通話讀音</string>
-    <string name="copy_ct">複製“X”字的粵語讀音</string>
-    <string name="copy_kr">複製“X”字的朝鮮語讀音</string>
-    <string name="copy_vn">複製“X”字的越南語讀音</string>
-    <string name="copy_jp_all">複製“X”字的所有日語讀音</string>
-    <string name="copy_jp_go">複製“X”字的日語吳音</string>
-    <string name="copy_jp_kan">複製“X”字的日語漢音</string>
-    <string name="copy_jp_tou">複製“X”字的日語唐音</string>
-    <string name="copy_jp_kwan">複製“X”字的日語慣用音</string>
-    <string name="copy_jp_other">複製“X”字的日語其他讀音</string>
+    <string name="copy_hz">複製“%c”字</string>
+    <string name="copy_unicode">複製“%c”字的Unicode編碼</string>
+    <string name="copy_all">複製“%c”字及其所有讀音</string>
+    <string name="copy_mc">複製“%c”字的中古漢語讀音</string>
+    <string name="copy_pu">複製“%c”字的普通話讀音</string>
+    <string name="copy_ct">複製“%c”字的粵語讀音</string>
+    <string name="copy_kr">複製“%c”字的朝鮮語讀音</string>
+    <string name="copy_vn">複製“%c”字的越南語讀音</string>
+    <string name="copy_jp_all">複製“%c”字的所有日語讀音</string>
+    <string name="copy_jp_go">複製“%c”字的日語吳音</string>
+    <string name="copy_jp_kan">複製“%c”字的日語漢音</string>
+    <string name="copy_jp_tou">複製“%c”字的日語唐音</string>
+    <string name="copy_jp_kwan">複製“%c”字的日語慣用音</string>
+    <string name="copy_jp_other">複製“%c”字的日語其他讀音</string>
 
-    <string name="copy_done">已將 X 複製到剪貼板</string>
+    <string name="copy_done">已將 %s 複製到剪貼板</string>
 
-    <string name="dict_link_mc">去 韻典網 查詢“X”字</string>
-    <string name="dict_link_pu">去 漢典網 查詢“X”字</string>
-    <string name="dict_link_ct">去 粵語審音配詞字庫 查詢“X”字</string>
-    <string name="dict_link_kr">去 Naver漢字辭典 查詢“X”字</string>
-    <string name="dict_link_vn">去 漢越辭典摘引 查詢“X”字</string>
+    <string name="dict_link_mc">去 韻典網 查詢“%c”字</string>
+    <string name="dict_link_pu">去 漢典網 查詢“%c”字</string>
+    <string name="dict_link_ct">去 粵語審音配詞字庫 查詢“%c”字</string>
+    <string name="dict_link_kr">去 Naver漢字辭典 查詢“%c”字</string>
+    <string name="dict_link_vn">去 漢越辭典摘引 查詢“%c”字</string>
 
-    <string name="favorite_add">把“X”字加入生字本</string>
-    <string name="favorite_delete">把“X”字從生字本中刪除</string>
-    <string name="favorite_add_done">已將“X”字加入生字本</string>
-    <string name="favorite_delete_done">已將“X”字從生字本中刪除</string>
-
-    <string name="favorite_total">當前生字本中共有 X 個生字</string>
-    <string name="clear">清空</string>
+    <string name="favorite_add">把“%c”字加入生字本</string>
+    <string name="favorite_view">查看“%c”字的筆記</string>
+    <string name="favorite_edit">編輯“%c”字的筆記</string>
+    <string name="favorite_edit_2lines">編輯“%c”字\n的筆記</string>
+    <string name="favorite_view_or_edit">查看或編輯“%c”字的筆記</string>
+    <string name="favorite_delete">把“%c”字從生字本中刪除</string>
+    <string name="favorite_delete_2lines">從生字本中\n刪除“%c”字</string>
     <string name="favorite_clear">清空生字本</string>
+
+    <string name="favorite_add_hint">寫點筆記吧…</string>
+    <string name="favorite_delete_confirm">確定把“%c”字從生字本中刪除嗎？刪除後無法恢復！</string>
+    <string name="favorite_delete_no_confirm">1小時內不再提示</string>
     <string name="favorite_clear_confirm">確定清空生字本嗎？清空後無法恢復！</string>
+
+    <string name="favorite_add_done">已將“%c”字加入生字本</string>
+    <string name="favorite_edit_done">已保存“%c”字的筆記</string>
+    <string name="favorite_delete_done">已將“%c”字從生字本中刪除</string>
     <string name="favorite_clear_done">已清空生字本</string>
+
+    <string name="favorite_total">當前生字本中共有 %d 個生字</string>
+    <string name="favorite_empty">當前生字本中沒有生字。\n\n在“字典”頁面，點擊查詢結果右上角的五角星，可以把相應的漢字加入生字本中。</string>
+
+    <string name="pref_key_favorite_delete_no_confirm_expiry">FAVORITE_DELETE_NO_CONFIRM_EXPIRY</string>
 
     <string name="pref_key_cantonese_romanization">CANTONESE_ROMANIZATION</string>
     <string name="pref_title_cantonese_romanization">粵語拼音系統（用於輸入和顯示）</string>

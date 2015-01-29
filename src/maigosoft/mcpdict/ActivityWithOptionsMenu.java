@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 public class ActivityWithOptionsMenu extends FragmentActivity {
-    // Use android.app.Activity for API level >= 11
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

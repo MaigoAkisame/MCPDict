@@ -26,6 +26,8 @@ class UserDatabase extends SQLiteOpenHelper {
         return context.getDatabasePath(DATABASE_NAME).getAbsolutePath();
     }
 
+    // "READ" OPERATIONS
+
     public static Cursor selectAllFavorites() {
         String query = "SELECT rowid AS _id, unicode, comment, " +
                        "STRFTIME('%Y/%m/%d', timestamp, 'localtime') AS local_timestamp " +
@@ -34,22 +36,32 @@ class UserDatabase extends SQLiteOpenHelper {
         return data;
     }
 
-    // Returns the status after toggling
-    public static boolean toggleFavorite(char c) {
-        String unicode = String.format("%04X", (int) c);
-        String[] args = {unicode};
-        Cursor cursor = db.rawQuery("SELECT unicode FROM favorite WHERE unicode = ?", args);
-        if (cursor.getCount() == 0) {
-            ContentValues values = new ContentValues();
-            values.put("unicode", unicode);
-            values.put("comment", "TODO");
-            db.insert("favorite", null, values);
-            return true;
-        }
-        else {
-            db.delete("favorite", "unicode = ?", args);
-            return false;
-        }
+    public static String getFavoriteMessage(char unicode) {
+        String query = "SELECT comment FROM favorite WHERE unicode = ?";
+        String[] args = {String.format("%04X", (int) unicode)};
+        Cursor data = db.rawQuery(query, args);
+        return data.getString(data.getColumnIndex("comment"));
+    }
+
+    // "WRITE" OPERATIONS
+
+    public static void insertFavorite(char unicode, String comment) {
+        ContentValues values = new ContentValues();
+        values.put("unicode", String.format("%04X", (int) unicode));
+        values.put("comment", comment);
+        db.insert("favorite", null, values);
+    }
+
+    public static void updateFavorite(char unicode, String comment) {
+        ContentValues values = new ContentValues();
+        values.put("comment", comment);
+        String[] args = {String.format("%04X", (int) unicode)};
+        db.update("favorite", values, "unicode = ?", args);
+    }
+
+    public static void deleteFavorite(char unicode) {
+        String[] args = {String.format("%04X", (int) unicode)};
+        db.delete("favorite", "unicode = ?", args);
     }
 
     public static void deleteAllFavorites() {

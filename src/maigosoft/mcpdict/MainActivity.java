@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewConfiguration;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -20,7 +21,6 @@ public class MainActivity extends ActivityWithOptionsMenu {
     private FragmentManager fm;
     private RefreshableFragment currentFragment;
 
-    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Initialize the some "static" classes on separate threads
@@ -95,11 +95,10 @@ public class MainActivity extends ActivityWithOptionsMenu {
 
         // Styling of the tabs has to go here; XML doesn't work
         int apiLevel = android.os.Build.VERSION.SDK_INT;
-        int tabWidth = getWindowManager().getDefaultDisplay().getWidth() / nTabs;
         for (int i = 0; i < nTabs; i++) {
             View tab = tabHost.getTabWidget().getChildAt(i);
             TextView textView = (TextView) tab.findViewById(android.R.id.title);
-            // Set tab text size
+            // Set tab text size, for all Android versions
             textView.setTextSize(17);
             if (apiLevel < 11) {                            // 1.x and 2.x
                 // The only problem with the default style is that the tabs are too tall;
@@ -112,13 +111,13 @@ public class MainActivity extends ActivityWithOptionsMenu {
                 //   * Text is white (selected tab) or gray (unselected tab)
                 //   * Text is not centered in tabs
                 //   * Tabs do not fill the screen width
-                //   * Tabs a little too tall
+                //   * Tabs are a little too tall
                 // We need to fix them one by one
                 textView.setTextColor(Color.BLACK);
                 ((RelativeLayout) tab).setHorizontalGravity(Gravity.CENTER);
-                tab.getLayoutParams().width = tabWidth;
                 textView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
-                tab.getLayoutParams().height = (int) (textView.getMeasuredHeight() * 1.8);
+                int height = (int) (textView.getMeasuredHeight() * 1.8);
+                tab.setLayoutParams(new LinearLayout.LayoutParams(0, height, 1.0f));
             }
         }
     }

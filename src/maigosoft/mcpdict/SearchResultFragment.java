@@ -95,9 +95,7 @@ public class SearchResultFragment extends ListFragmentWithMemory implements Mask
 
         // Set up the adapter
         if (adapter == null) {
-            adapter = new SearchResultCursorAdapter(
-                getActivity(), R.layout.search_result_item, null, true
-            );
+            adapter = new SearchResultCursorAdapter(getActivity(), R.layout.search_result_item, null, true);
             setListAdapter(adapter);
         }
     }

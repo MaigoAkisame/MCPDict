@@ -25,12 +25,11 @@ public class FavoriteCursorAdapter extends CursorAdapter {
     private FragmentManager fm;
     private Map<Character, ItemStatus> itemStatus;
 
-    public FavoriteCursorAdapter(Context context, int layout, Cursor cursor, FragmentManager fm) {
+    public FavoriteCursorAdapter(Context context, int layout, Cursor cursor) {
         super(context, cursor, FLAG_REGISTER_CONTENT_OBSERVER);
         this.context = context;
         this.layout = layout;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.fm = fm;
         this.itemStatus = new HashMap<Character, ItemStatus>();
     }
 
@@ -120,7 +119,9 @@ public class FavoriteCursorAdapter extends CursorAdapter {
 
         // Give the container a unique ID (the Unicode),
         //   so that a SearchResultFragment may be added to it
+        Log.d("MCP", "before: container.id = " + view.findViewWithTag("container").getId());
         view.findViewWithTag("container").setId((int) unicode);
+        Log.d("MCP", "after: container.id = " + view.findViewWithTag("container").getId());
 
         // Restore expanded status
         if (itemStatus.get(unicode).isExpanded) {
@@ -131,6 +132,14 @@ public class FavoriteCursorAdapter extends CursorAdapter {
         }
     }
 
+    public void setFragmentManager(FragmentManager fm) {
+        this.fm = fm;
+    }
+
+    public boolean isItemExpanded(char unicode) {
+        return itemStatus.containsKey(unicode) && itemStatus.get(unicode).isExpanded;
+    }
+
     public void expandItem(char unicode) {
         Log.d("MCP", "start expanding " + unicode);
         ItemStatus status = itemStatus.get(unicode);
@@ -139,9 +148,11 @@ public class FavoriteCursorAdapter extends CursorAdapter {
         if (status.view == null) return;
         View container = status.getContainer();
         if (container == null) return;
+        Log.d("MCP", "container.id = " + container.getId());
         if (status.fragment == null) {
             // Create the SearchResultFragment
             status.fragment = new SearchResultFragment();
+            Log.d("MCP", "AD.FM = " + fm);
             fm.beginTransaction().add((int) unicode, status.fragment).commit();
             fm.executePendingTransactions();
                 // [WTF] It took me 2 hours to think of adding this statement!
@@ -175,25 +186,21 @@ public class FavoriteCursorAdapter extends CursorAdapter {
 
     public void collapseAll() {
         for (char unicode : itemStatus.keySet()) {
-            collapseItem(unicode);
+            if (!itemStatus.get(unicode).isExpanded) {
+                collapseItem(unicode);
+            }
         }
-    }
-
-    public boolean isItemExpanded(char unicode) {
-        return itemStatus.containsKey(unicode) && itemStatus.get(unicode).isExpanded;
     }
 
     public void clearFragments() {
-        FragmentTransaction ft = null;
+        FragmentTransaction ft = fm.beginTransaction();
         for (ItemStatus status : itemStatus.values()) {
-            if (status.fragment != null) {
-                if (ft == null) ft = fm.beginTransaction();
-                ft.remove(status.fragment);
-                status.fragment = null;
-                Log.d("MCP", "clear fragment");
-            }
+            if (status.fragment == null) continue;
+            ft.remove(status.fragment);
+            status.fragment = null;
+            Log.d("MCP", "clear fragment");
         }
-        if (ft != null) ft.commitAllowingStateLoss();
+        ft.commitAllowingStateLoss();
     }
 
     private class ItemStatus {

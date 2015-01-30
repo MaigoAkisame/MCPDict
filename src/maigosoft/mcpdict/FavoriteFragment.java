@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,11 +58,12 @@ public class FavoriteFragment extends ListFragmentWithMemory implements Refresha
 
         // Set up the adapter
         if (adapter == null) {
-            adapter = new FavoriteCursorAdapter(
-                getActivity(), R.layout.favorite_item, null, getFragmentManager()
-            );
+            adapter = new FavoriteCursorAdapter(getActivity(), R.layout.favorite_item, null);
             setListAdapter(adapter);
         }
+
+        Log.d("MCP", "FM = " + getFragmentManager());
+        adapter.setFragmentManager(getFragmentManager());
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
 import android.text.ClipboardManager;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -28,7 +29,7 @@ import android.widget.Toast;
 import com.mobiRic.ui.widget.Boast;
 
 @SuppressWarnings("deprecation")
-public class SearchResultFragment extends ListFragmentWithMemory implements Masks {
+public class SearchResultFragment extends ListFragment implements Masks {
 
     @SuppressLint("UseSparseArrays")
     private static final Map<Integer, Integer> COPY_MENU_ITEM_TO_MASK = new HashMap<Integer, Integer>();
@@ -264,11 +265,14 @@ public class SearchResultFragment extends ListFragmentWithMemory implements Mask
         return "[" + prefix + "]" + separator + reading + "\n";
     }
 
-    public void setData(Cursor data, boolean scrollToTop) {
+    public void setData(Cursor data) {
         if (adapter == null) return;
         adapter.changeCursor(data);
-        if (scrollToTop) listView.setSelectionAfterHeaderView();
         TextView textEmpty = (TextView) selfView.findViewById(android.R.id.empty);
         textEmpty.setText(getString(R.string.no_matches));
+    }
+
+    public void scrollToTop() {
+        listView.setSelectionAfterHeaderView();
     }
 }

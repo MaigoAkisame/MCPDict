@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 @SuppressLint("UseSparseArrays")
-public class FavoriteFragment extends ListFragmentWithMemory implements RefreshableFragment {
+public class FavoriteFragment extends ListFragment implements RefreshableFragment {
 
     private View selfView;
     private View header;
@@ -62,7 +62,6 @@ public class FavoriteFragment extends ListFragmentWithMemory implements Refresha
             setListAdapter(adapter);
         }
 
-        Log.d("MCP", "FM = " + getFragmentManager());
         adapter.setFragmentManager(getFragmentManager());
     }
 
@@ -102,7 +101,7 @@ public class FavoriteFragment extends ListFragmentWithMemory implements Refresha
     }
 
     @Override
-    public void refresh(final boolean scrollToTop) {
+    public void refresh() {
         if (adapter == null) return;
         new AsyncTask<Void, Void, Cursor>() {
             @Override
@@ -112,7 +111,6 @@ public class FavoriteFragment extends ListFragmentWithMemory implements Refresha
             @Override
             protected void onPostExecute(Cursor data) {
                 adapter.changeCursor(data);
-                if (scrollToTop) listView.setSelectionAfterHeaderView();
                 if (data.getCount() == 0) {
                     header.setVisibility(View.GONE);
                 }

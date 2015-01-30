@@ -126,11 +126,12 @@ public class DictionaryFragment extends Fragment implements RefreshableFragment 
     }
 
     private void search() {
-        refresh(true);
+        refresh();
+        fragmentResult.scrollToTop();
     }
 
     @Override
-    public void refresh(final boolean scrollToTop) {
+    public void refresh() {
         final String query = searchView.getQuery();
         if (query.equals("")) return;
         final int pos = spinnerSearchAs.getSelectedItemPosition();
@@ -145,7 +146,7 @@ public class DictionaryFragment extends Fragment implements RefreshableFragment 
             }
             @Override
             protected void onPostExecute(Cursor data) {
-                fragmentResult.setData(data, scrollToTop);
+                fragmentResult.setData(data);
             }
         }.execute();
     }

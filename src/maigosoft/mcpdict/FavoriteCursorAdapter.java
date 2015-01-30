@@ -7,9 +7,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.CursorAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +79,6 @@ public class FavoriteCursorAdapter extends CursorAdapter {
         if (!itemStatus.containsKey(unicode) || itemStatus.get(unicode).view != view) {
             throw new IllegalStateException("FavoriteCursorAdapter: View to bind not recorded in itemStatus");
         }
-        Log.d("MCP", "bindView " + unicode);
 
         // Chinese character
         string = String.valueOf(unicode);
@@ -103,7 +100,6 @@ public class FavoriteCursorAdapter extends CursorAdapter {
         buttonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("MCP", "edit clicked");
                 FavoriteDialogs.view(unicode, view);
             }
         });
@@ -119,9 +115,7 @@ public class FavoriteCursorAdapter extends CursorAdapter {
 
         // Give the container a unique ID (the Unicode),
         //   so that a SearchResultFragment may be added to it
-        Log.d("MCP", "before: container.id = " + view.findViewWithTag("container").getId());
         view.findViewWithTag("container").setId((int) unicode);
-        Log.d("MCP", "after: container.id = " + view.findViewWithTag("container").getId());
 
         // Restore expanded status
         if (itemStatus.get(unicode).isExpanded) {
@@ -141,18 +135,15 @@ public class FavoriteCursorAdapter extends CursorAdapter {
     }
 
     public void expandItem(char unicode) {
-        Log.d("MCP", "start expanding " + unicode);
         ItemStatus status = itemStatus.get(unicode);
         if (status == null) return;
         status.isExpanded = true;
         if (status.view == null) return;
         View container = status.getContainer();
         if (container == null) return;
-        Log.d("MCP", "container.id = " + container.getId());
         if (status.fragment == null) {
             // Create the SearchResultFragment
             status.fragment = new SearchResultFragment();
-            Log.d("MCP", "AD.FM = " + fm);
             fm.beginTransaction().add((int) unicode, status.fragment).commit();
             fm.executePendingTransactions();
                 // [WTF] It took me 2 hours to think of adding this statement!
@@ -169,11 +160,9 @@ public class FavoriteCursorAdapter extends CursorAdapter {
             ));
         }
         container.setVisibility(View.VISIBLE);
-        Log.d("MCP", "finish expanding " + unicode);
     }
 
     public void collapseItem(char unicode) {
-        Log.d("MCP", "start collapsing " + unicode);
         ItemStatus status = itemStatus.get(unicode);
         if (status == null) return;
         status.isExpanded = false;
@@ -181,7 +170,6 @@ public class FavoriteCursorAdapter extends CursorAdapter {
         View container = status.getContainer();
         if (container == null) return;
         container.setVisibility(View.GONE);
-        Log.d("MCP", "finish collapsing " + unicode);
     }
 
     public void collapseAll() {
@@ -190,17 +178,6 @@ public class FavoriteCursorAdapter extends CursorAdapter {
                 collapseItem(unicode);
             }
         }
-    }
-
-    public void clearFragments() {
-        FragmentTransaction ft = fm.beginTransaction();
-        for (ItemStatus status : itemStatus.values()) {
-            if (status.fragment == null) continue;
-            ft.remove(status.fragment);
-            status.fragment = null;
-            Log.d("MCP", "clear fragment");
-        }
-        ft.commitAllowingStateLoss();
     }
 
     private class ItemStatus {

@@ -40,7 +40,7 @@ public class FavoriteDialogs {
                     UserDatabase.insertFavorite(unicode, comment);
                     String message = String.format(activity.getString(R.string.favorite_add_done), unicode);
                     Boast.showText(activity, message, Toast.LENGTH_SHORT);
-                    activity.getCurrentFragment().refresh(false);
+                    activity.getCurrentFragment().refresh();
                 }
             })
             .setNegativeButton(R.string.cancel, null)
@@ -85,7 +85,7 @@ public class FavoriteDialogs {
                     UserDatabase.updateFavorite(unicode, comment);
                     String message = String.format(activity.getString(R.string.favorite_edit_done), unicode);
                     Boast.showText(activity, message, Toast.LENGTH_SHORT);
-                    activity.getCurrentFragment().refresh(false);
+                    activity.getCurrentFragment().refresh();
                 }
             })
             .setNegativeButton(R.string.cancel, null)
@@ -98,7 +98,7 @@ public class FavoriteDialogs {
             String message = String.format(activity.getString(R.string.favorite_delete_done), unicode);
             Boast.showText(activity, message, Toast.LENGTH_SHORT);
             activity.getFavoriteCursorAdapter().collapseItem(unicode);
-            activity.getCurrentFragment().refresh(false);
+            activity.getCurrentFragment().refresh();
             return;
         }
 
@@ -145,7 +145,7 @@ public class FavoriteDialogs {
                     String message = activity.getString(R.string.favorite_clear_done);
                     Boast.showText(activity, message, Toast.LENGTH_SHORT);
                     activity.getFavoriteCursorAdapter().collapseAll();
-                    activity.getCurrentFragment().refresh(false);
+                    activity.getCurrentFragment().refresh();
                 }
             })
             .setNegativeButton(R.string.cancel, null)

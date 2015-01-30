@@ -89,7 +89,7 @@ public class MainActivity extends ActivityWithOptionsMenu {
             public void onTabChanged(String tabId) {
                 fm.executePendingTransactions();
                 currentFragment = (RefreshableFragment) fm.findFragmentByTag(tabId);
-                currentFragment.refresh(false);
+                currentFragment.refresh();
             }
         });
 
@@ -130,14 +130,5 @@ public class MainActivity extends ActivityWithOptionsMenu {
     public FavoriteCursorAdapter getFavoriteCursorAdapter() {
         FavoriteFragment fragment = (FavoriteFragment) fm.findFragmentByTag(getString(R.string.tab_favorite));
         return (FavoriteCursorAdapter) fragment.getListAdapter();
-    }
-
-    @Override
-    public void onDestroy() {
-        // This method fires when the screen rotates
-        // At this moment, we must clean up all the sub-fragments in the favorite fragment
-        // [WTF] Don't ask me how I figured this out
-        getFavoriteCursorAdapter().clearFragments();
-        super.onDestroy();
     }
 }

@@ -1,5 +1,5 @@
 package maigosoft.mcpdict;
 
 public interface RefreshableFragment {
-    public void refresh(boolean scrollToTop);
+    public void refresh();
 }

@@ -27,6 +27,9 @@ public class DictionaryFragment extends Fragment implements RefreshableFragment 
     private CheckBox checkBoxToneInsensitive;
     private SearchResultFragment fragmentResult;
 
+    private String query;
+    private int mode;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // A hack to avoid nested fragments from being inflated twice
@@ -126,23 +129,24 @@ public class DictionaryFragment extends Fragment implements RefreshableFragment 
     }
 
     private void search() {
+        query = searchView.getQuery();
+        if (query.equals("")) return;
+        mode = spinnerSearchAs.getSelectedItemPosition();
+        if (mode == Spinner.INVALID_POSITION) return;
         refresh();
         fragmentResult.scrollToTop();
     }
 
     @Override
     public void refresh() {
-        final String query = searchView.getQuery();
-        if (query.equals("")) return;
-        final int pos = spinnerSearchAs.getSelectedItemPosition();
-        if (pos == Spinner.INVALID_POSITION) return;
         // Search on a separate thread
         // Because AsyncTasks are put in a queue,
         //   this will not run until the initialization of the orthography module finishes
+        if (query == null) return;
         new AsyncTask<Void, Void, Cursor>() {
             @Override
             protected Cursor doInBackground(Void... params) {
-                return MCPDatabase.search(query, pos);
+                return MCPDatabase.search(query, mode);
             }
             @Override
             protected void onPostExecute(Cursor data) {

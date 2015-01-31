@@ -19,7 +19,7 @@ import android.widget.TextView;
 public class MainActivity extends ActivityWithOptionsMenu {
 
     private FragmentManager fm;
-    private RefreshableFragment currentFragment;
+    private FragmentTabHost tabHost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +69,7 @@ public class MainActivity extends ActivityWithOptionsMenu {
         setContentView(R.layout.main_activity);
 
         // Set up the tabs
-        FragmentTabHost tabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+        tabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
         fm = getSupportFragmentManager();
         tabHost.setup(this, fm, android.R.id.tabcontent);
         @SuppressWarnings("rawtypes")
@@ -88,8 +88,7 @@ public class MainActivity extends ActivityWithOptionsMenu {
             @Override
             public void onTabChanged(String tabId) {
                 fm.executePendingTransactions();
-                currentFragment = (RefreshableFragment) fm.findFragmentByTag(tabId);
-                currentFragment.refresh();
+                getCurrentFragment().refresh();
             }
         });
 
@@ -123,7 +122,7 @@ public class MainActivity extends ActivityWithOptionsMenu {
     }
 
     public RefreshableFragment getCurrentFragment() {
-        return currentFragment;
+        return (RefreshableFragment) fm.findFragmentByTag(tabHost.getCurrentTabTag());
     }
 
     public FavoriteCursorAdapter getFavoriteCursorAdapter() {

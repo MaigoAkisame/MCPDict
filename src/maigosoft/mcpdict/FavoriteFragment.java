@@ -20,6 +20,7 @@ public class FavoriteFragment extends ListFragment implements RefreshableFragmen
     private TextView textTotal;
     private Button buttonClear;
     private ListView listView;
+    private TextView textEmpty;
     private FavoriteCursorAdapter adapter;
 
     @Override
@@ -39,6 +40,7 @@ public class FavoriteFragment extends ListFragment implements RefreshableFragmen
         header = selfView.findViewById(R.id.favorite_header);
         textTotal = (TextView) selfView.findViewById(R.id.text_total);
         listView = (ListView) selfView.findViewById(android.R.id.list);
+        textEmpty = (TextView) selfView.findViewById(android.R.id.empty);
 
         // Set up the "clear all" button
         buttonClear = (Button) selfView.findViewById(R.id.button_clear);
@@ -113,6 +115,7 @@ public class FavoriteFragment extends ListFragment implements RefreshableFragmen
                 adapter.changeCursor(data);
                 if (data.getCount() == 0) {
                     header.setVisibility(View.GONE);
+                    textEmpty.setText(R.string.favorite_empty);
                 }
                 else {
                     header.setVisibility(View.VISIBLE);

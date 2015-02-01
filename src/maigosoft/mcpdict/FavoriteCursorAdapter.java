@@ -1,68 +1,54 @@
 package maigosoft.mcpdict;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
-import android.support.v4.app.FragmentManager;
+import android.os.AsyncTask;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 @SuppressLint("UseSparseArrays")
 public class FavoriteCursorAdapter extends CursorAdapter {
 
-    private Context context;
     private int layout;
     private LayoutInflater inflater;
-    private FragmentManager fm;
-    private Map<Character, ItemStatus> itemStatus;
+    private FavoriteFragment fragment;
+    private AtomicInteger nextId = new AtomicInteger(42);
+        // Answer to life, the universe and everything
+    private Set<Character> expandedItems;
 
-    public FavoriteCursorAdapter(Context context, int layout, Cursor cursor) {
+    public FavoriteCursorAdapter(Context context, int layout, Cursor cursor, FavoriteFragment fragment) {
         super(context, cursor, FLAG_REGISTER_CONTENT_OBSERVER);
-        this.context = context;
         this.layout = layout;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.itemStatus = new HashMap<Character, ItemStatus>();
+        this.fragment = fragment;
+        this.expandedItems = new HashSet<Character>();
     }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return inflater.inflate(layout, parent, false);
-    }
+        View view = inflater.inflate(layout, parent, false);
 
-    // By default, ListView recycles its item views.
-    // But we want each favorite item to use its own view, because it has to
-    //   remember the SearchResultFragment that may be added to it.
-    // In API levels >= 16, we can do this by executing the following on each item view:
-    //   ViewCompat.setHasTransientState(view, true);
-    // But this has no effect for API levels < 16.
-    // Therefore we have to override the getView method of the adapter, as follows.
-    // On Android 3.x and 4.x, this causes a crash when switching tabs,
-    //   and I've found that override the unregisterDataSetObserver method
-    //   of the SearchResultCursorAdapter class solves the problem.
-    //   (Reference: http://stackoverflow.com/a/9173866)
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (!mDataValid) {
-            throw new IllegalStateException("this should only be called when the cursor is valid");
-        }
-        if (!mCursor.moveToPosition(position)) {
-            throw new IllegalStateException("couldn't move cursor to position " + position);
-        }
-        String string = mCursor.getString(mCursor.getColumnIndex("unicode"));
-        char unicode = (char) Integer.parseInt(string, 16);
-        if (!itemStatus.containsKey(unicode)) {
-            View view = newView(mContext, mCursor, parent);
-            itemStatus.put(unicode, new ItemStatus(view));
-        }
-        View view = itemStatus.get(unicode).view;
-        bindView(view, mContext, mCursor);
+        // Give the container a unique ID,
+        //   so that a SearchResultFragment may be added to it
+        int id = nextId.getAndIncrement();
+        view.findViewWithTag("container").setId(id);
+
+        // Add a SearchResultFragment to the container
+        SearchResultFragment fragment = new SearchResultFragment(false);
+        this.fragment.getFragmentManager().beginTransaction().add(id, fragment).commit();
+        view.setTag(fragment);
+            // Set the fragment as a tag of the view, so it can be retrieved in expandItem
+
         return view;
     }
 
@@ -76,9 +62,6 @@ public class FavoriteCursorAdapter extends CursorAdapter {
         //   and make sure we're binding it to the view recorded in itemStatus
         string = cursor.getString(cursor.getColumnIndex("unicode"));
         unicode = (char) Integer.parseInt(string, 16);
-        if (!itemStatus.containsKey(unicode) || itemStatus.get(unicode).view != view) {
-            throw new IllegalStateException("FavoriteCursorAdapter: View to bind not recorded in itemStatus");
-        }
 
         // Chinese character
         string = String.valueOf(unicode);
@@ -113,86 +96,90 @@ public class FavoriteCursorAdapter extends CursorAdapter {
             }
         });
 
-        // Give the container a unique ID (the Unicode),
-        //   so that a SearchResultFragment may be added to it
-        view.findViewWithTag("container").setId((int) unicode);
-
         // Restore expanded status
-        if (itemStatus.get(unicode).isExpanded) {
-            expandItem(unicode);
+        if (expandedItems.contains(unicode)) {
+            expandItem(unicode, view);
         }
         else {
-            collapseItem(unicode);
+            collapseItem(unicode, view);
         }
-    }
-
-    public void setFragmentManager(FragmentManager fm) {
-        this.fm = fm;
     }
 
     public boolean isItemExpanded(char unicode) {
-        return itemStatus.containsKey(unicode) && itemStatus.get(unicode).isExpanded;
+        return expandedItems.contains(unicode);
     }
 
-    public void expandItem(char unicode) {
-        ItemStatus status = itemStatus.get(unicode);
-        if (status == null) return;
-        status.isExpanded = true;
-        if (status.view == null) return;
-        View container = status.getContainer();
-        if (container == null) return;
-        if (status.fragment == null) {
-            // Create the SearchResultFragment
-            status.fragment = new SearchResultFragment();
-            fm.beginTransaction().add((int) unicode, status.fragment).commit();
-            fm.executePendingTransactions();
-                // [WTF] It took me 2 hours to think of adding this statement!
+    public void expandItem(char unicode, View view) {
+        expandItem(unicode, view, null);
+    }
 
-            // Set up the data of the fragment
-            // Note: this must be done on the UI thread, otherwise
-            //   the code in FavoriteFragment.onListItemClick that measures
-            //   the view's height won't work
-            status.fragment.setListAdapter(new SearchResultCursorAdapter(
-                context,
-                R.layout.search_result_item,
-                MCPDatabase.directSearch(unicode),
-                false   // Do not show the favorite button
-            ));
-        }
-        container.setVisibility(View.VISIBLE);
+    // Mark a Chinese character as expanded
+    // If a view is provided, expand that view, too
+    // If a list is provided, scroll the list so that the view is entirely visible
+    public void expandItem(final char unicode, final View view, final ListView list) {
+        expandedItems.add(unicode);
+        if (view == null) return;
+        final View container = view.findViewWithTag("container");
+        final SearchResultFragment fragment = (SearchResultFragment) view.getTag();
+        new AsyncTask<Void, Void, Cursor>() {
+            @Override
+            protected Cursor doInBackground(Void... params) {
+                return MCPDatabase.directSearch(unicode);
+            }
+            @Override
+            protected void onPostExecute(Cursor data) {
+                fragment.setData(data);
+                container.setVisibility(View.VISIBLE);
+                if (list == null) return;
+                scrollListToShowItem(list, view);
+            }
+        }.execute();
     }
 
     public void collapseItem(char unicode) {
-        ItemStatus status = itemStatus.get(unicode);
-        if (status == null) return;
-        status.isExpanded = false;
-        if (status.view == null) return;
-        View container = status.getContainer();
-        if (container == null) return;
+        collapseItem(unicode, null, null);
+    }
+
+    public void collapseItem(char unicode, View view) {
+        collapseItem(unicode, view, null);
+    }
+
+    // Mark a Chinese character as collapsed
+    // If a view is provided, collapsed that view, too
+    // If a list is provided, scroll the list so that the view is entirely visible
+    public void collapseItem(char unicode, View view, ListView list) {
+        expandedItems.remove(unicode);
+        if (view == null) return;
+        View container = view.findViewWithTag("container");
         container.setVisibility(View.GONE);
+        if (list == null) return;
+        scrollListToShowItem(list, view);
     }
 
+    // Mark all Chinese characters as collapsed
+    // Only called when clearing all favorite characters
     public void collapseAll() {
-        for (char unicode : itemStatus.keySet()) {
-            if (!itemStatus.get(unicode).isExpanded) {
-                collapseItem(unicode);
-            }
-        }
+        expandedItems.clear();
     }
 
-    private class ItemStatus {
-        public View view;
-        public SearchResultFragment fragment;
-        public boolean isExpanded;
-
-        public ItemStatus(View view) {
-            this.view = view;
-            this.fragment = null;
-            this.isExpanded = false;
-        }
-
-        public View getContainer() {
-            return view.findViewWithTag("container");
-        }
+    // Scroll a list so that a view inside it becomes entirely visible
+    // If the view is taller than the list, make sure the view's bottom is visible
+    // This method had better reside in a utility class
+    public static void scrollListToShowItem(final ListView list, final View view) {
+        list.post(new Runnable() {
+            @Override
+            public void run() {
+                int top = view.getTop();
+                int bottom = view.getBottom();
+                int height = bottom - top;
+                int listTop = list.getPaddingTop();
+                int listBottom = list.getHeight() - list.getPaddingBottom();
+                int listHeight = listBottom - listTop;
+                int y = (height > listHeight || bottom > listBottom) ? (listBottom - height) :
+                        (top < listTop) ? listTop : top;
+                int position = list.getPositionForView(view);
+                list.setSelectionFromTop(position, y);
+            }
+        });
     }
 }

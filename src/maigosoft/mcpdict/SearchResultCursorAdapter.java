@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.database.DataSetObserver;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.CursorAdapter;
 import android.text.Spannable;
@@ -322,16 +321,4 @@ public class SearchResultCursorAdapter extends CursorAdapter implements Masks {
             return Orthography.Japanese.display(s, style);
         }
     };
-
-    // When the getView method of FavoriteCursorAdapter is overridden to make
-    //   each favorite item have its own view, switching tabs causes a crash
-    //   on Android 3.x and 4.x. The solution is to override the
-    //   unregisterDataSetObserver method of the SearchResultCursorAdapter class.
-    //   (Reference: http://stackoverflow.com/a/9173866)
-    @Override
-    public void unregisterDataSetObserver(DataSetObserver observer) {
-        if (observer != null) {
-            super.unregisterDataSetObserver(observer);
-        }
-    }
 }

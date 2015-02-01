@@ -125,8 +125,7 @@ public class MainActivity extends ActivityWithOptionsMenu {
         return (RefreshableFragment) fm.findFragmentByTag(tabHost.getCurrentTabTag());
     }
 
-    public FavoriteCursorAdapter getFavoriteCursorAdapter() {
-        FavoriteFragment fragment = (FavoriteFragment) fm.findFragmentByTag(getString(R.string.tab_favorite));
-        return (FavoriteCursorAdapter) fragment.getListAdapter();
+    public FavoriteFragment getFavoriteFragment() {
+        return (FavoriteFragment) fm.findFragmentByTag(getString(R.string.tab_favorite));
     }
 }

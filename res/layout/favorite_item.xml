@@ -7,7 +7,7 @@
 
 <!--
     android:descendantFocusability="blocksDescendants" is necessary to make
-    the first child LinearLayout clickable with the presence of the FrameLayout.
+    a favorite item clickable with the presence of other clickable views inside it.
     Reference: http://stackoverflow.com/a/12528960
 -->
 
@@ -17,14 +17,7 @@
         android:paddingTop="6dp"
         android:paddingBottom="6dp"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:descendantFocusability="blocksDescendants" >
-
-    <!--
-        android:descendantFocusability="blocksDescendants" is necessary to make
-        a favorite item clickable with the presence of the "delete" button inside it.
-        Reference: http://stackoverflow.com/a/12528960
-    -->
+        android:gravity="center_vertical" >
 
         <Button
             android:id="@+id/button_delete"
@@ -84,7 +77,7 @@
             android:layout_height="1dp"
             android:background="?android:attr/listDivider" />
 
-        <!--  When clicked, a SearchResultFragment will be inserted here -->
+        <!-- A SearchResultFragment will be inserted here programmatically -->
 
     </LinearLayout>
 

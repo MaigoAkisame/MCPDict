@@ -22,6 +22,7 @@ public class FavoriteFragment extends ListFragment implements RefreshableFragmen
     private ListView listView;
     private TextView textEmpty;
     private FavoriteCursorAdapter adapter;
+    private boolean hasNewItem;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,11 +61,9 @@ public class FavoriteFragment extends ListFragment implements RefreshableFragmen
 
         // Set up the adapter
         if (adapter == null) {
-            adapter = new FavoriteCursorAdapter(getActivity(), R.layout.favorite_item, null);
+            adapter = new FavoriteCursorAdapter(getActivity(), R.layout.favorite_item, null, this);
             setListAdapter(adapter);
         }
-
-        adapter.setFragmentManager(getFragmentManager());
     }
 
     @Override
@@ -79,27 +78,11 @@ public class FavoriteFragment extends ListFragment implements RefreshableFragmen
         final char unicode = hanzi.charAt(0);
 
         if (adapter.isItemExpanded(unicode)) {
-            adapter.collapseItem(unicode);
+            adapter.collapseItem(unicode, view, list);
         }
         else {
-            adapter.expandItem(unicode);
+            adapter.expandItem(unicode, view, list);
         }
-
-        // If the current favorite item (including the SearchResultFragment)
-        //   is not entirely visible, try to scroll the ListView to make it visible
-        // This must be put in post(), in order to be executed after the
-        //   dimensions of the current item are known
-        listView.post(new Runnable() {
-            @Override
-            public void run() {
-                int top = view.getTop();
-                int bottom = view.getBottom();
-                int listBottom = list.getHeight() - list.getPaddingBottom();
-                int listTop = list.getPaddingTop();
-                final int y = (top < listTop) ? listTop : (bottom < listBottom) ? top : (listBottom - bottom + top);
-                listView.setSelectionFromTop(position, y);
-            }
-        });
     }
 
     @Override
@@ -123,5 +106,13 @@ public class FavoriteFragment extends ListFragment implements RefreshableFragmen
                 }
             }
         }.execute();
+        if (hasNewItem) {
+            listView.setSelectionAfterHeaderView();
+            hasNewItem = false;
+        }
+    }
+
+    public void notifyAddItem() {
+        hasNewItem = true;
     }
 }

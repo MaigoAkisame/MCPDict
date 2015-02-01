@@ -65,8 +65,17 @@ public class SearchResultFragment extends ListFragment implements Masks {
     private View selfView;
     private ListView listView;
     private SearchResultCursorAdapter adapter;
-
+    private boolean showFavoriteButton;
     private View selectedEntry = null;
+
+    public SearchResultFragment() {
+        this(true);
+    }
+
+    public SearchResultFragment(boolean showFavoriteButton) {
+        super();
+        this.showFavoriteButton = showFavoriteButton;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -96,7 +105,12 @@ public class SearchResultFragment extends ListFragment implements Masks {
 
         // Set up the adapter
         if (adapter == null) {
-            adapter = new SearchResultCursorAdapter(getActivity(), R.layout.search_result_item, null, true);
+            adapter = new SearchResultCursorAdapter(
+                getActivity(),
+                R.layout.search_result_item,
+                null,
+                showFavoriteButton
+            );
             setListAdapter(adapter);
         }
     }

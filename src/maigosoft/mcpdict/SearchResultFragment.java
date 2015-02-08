@@ -66,7 +66,9 @@ public class SearchResultFragment extends ListFragment implements Masks {
     private ListView listView;
     private SearchResultCursorAdapter adapter;
     private boolean showFavoriteButton;
-    private View selectedEntry = null;
+    private View selectedEntry;
+
+    private static SearchResultFragment selectedFragment;
 
     public SearchResultFragment() {
         this(true);
@@ -123,6 +125,11 @@ public class SearchResultFragment extends ListFragment implements Masks {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
+        selectedFragment = this;
+            // This is a bug with Android: when a context menu item is clicked,
+            // all fragments of this class receive a call to onContextItemSelected.
+            // Therefore we need to remember which fragment created the context menu.
+
         // Find the Chinese character in the view being clicked
         ListView list = (ListView) view;
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
@@ -182,6 +189,7 @@ public class SearchResultFragment extends ListFragment implements Masks {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        if (selectedFragment != this) return false;
         if (COPY_MENU_ITEM_TO_MASK.containsKey(item.getItemId())) {
             // Generate the text to copy to the clipboard
             String text = getCopyText(selectedEntry, COPY_MENU_ITEM_TO_MASK.get(item.getItemId()));

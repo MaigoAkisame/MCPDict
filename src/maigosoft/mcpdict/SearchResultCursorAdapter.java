@@ -177,20 +177,20 @@ public class SearchResultCursorAdapter extends CursorAdapter implements Masks {
         // "Favorite" button
         boolean favorite = cursor.getInt(cursor.getColumnIndex("is_favorite")) == 1;
         Button button = (Button) view.findViewById(R.id.button_favorite);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int tag = (Integer) view.getTag();
+                if ((tag & MASK_FAVORITE) == 0) {
+                    FavoriteDialogs.add(unicode);
+                }
+                else {
+                    FavoriteDialogs.view(unicode, view);
+                }
+            }
+        });
         if (showFavoriteButton) {
             button.setBackgroundResource(favorite ? R.drawable.ic_star_yellow : R.drawable.ic_star_white);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int tag = (Integer) view.getTag();
-                    if ((tag & MASK_FAVORITE) == 0) {
-                        FavoriteDialogs.add(unicode);
-                    }
-                    else {
-                        FavoriteDialogs.view(unicode, view);
-                    }
-                }
-            });
         }
         else {
             button.setVisibility(View.GONE);

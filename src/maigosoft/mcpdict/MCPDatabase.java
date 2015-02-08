@@ -17,7 +17,7 @@ import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 public class MCPDatabase extends SQLiteAssetHelper {
 
     private static final String DATABASE_NAME = "mcpdict";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     // Must be the same order as defined in the string array "search_as"
     public static final int SEARCH_AS_HZ = 0;

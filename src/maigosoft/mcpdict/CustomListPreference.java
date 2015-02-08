@@ -23,6 +23,7 @@ public class CustomListPreference extends DialogPreference {
         // This is specified by the xmlns:android attribute of the PreferenceScreen tag
         //   in res/xml/preferences.xml
 
+    private Context context;
     private CharSequence[] mEntries;
     private int mValue;
     private transient int mTempValue;
@@ -30,6 +31,7 @@ public class CustomListPreference extends DialogPreference {
     public CustomListPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
 
+        this.context = context;
         Resources res = context.getResources();
 
         int entriesResId = attrs.getAttributeResourceValue(ANDROID_NS, "entries", 0);
@@ -112,6 +114,7 @@ public class CustomListPreference extends DialogPreference {
          * press 'Ok'.
          */
         builder.setPositiveButton(null, null);
+        builder.setNegativeButton(context.getString(R.string.cancel), null);
     }
 
     @Override

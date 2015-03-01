@@ -121,8 +121,22 @@ public class MainActivity extends ActivityWithOptionsMenu {
         }
     }
 
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        // Make settings take effect immediately as the user navigates back to the dictionary
+        DictionaryFragment fragment = getDictionaryFragment();
+        if (fragment != null) {
+            fragment.refresh();
+        }
+    }
+
     public RefreshableFragment getCurrentFragment() {
         return (RefreshableFragment) fm.findFragmentByTag(tabHost.getCurrentTabTag());
+    }
+
+    public DictionaryFragment getDictionaryFragment() {
+        return (DictionaryFragment) fm.findFragmentByTag(getString(R.string.tab_dictionary));
     }
 
     public FavoriteFragment getFavoriteFragment() {

@@ -276,7 +276,12 @@ public class SearchResultCursorAdapter extends CursorAdapter implements Masks {
     };
 
     private final Displayer mandarinDisplayer = new Displayer() {
-        public String displayOne(String s) {return Orthography.Mandarin.display(s);}
+        public String displayOne(String s) {
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+            Resources r = context.getResources();
+            int style = sp.getInt(r.getString(R.string.pref_key_mandarin_display), 0);
+            return Orthography.Mandarin.display(s, style);
+        }
     };
 
     private final Displayer cantoneseDisplayer = new Displayer() {

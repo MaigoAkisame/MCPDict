@@ -17,7 +17,7 @@ import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 public class MCPDatabase extends SQLiteAssetHelper {
 
     private static final String DATABASE_NAME = "mcpdict";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
 
     // Must be the same order as defined in the string array "search_as"
     public static final int SEARCH_AS_HZ = 0;
@@ -101,7 +101,7 @@ public class MCPDatabase extends SQLiteAssetHelper {
                 }
             }
         }
-        else {                          // Each contiguous run of "\w" characters or apostrophe is a query
+        else {                          // Each contiguous run of non-separator and non-comma characters is a query
             if (mode == SEARCH_AS_KR) { // For Korean, put separators around all hanguls
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < input.length(); i++) {
@@ -115,7 +115,7 @@ public class MCPDatabase extends SQLiteAssetHelper {
                 }
                 input = sb.toString();
             }
-            for (String token : input.split("[^\\w']+")) {
+            for (String token : input.split("[\\s,]+")) {
                 if (token.equals("")) continue;
                 token = token.toLowerCase(Locale.US);
                 // Canonicalization

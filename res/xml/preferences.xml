@@ -1,6 +1,12 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
     <maigosoft.mcpdict.CustomListPreference
+        android:key="@string/pref_key_mandarin_display"
+        android:title="@string/pref_title_mandarin_display"
+        android:dialogTitle="@string/pref_title_mandarin_display"
+        android:entries="@array/pref_entries_mandarin_display"
+        android:defaultValue="0" />
+    <maigosoft.mcpdict.CustomListPreference
         android:key="@string/pref_key_cantonese_romanization"
         android:title="@string/pref_title_cantonese_romanization"
         android:dialogTitle="@string/pref_title_cantonese_romanization"

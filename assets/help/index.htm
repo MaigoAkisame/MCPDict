@@ -131,7 +131,100 @@ function toggle(id) {
 
 <h2>普通話</h2>
 
-<p>　　普通話採用漢語拼音顯示。在輸入時，可以用數字1、2、3、4代表聲調，放在音節末尾；字母ü可用v代替。例如查詢普通話讀lüè的字時可輸入lve4。本程序收錄的普通話讀音不涉及字母ê。</p>
+<p>　　本程序支持漢語拼音、注音符號兩種輸入及顯示方式，可以在“設置”中選擇。需要注意的是，有些字（如“期”、“崖”）的普通話讀音與臺灣國語讀音不同；即使選擇用注音符號顯示，程序顯示的仍然是普通話讀音。</p>
+<p>　　在輸入漢語拼音時，可以用數字1、2、3、4代表聲調，放在音節末尾；字母ü可用v代替。例如查詢普通話讀lüè的字時可輸入lve4。在輸入注音符號時，聲調一般放在音節末尾，但表示輕聲的點（˙）既可以放在音節開頭，也可以放在音節末尾，例如“的”字的讀音可拼作“˙ㄉㄜ”或“ㄉㄜ˙”。</p>
+<p>　　漢語拼音與注音符號的對照表如下。括號內是漢語拼音中一個聲母或韻母自成音節時的形式。</p>
+
+<table class=switch>
+  <tr><th align=left>漢語拼音與注音符號聲母對照表
+      <td align=right><a class=switch id=switch_pu_initial onclick="toggle('pu_initial')">展開</a>
+</table>
+<div class=romanization id=detail_pu_initial>
+  <table>
+    <tr><th>注音符號<th>漢語拼音<th>例字
+    <tr><td>ㄅ<td>b<td>波
+    <tr><td>ㄆ<td>p<td>坡
+    <tr><td>ㄇ<td>m<td>摸
+    <tr><td>ㄈ<td>f<td>佛
+    <tr><td>ㄉ<td>d<td>德
+    <tr><td>ㄊ<td>t<td>特
+    <tr><td>ㄋ<td>n<td>呢
+    <tr><td>ㄌ<td>l<td>勒
+    <tr><td>ㄍ<td>g<td>哥
+    <tr><td>ㄎ<td>k<td>科
+    <tr><td>ㄏ<td>h<td>喝
+    <tr><td>ㄐ<td>j<td>基
+    <tr><td>ㄑ<td>q<td>七
+    <tr><td>ㄒ<td>x<td>西
+    <tr><td>ㄓ<td>zh (zhi)<td>知
+    <tr><td>ㄔ<td>ch (chi)<td>吃
+    <tr><td>ㄕ<td>sh (shi)<td>詩
+    <tr><td>ㄖ<td>r (ri)<td>日
+    <tr><td>ㄗ<td>z (zi)<td>資
+    <tr><td>ㄘ<td>c (ci)<td>雌
+    <tr><td>ㄙ<td>s (si)<td>私
+  </table>
+  <br>
+  <div align=center><a class=switch onclick="toggle('ct_initial')">收起</a></div>
+</div>
+
+<br>
+
+<table class=switch>
+  <tr><th align=left>漢語拼音與注音符號韻母對照表
+      <td align=right><a class=switch id=switch_pu_final onclick="toggle('pu_final')">展開</a>
+</table>
+<div class=romanization id=detail_pu_final>
+  <table>
+    <tr><th>注音符號<th>漢語拼音<th>例字
+    <tr><td>ㄚ<td>a<td>啊
+    <tr><td>ㄛ<td>o<td>哦
+    <tr><td>ㄜ<td>e<td>餓
+    <tr><td>ㄝ<td>ê<a href=#note_pu_final_1><sup>1</sup></a><td>誒
+    <tr><td>ㄧ<td>i (yi)<td>衣
+    <tr><td>ㄨ<td>u (wu)<td>屋
+    <tr><td>ㄩ<td>ü (yu)<td>魚
+    <tr><td>ㄞ<td>ai<td>挨
+    <tr><td>ㄟ<td>ei<td>飛
+    <tr><td>ㄠ<td>ao<td>奧
+    <tr><td>ㄡ<td>ou<td>歐
+    <tr><td>ㄢ<td>an<td>安
+    <tr><td>ㄣ<td>en<td>恩
+    <tr><td>ㄤ<td>ang<td>昂
+    <tr><td>ㄥ<td>eng<td>豐
+    <tr><td>ㄦ<td>er<td>兒
+    <tr><td>ㄧㄚ<td>ia (ya)<td>丫
+    <tr><td>ㄧㄛ<td>io (yo)<td>喲
+    <tr><td>ㄧㄝ<td>ie (ye)<td>也
+    <tr><td>ㄧㄠ<td>iao (yao)<td>妖
+    <tr><td>ㄧㄡ<td>iu (you)<td>優
+    <tr><td>ㄧㄢ<td>ian (yan)<td>煙
+    <tr><td>ㄧㄣ<td>in (yin)<td>因
+    <tr><td>ㄧㄤ<td>iang (yang)<td>央
+    <tr><td>ㄧㄥ<td>ing (ying)<td>英
+    <tr><td>ㄨㄚ<td>ua (wa)<td>蛙
+    <tr><td>ㄨㄛ<td>uo (wo)<td>窩
+    <tr><td>ㄨㄞ<td>uai (wai)<td>歪
+    <tr><td>ㄨㄟ<td>ui (wei)<td>威
+    <tr><td>ㄨㄢ<td>uan (wan)<td>彎
+    <tr><td>ㄨㄣ<td>un (wen)<td>溫
+    <tr><td>ㄨㄤ<td>uang (wang)<td>汪
+    <tr><td>ㄨㄥ<td>ong (weng)<td>東 (翁)
+    <tr><td>ㄩㄝ<td>üe (yue)<td>約
+    <tr><td>ㄩㄢ<td>üan (yuan)<td>冤
+    <tr><td>ㄩㄣ<td>ün (yun)<td>暈
+    <tr><td>ㄩㄥ<td>iong (yong)<td>雍
+    <tr><td>ㄇ<td>m<td>呣
+    <tr><td>ㄋ<td>n<td>嗯
+    <tr><td>ㄫ<a href=#note_pu_final_2><sup>2</sup></a><td>ng<td>哼
+  </table>
+  <p><b>注：</b></p>
+  <ol>
+    <li><a name=note_pu_final_1>漢典網上把語氣詞“誒”字的讀音拼成了韻母ei。這樣，本程序所收漢字的普通話讀音恰好不涉及字母ê，避免了輸入的麻煩。
+    <li><a name=note_pu_final_2>輔音ng單獨作韻母時，注音符號寫作“ㄫ”（形似漢字“兀”），此符號在有些手機上可能顯示不出來。
+  </ol>
+  <div align=center><a class=switch onclick="toggle('ct_final')">收起</a></div>
+</div>
 
 <h2>粵語</h2>
 

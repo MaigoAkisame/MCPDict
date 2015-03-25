@@ -18,7 +18,7 @@ public class Orthography {
     // All inner classes (except for Character) have the two following methods:
     //   public static String canonicalize(String s);
     //   public static String display(String s);
-    // However, some may require an additional argument (int or boolean) specifying the format.
+    // However, some may require an additional int argument specifying the format.
     // Inner classes for tonal languages also have the following method:
     //   public static List<String> getAllTones(String s);
     // which returns the given *canonicalized* syllable in all possible tones.
@@ -185,29 +185,73 @@ public class Orthography {
     }
 
     public static class Mandarin {
-        private static Map<String, String> map = new HashMap<String, String>();
+        public static final int PINYIN = 0;
+        public static final int BOPOMOFO = 1;
+
+        private static Map<String, String> mapPinyin = new HashMap<String, String>();
         private static char[] vowels = {'a', 'o', 'e', 'i', 'u', 'v', 'n', 'm'};
 
+        private static Map<String, String> mapFromBopomofoPartial = new HashMap<String, String>();
+        private static Map<String, String> mapFromBopomofoWhole = new HashMap<String, String>();
+        private static Map<Character, Character> mapFromBopomofoTone = new HashMap<Character, Character>();
+        private static Map<String, String> mapToBopomofoPartial = new HashMap<String, String>();
+        private static Map<String, String> mapToBopomofoWhole = new HashMap<String, String>();
+        private static Map<Character, Character> mapToBopomofoTone = new HashMap<Character, Character>();
+
         public static String canonicalize(String s) {
-            StringBuilder sb = new StringBuilder();
-            char tone = '_';
-            for (int i = 0; i < s.length(); i++) {
-                String key = s.substring(i, i + 1);
-                if (map.containsKey(key)) {
-                    String value = map.get(key);
-                    char base = value.charAt(0);
-                    if (base != '_') sb.append(base);
-                    char t = value.charAt(1);
-                    if (t != '_') tone = t;
+            // Input can be either pinyin or bopomofo
+            if (s == null || s.length() == 0) return s;
+
+            if (mapFromBopomofoPartial.containsKey(s.substring(0, 1)) ||
+                mapFromBopomofoTone.containsKey(s.charAt(0))) {   // Bopomofo
+                // Allow tones at either end
+                char tone = '1';
+                if (mapFromBopomofoTone.containsKey(s.charAt(0))) {
+                    tone = mapFromBopomofoTone.get(s.charAt(0));
+                    s = s.substring(1);
+                }
+                else if (mapFromBopomofoTone.containsKey(s.charAt(s.length() - 1))) {
+                    tone = mapFromBopomofoTone.get(s.charAt(s.length() - 1));
+                    s = s.substring(0, s.length() - 1);
+                }
+                if (s.length() == 0) return null;   // Fail
+                if (mapFromBopomofoWhole.containsKey(s)) {
+                    s = mapFromBopomofoWhole.get(s);
+                }
+                else if (mapFromBopomofoPartial.containsKey(s.substring(0, 1)) &&
+                         mapFromBopomofoPartial.containsKey(s.substring(1))) {
+                    s = mapFromBopomofoPartial.get(s.substring(0, 1)) +
+                        mapFromBopomofoPartial.get(s.substring(1));
+                    if (s.startsWith("jv") || s.startsWith("qv") || s.startsWith("xv")) {
+                        s = s.substring(0, 1) + "u" + s.substring(2);
+                    }
                 }
                 else {
-                    sb.append(s.charAt(i));
+                    return null;    // Fail
                 }
+                return s + (tone == '_' ? "" : tone);
             }
-            return sb.toString() + (tone == '_' ? "" : tone);
+            else {  // Pinyin
+                StringBuilder sb = new StringBuilder();
+                char tone = '_';
+                for (int i = 0; i < s.length(); i++) {
+                    String key = s.substring(i, i + 1);
+                    if (mapPinyin.containsKey(key)) {
+                        String value = mapPinyin.get(key);
+                        char base = value.charAt(0);
+                        if (base != '_') sb.append(base);
+                        char t = value.charAt(1);
+                        if (t != '_') tone = t;
+                    }
+                    else {
+                        sb.append(s.charAt(i));
+                    }
+                }
+                return sb.toString() + (tone == '_' ? "" : tone);
+            }
         }
 
-        public static String display(String s) {
+        public static String display(String s, int system) {
             // Get tone
             char tone = s.charAt(s.length() - 1);
             if (tone >= '1' && tone <= '4') {
@@ -216,32 +260,64 @@ public class Orthography {
             else {
                 tone = '_';
             }
-            // Find letter to carry the tone
-            int pos = -1;
-            if (s.endsWith("iu")) {     // In the combination "iu", "u" gets the tone
-                pos = s.length() - 1;
-            }
-            else {                      // Find letter in this order: a,o,e,i,u,v,n,m
-                for (char c : vowels) {
-                    pos = s.indexOf(c);
-                    if (pos >= 0) break;
+
+            switch (system) {
+            case PINYIN:
+                // Find letter to carry the tone
+                int pos = -1;
+                if (s.endsWith("iu")) {     // In the combination "iu", "u" gets the tone
+                    pos = s.length() - 1;
                 }
-            }
-            if (pos == -1) return null; // Fail
-            // Transform the string and add tone to letter
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < s.length(); i++) {
-                char t = (i == pos) ? tone : '_';
-                String key = String.valueOf(s.charAt(i)) + t;
-                if (map.containsKey(key)) {
-                    sb.append(map.get(key));
+                else {                      // Find letter in this order: a,o,e,i,u,v,n,m
+                    for (char c : vowels) {
+                        pos = s.indexOf(c);
+                        if (pos >= 0) break;
+                    }
+                }
+                if (pos == -1) return null; // Fail
+                // Transform the string and add tone to letter
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < s.length(); i++) {
+                    char t = (i == pos) ? tone : '_';
+                    String key = String.valueOf(s.charAt(i)) + t;
+                    if (mapPinyin.containsKey(key)) {
+                        sb.append(mapPinyin.get(key));
+                    }
+                    else {
+                        sb.append(s.charAt(i));
+                        if (t != '_') sb.append(mapPinyin.get("_" + t));
+                    }
+                }
+                return sb.toString();
+            case BOPOMOFO:
+                if (mapToBopomofoWhole.containsKey(s)) {
+                    s = mapToBopomofoWhole.get(s);
                 }
                 else {
-                    sb.append(s.charAt(i));
-                    if (t != '_') sb.append(map.get("_" + t));
+                    if (s.startsWith("ju") || s.startsWith("qu") || s.startsWith("xu")) {
+                        s = s.substring(0, 1) + "v" + s.substring(2);
+                    }
+                    int p = s.length();
+                    if (p > 2) p = 2;
+                    while (p > 0) {
+                        if (mapToBopomofoPartial.containsKey(s.substring(0, p))) break;
+                        p--;
+                    }
+                    if (p == 0) return null;    // Fail
+                    if (!mapToBopomofoPartial.containsKey(s.substring(p))) return null;   // Fail
+                    s = mapToBopomofoPartial.get(s.substring(0, p)) + mapToBopomofoPartial.get(s.substring(p));
                 }
+                switch (tone) {
+                case '2': case '3': case '4':
+                    return s + mapToBopomofoTone.get(tone);
+                case '_':
+                    return mapToBopomofoTone.get(tone) + s;
+                default:
+                    return s;
+                }
+            default:
+                return null;    // Fail
             }
-            return sb.toString();
         }
 
         public static List<String> getAllTones(String s) {
@@ -297,6 +373,9 @@ public class Orthography {
 
         public static String canonicalize(String s, int system) {
             // Convert from given system to Jyutping
+
+            // Check for null or empty string
+            if (s == null || s.length() == 0) return s;
 
             // Choose map first
             Map<String, String> mapInitials = null, mapFinals = null;
@@ -442,7 +521,7 @@ public class Orthography {
 
         public static String canonicalize(String s) {
             // Input can be either a hangul, or non-canonicalized romanization
-            if (s.length() == 0) return s;
+            if (s == null || s.length() == 0) return s;
             char unicode = s.charAt(0);
             if (isHangul(unicode)) {    // Hangul
                 unicode -= FIRST_HANGUL;
@@ -466,8 +545,8 @@ public class Orthography {
             }
         }
 
-        public static String display(String s, int style) {
-            if (style == ROMANIZATION) return s;
+        public static String display(String s, int system) {
+            if (system == ROMANIZATION) return s;
 
             int L = s.length();
             int x, y, z, p, q;
@@ -502,6 +581,7 @@ public class Orthography {
 
         public static String canonicalize(String s) {
             // Input can be either with diacritics, or non-canonicalized Telex string
+            if (s == null || s.length() == 0) return s;
             char tone = '_';
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < s.length(); i++) {
@@ -634,6 +714,8 @@ public class Orthography {
         private static final Map<String, String> mapHepburn = new HashMap<String, String>();
 
         public static String convertTo(String s, int system) {
+            if (s == null || s.length() == 0) return s;
+
             // Choose map
             Map<String, String> map = null;
             switch (system) {
@@ -712,14 +794,35 @@ public class Orthography {
             }
             reader.close();
 
-            // Mandarin
-            inputStream = resources.openRawResource(R.raw.orthography_pu);
+            // Mandarin: Pinyin
+            inputStream = resources.openRawResource(R.raw.orthography_pu_pinyin);
             reader = new BufferedReader(new InputStreamReader(inputStream));
             while ((line = reader.readLine()) != null) {
                 if (line.equals("") || line.charAt(0) == '#') continue;
                 fields = line.split("\\s+");
-                Mandarin.map.put(fields[0], fields[1] + fields[2]);
-                Mandarin.map.put(fields[1] + fields[2], fields[0]);
+                Mandarin.mapPinyin.put(fields[0], fields[1] + fields[2]);
+                Mandarin.mapPinyin.put(fields[1] + fields[2], fields[0]);
+            }
+            reader.close();
+
+            // Mandarin: Bopomofo
+            inputStream = resources.openRawResource(R.raw.orthography_pu_bopomofo);
+            reader = new BufferedReader(new InputStreamReader(inputStream));
+            while ((line = reader.readLine()) != null) {
+                if (line.equals("") || line.charAt(0) == '#') continue;
+                fields = line.split("\\s+");
+                if ("234_".contains(fields[1])) {
+                    Mandarin.mapFromBopomofoTone.put(fields[0].charAt(0), fields[1].charAt(0));
+                    Mandarin.mapToBopomofoTone.put(fields[1].charAt(0), fields[0].charAt(0));
+                }
+                else {
+                    Mandarin.mapFromBopomofoPartial.put(fields[0], fields[1]);
+                    Mandarin.mapToBopomofoPartial.put(fields[1], fields[0]);
+                    if (fields.length > 2) {
+                        Mandarin.mapFromBopomofoWhole.put(fields[0], fields[2]);
+                        Mandarin.mapToBopomofoWhole.put(fields[2], fields[0]);
+                    }
+                }
             }
             reader.close();
 

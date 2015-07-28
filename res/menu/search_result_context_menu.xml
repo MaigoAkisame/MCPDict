@@ -23,6 +23,12 @@
                 android:id="@+id/menu_item_copy_ct"
                 android:title="@string/copy_ct" />
             <item
+                android:id="@+id/menu_item_copy_sh"
+                android:title="@string/copy_sh" />
+            <item
+                android:id="@+id/menu_item_copy_mn"
+                android:title="@string/copy_mn" />
+            <item
                 android:id="@+id/menu_item_copy_kr"
                 android:title="@string/copy_kr" />
             <item
@@ -62,6 +68,9 @@
             <item
                 android:id="@+id/menu_item_link_ct"
                 android:title="@string/dict_link_ct" />
+            <item
+                android:id="@+id/menu_item_link_sh"
+                android:title="@string/dict_link_sh" />
             <item
                 android:id="@+id/menu_item_link_kr"
                 android:title="@string/dict_link_kr" />

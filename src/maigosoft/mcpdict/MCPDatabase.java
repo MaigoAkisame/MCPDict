@@ -17,21 +17,23 @@ import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 public class MCPDatabase extends SQLiteAssetHelper {
 
     private static final String DATABASE_NAME = "mcpdict";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
 
     // Must be the same order as defined in the string array "search_as"
     public static final int SEARCH_AS_HZ = 0;
     public static final int SEARCH_AS_MC = 1;
     public static final int SEARCH_AS_PU = 2;
     public static final int SEARCH_AS_CT = 3;
-    public static final int SEARCH_AS_KR = 4;
-    public static final int SEARCH_AS_VN = 5;
-    public static final int SEARCH_AS_JP_GO = 6;
-    public static final int SEARCH_AS_JP_KAN = 7;
-    public static final int SEARCH_AS_JP_ANY = 8;
+    public static final int SEARCH_AS_SH = 4;
+    public static final int SEARCH_AS_MN = 5;
+    public static final int SEARCH_AS_KR = 6;
+    public static final int SEARCH_AS_VN = 7;
+    public static final int SEARCH_AS_JP_GO = 8;
+    public static final int SEARCH_AS_JP_KAN = 9;
+    public static final int SEARCH_AS_JP_ANY = 10;
 
     private static final String[] SEARCH_AS_TO_COLUMN_NAME = {
-        "unicode", "mc", "pu", "ct", "kr", "vn", "jp_go", "jp_kan", null
+        "unicode", "mc", "pu", "ct", "sh", "mn", "kr", "vn", "jp_go", "jp_kan", null
     };
 
     private static Context context;
@@ -123,6 +125,8 @@ public class MCPDatabase extends SQLiteAssetHelper {
                     case SEARCH_AS_MC: token = Orthography.MiddleChinese.canonicalize(token); break;
                     case SEARCH_AS_PU: token = Orthography.Mandarin.canonicalize(token); break;
                     case SEARCH_AS_CT: token = Orthography.Cantonese.canonicalize(token, cantoneseSystem); break;
+                    case SEARCH_AS_SH: token = Orthography.Shanghai.canonicalize(token); break;
+                    case SEARCH_AS_MN: token = Orthography.Minnan.canonicalize(token); break;
                     case SEARCH_AS_KR: token = Orthography.Korean.canonicalize(token); break;
                     case SEARCH_AS_VN: token = Orthography.Vietnamese.canonicalize(token); break;
                     case SEARCH_AS_JP_GO: case SEARCH_AS_JP_KAN: case SEARCH_AS_JP_ANY:
@@ -135,6 +139,8 @@ public class MCPDatabase extends SQLiteAssetHelper {
                         case SEARCH_AS_MC: allTones = Orthography.MiddleChinese.getAllTones(token); break;
                         case SEARCH_AS_PU: allTones = Orthography.Mandarin.getAllTones(token); break;
                         case SEARCH_AS_CT: allTones = Orthography.Cantonese.getAllTones(token); break;
+                        case SEARCH_AS_SH: allTones = Orthography.Shanghai.getAllTones(token); break;
+                        case SEARCH_AS_MN: allTones = Orthography.Minnan.getAllTones(token); break;
                         case SEARCH_AS_VN: allTones = Orthography.Vietnamese.getAllTones(token); break;
                     }
                 }
@@ -175,7 +181,7 @@ public class MCPDatabase extends SQLiteAssetHelper {
         qb.setDistinct(true);
         String[] projection = {"_id",
                    "v.unicode AS unicode", "variants",
-                   "mc", "pu", "ct", "kr", "vn",
+                   "mc", "pu", "ct", "sh", "mn", "kr", "vn",
                    "jp_go", "jp_kan", "jp_tou", "jp_kwan", "jp_other",
                    "timestamp IS NOT NULL AS is_favorite", "comment"};
         String selection = "u._id = v.rowid";
@@ -196,7 +202,7 @@ public class MCPDatabase extends SQLiteAssetHelper {
         qb.setTables("mcpdict AS v LEFT JOIN user.favorite AS w ON v.unicode = w.unicode");
         String[] projection = {"v.rowid AS _id",
                    "v.unicode AS unicode", "NULL AS variants",
-                   "mc", "pu", "ct", "kr", "vn",
+                   "mc", "pu", "ct", "sh", "mn", "kr", "vn",
                    "jp_go", "jp_kan", "jp_tou", "jp_kwan", "jp_other",
                    "timestamp IS NOT NULL AS is_favorite", "comment"};
         String selection = "v.unicode = ?";

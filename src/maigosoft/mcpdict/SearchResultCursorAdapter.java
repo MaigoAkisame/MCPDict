@@ -101,6 +101,18 @@ public class SearchResultCursorAdapter extends CursorAdapter implements Masks {
         textView.setText(cantoneseDisplayer.display(string));
         if (string != null) tag |= MASK_CT;
 
+        // Shanghai
+        string = cursor.getString(cursor.getColumnIndex("sh"));
+        textView = (TextView) view.findViewById(R.id.text_sh);
+        setRichText(textView, shanghaiDisplayer.display(string));
+        if (string != null) tag |= MASK_SH;
+
+        // Minnan
+        string = cursor.getString(cursor.getColumnIndex("mn"));
+        textView = (TextView) view.findViewById(R.id.text_mn);
+        setRichText(textView, minnanDisplayer.display(string));
+        if (string != null) tag |= MASK_MN;
+
         // Korean
         string = cursor.getString(cursor.getColumnIndex("kr"));
         textView = (TextView) view.findViewById(R.id.text_kr);
@@ -290,6 +302,18 @@ public class SearchResultCursorAdapter extends CursorAdapter implements Masks {
             Resources r = context.getResources();
             int system = sp.getInt(r.getString(R.string.pref_key_cantonese_romanization), 0);
             return Orthography.Cantonese.display(s, system);
+        }
+    };
+
+    private final Displayer shanghaiDisplayer = new Displayer() {
+        public String displayOne(String s) {
+            return Orthography.Shanghai.display(s);
+        }
+    };
+
+    private final Displayer minnanDisplayer = new Displayer() {
+        public String displayOne(String s) {
+            return Orthography.Shanghai.display(s);
         }
     };
 

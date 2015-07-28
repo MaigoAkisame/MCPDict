@@ -496,6 +496,77 @@ public class Orthography {
         }
     }
 
+    public static class Shanghai {
+        public static String canonicalize(String s) {
+            // Do nothing for now
+            return s;
+        }
+
+        public static String display(String s) {
+            // Do nothing for now
+            return s;
+        }
+
+        public static List<String> getAllTones(String s) {
+            if (s == null || s.equals("")) return null;     // Fail
+            char tone = s.charAt(s.length() - 1);
+            String base = s;
+            if ("15678".indexOf(tone) >= 0) {
+                base = s.substring(0, s.length() - 1);
+            }
+            else {
+                tone = '_';
+            }
+            if (base.equals("")) return null;               // Fail
+
+            boolean isEnteringTone = base.endsWith("h");
+            List<String> result = new ArrayList<String>();
+            result.add(s);
+            if (isEnteringTone) {
+                if (tone != '7') result.add(base + '7');
+                if (tone != '8') result.add(base + '8');
+            }
+            else {
+                if (tone != '1') result.add(base + '1');
+                if (tone != '5') result.add(base + '5');
+                if (tone != '6') result.add(base + '6');
+            }
+            return result;
+        }
+    }
+
+    public static class Minnan {
+        public static String canonicalize(String s) {
+            // Do nothing for now
+            return s;
+        }
+
+        public static String display(String s) {
+            // Do nothing for now
+            return s;
+        }
+
+        public static List<String> getAllTones(String s) {
+            if (s == null || s.equals("")) return null;     // Fail
+            char tone = s.charAt(s.length() - 1);
+            String base = s;
+            if (tone >= '1' && tone <= '8') {
+                base = s.substring(0, s.length() - 1);
+            }
+            else {
+                tone = '_';
+            }
+            if (base.equals("")) return null;               // Fail
+
+            List<String> result = new ArrayList<String>();
+            result.add(s);
+            for (char t = '1'; t <= '8'; t++) {
+                if (tone != t) result.add(base + t);
+            }
+            return result;
+        }
+    }
+
     public static class Korean {
         public static final int HANGUL = 0;
         public static final int ROMANIZATION = 1;   // This is the database representation

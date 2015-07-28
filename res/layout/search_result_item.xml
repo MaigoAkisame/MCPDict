@@ -106,6 +106,24 @@
             android:gravity="top" >
             <ImageView
                 style="@style/ImageDetail"
+                android:src="@drawable/lang_sh" />
+            <TextView
+                style="@style/FontDetail"
+                android:id="@+id/text_sh"
+                android:layout_width="0dp" />
+            <ImageView
+                style="@style/ImageDetail"
+                android:src="@drawable/lang_mn" />
+            <TextView
+                style="@style/FontDetail"
+                android:id="@+id/text_mn"
+                android:layout_width="0dp" />
+        </TableRow>
+
+        <TableRow
+            android:gravity="top" >
+            <ImageView
+                style="@style/ImageDetail"
                 android:src="@drawable/lang_kr" />
             <TextView
                 style="@style/FontDetail"

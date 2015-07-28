@@ -40,6 +40,8 @@ public class SearchResultFragment extends ListFragment implements Masks {
         COPY_MENU_ITEM_TO_MASK.put(R.id.menu_item_copy_mc,       MASK_MC);
         COPY_MENU_ITEM_TO_MASK.put(R.id.menu_item_copy_pu,       MASK_PU);
         COPY_MENU_ITEM_TO_MASK.put(R.id.menu_item_copy_ct,       MASK_CT);
+        COPY_MENU_ITEM_TO_MASK.put(R.id.menu_item_copy_sh,       MASK_SH);
+        COPY_MENU_ITEM_TO_MASK.put(R.id.menu_item_copy_mn,       MASK_MN);
         COPY_MENU_ITEM_TO_MASK.put(R.id.menu_item_copy_kr,       MASK_KR);
         COPY_MENU_ITEM_TO_MASK.put(R.id.menu_item_copy_vn,       MASK_VN);
         COPY_MENU_ITEM_TO_MASK.put(R.id.menu_item_copy_jp_all,   MASK_JP_ALL);
@@ -51,7 +53,7 @@ public class SearchResultFragment extends ListFragment implements Masks {
     }
 
     private static final int[] DICT_LINK_MASKS = {
-        MASK_MC, MASK_PU, MASK_CT, MASK_KR, MASK_VN
+        MASK_MC, MASK_PU, MASK_CT, MASK_SH, MASK_KR, MASK_VN
     };
 
     private static final String[] DICT_LINK_BASES = {
@@ -60,6 +62,8 @@ public class SearchResultFragment extends ListFragment implements Masks {
         "http://humanum.arts.cuhk.edu.hk/Lexis/lexi-can/search.php?q=",     // plus Big5 encoded string
         "http://hanja.naver.com/hanja?q=",                                  // plus UTF-8 encoded string
         "http://hanviet.org/hv_timchu.php?unichar=",                        // plus UTF-8 encoded string
+        "http://www.wu-chinese.com/minidict/search.php?searchlang=zaonhe&searchkey="
+                                                                            // plus UTF-8 encoded string
     };  // Bases of links to external dictionaries
 
     private View selfView;
@@ -162,7 +166,7 @@ public class SearchResultFragment extends ListFragment implements Masks {
         try {utf8 = URLEncoder.encode(hanzi, "utf-8");} catch (UnsupportedEncodingException e) {}
         try {big5 = URLEncoder.encode(hanzi, "big5");} catch (UnsupportedEncodingException e) {}
         if (big5.equals("%3F")) big5 = null;    // Unsupported character
-        String[] linkArgs = {utf8, utf8, big5, utf8, utf8};
+        String[] linkArgs = {utf8, utf8, big5, utf8, utf8, utf8};
         for (int i = 0; i < menuDictLinks.size(); i++) {
             item = menuDictLinks.getItem(i);
             if ((tag & DICT_LINK_MASKS[i]) != 0) {
@@ -239,6 +243,10 @@ public class SearchResultFragment extends ListFragment implements Masks {
             return ((TextView) entry.findViewById(R.id.text_pu)).getText().toString();
         case MASK_CT:
             return ((TextView) entry.findViewById(R.id.text_ct)).getText().toString();
+        case MASK_SH:
+            return ((TextView) entry.findViewById(R.id.text_sh)).getText().toString();
+        case MASK_MN:
+            return ((TextView) entry.findViewById(R.id.text_mn)).getText().toString();
         case MASK_KR:
             return ((TextView) entry.findViewById(R.id.text_kr)).getText().toString();
         case MASK_VN:
@@ -270,6 +278,8 @@ public class SearchResultFragment extends ListFragment implements Masks {
             if ((tag & MASK_MC) > 0)       sb.append(formatReading("中古",  getCopyText(entry, MASK_MC)));
             if ((tag & MASK_PU) > 0)       sb.append(formatReading("普",   getCopyText(entry, MASK_PU)));
             if ((tag & MASK_CT) > 0)       sb.append(formatReading("粵",   getCopyText(entry, MASK_CT)));
+            if ((tag & MASK_SH) > 0)       sb.append(formatReading("吳",   getCopyText(entry, MASK_SH)));
+            if ((tag & MASK_MN) > 0)       sb.append(formatReading("閩",   getCopyText(entry, MASK_MN)));
             if ((tag & MASK_KR) > 0)       sb.append(formatReading("朝",   getCopyText(entry, MASK_KR)));
             if ((tag & MASK_VN) > 0)       sb.append(formatReading("越",   getCopyText(entry, MASK_VN)));
             if ((tag & MASK_JP_GO) > 0)    sb.append(formatReading("日·吳", getCopyText(entry, MASK_JP_GO)));

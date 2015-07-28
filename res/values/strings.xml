@@ -31,6 +31,8 @@
         <item>中古拼音</item>
         <item>普通話</item>
         <item>粵語</item>
+        <item>吳語（上海話）</item>
+        <item>閩南語</item>
         <item>朝鮮語</item>
         <item>越南語</item>
         <item>日語吳音</item>
@@ -51,6 +53,8 @@
     <string name="copy_mc">複製“%c”字的中古漢語讀音</string>
     <string name="copy_pu">複製“%c”字的普通話讀音</string>
     <string name="copy_ct">複製“%c”字的粵語讀音</string>
+    <string name="copy_sh">複製“%c”字的吳語（上海話）讀音</string>
+    <string name="copy_mn">複製“%c”字的閩南語讀音</string>
     <string name="copy_kr">複製“%c”字的朝鮮語讀音</string>
     <string name="copy_vn">複製“%c”字的越南語讀音</string>
     <string name="copy_jp_all">複製“%c”字的所有日語讀音</string>
@@ -65,6 +69,7 @@
     <string name="dict_link_mc">去 韻典網 查詢“%c”字</string>
     <string name="dict_link_pu">去 漢典網 查詢“%c”字</string>
     <string name="dict_link_ct">去 粵語審音配詞字庫 查詢“%c”字</string>
+    <string name="dict_link_sh">去 吳音小字典 查詢“%c”字</string>
     <string name="dict_link_kr">去 Naver漢字辭典 查詢“%c”字</string>
     <string name="dict_link_vn">去 漢越辭典摘引 查詢“%c”字</string>
 

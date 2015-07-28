@@ -125,6 +125,8 @@ public class DictionaryFragment extends Fragment implements RefreshableFragment 
         checkBoxToneInsensitive.setEnabled(mode == MCPDatabase.SEARCH_AS_MC ||
                                            mode == MCPDatabase.SEARCH_AS_PU ||
                                            mode == MCPDatabase.SEARCH_AS_CT ||
+                                           mode == MCPDatabase.SEARCH_AS_SH ||
+                                           mode == MCPDatabase.SEARCH_AS_MN ||
                                            mode == MCPDatabase.SEARCH_AS_VN);
     }
 

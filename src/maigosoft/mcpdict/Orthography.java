@@ -167,7 +167,6 @@ public class Orthography {
             char sjeng = "平上去入".charAt(tone);
 
             return mux + sjep + yonh + dryungNriux + tongx + ho + sjeng;
-            // return mux + "母 " + sjep + "攝 " + yonh + dryungNriux + "韻 " + tongx + "等 " + ho + "口 " + sjeng + "声";
         }
 
         public static List<String> getAllTones(String s) {

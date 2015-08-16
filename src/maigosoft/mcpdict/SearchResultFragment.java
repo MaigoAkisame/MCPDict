@@ -57,13 +57,14 @@ public class SearchResultFragment extends ListFragment implements Masks {
     };
 
     private static final String[] DICT_LINK_BASES = {
-        "http://ytenx.org/zim?kyonh=1&dzih=",                               // plus UTF-8 encoded string
-        "http://www.zdic.net/sousuo/?q=",                                   // plus UTF-8 encoded string
-        "http://humanum.arts.cuhk.edu.hk/Lexis/lexi-can/search.php?q=",     // plus Big5 encoded string
-        "http://hanja.naver.com/hanja?q=",                                  // plus UTF-8 encoded string
-        "http://hanviet.org/hv_timchu.php?unichar=",                        // plus UTF-8 encoded string
-        "http://www.wu-chinese.com/minidict/search.php?searchlang=zaonhe&searchkey="
-                                                                            // plus UTF-8 encoded string
+        "http://ytenx.org/zim?kyonh=1&dzih=",           // plus UTF-8 encoded string
+        "http://www.zdic.net/sousuo/?q=",               // plus UTF-8 encoded string
+        "http://humanum.arts.cuhk.edu.hk/Lexis/lexi-can/search.php?q=",
+                                                        // plus Big5 encoded string
+        "http://www.wu-chinese.com/minidict/search.php?searchlang=zaonhe&searchkey=",
+                                                        // plus UTF-8 encoded string
+        "http://hanja.naver.com/hanja?q=",              // plus UTF-8 encoded string
+        "http://hanviet.org/hv_timchu.php?unichar=",    // plus UTF-8 encoded string
     };  // Bases of links to external dictionaries
 
     private View selfView;

@@ -17,7 +17,7 @@ import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 public class MCPDatabase extends SQLiteAssetHelper {
 
     private static final String DATABASE_NAME = "mcpdict";
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 9;
 
     // Must be the same order as defined in the string array "search_as"
     public static final int SEARCH_AS_HZ = 0;
@@ -50,6 +50,11 @@ public class MCPDatabase extends SQLiteAssetHelper {
     public MCPDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         setForcedUpgradeVersion(DATABASE_VERSION);
+        // Uncomment the following statements to force a database upgrade during development
+        // SQLiteDatabase db = getWritableDatabase();
+        // db.setVersion(-1);
+        // db.close();
+        // db = getWritableDatabase();
     }
 
     @SuppressWarnings("deprecation")

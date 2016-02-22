@@ -70,6 +70,7 @@
     <string name="dict_link_pu">去 漢典網 查詢“%c”字</string>
     <string name="dict_link_ct">去 粵語審音配詞字庫 查詢“%c”字</string>
     <string name="dict_link_sh">去 吳音小字典 查詢“%c”字</string>
+    <string name="dict_link_mn">去 臺灣閩南語常用詞辭典 查詢“%c”字</string>
     <string name="dict_link_kr">去 Naver漢字辭典 查詢“%c”字</string>
     <string name="dict_link_vn">去 漢越辭典摘引 查詢“%c”字</string>
 

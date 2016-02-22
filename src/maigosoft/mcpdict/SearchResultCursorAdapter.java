@@ -222,25 +222,25 @@ public class SearchResultCursorAdapter extends CursorAdapter implements Masks {
 
     public void setRichText(TextView view, String richTextString) {
         StringBuilder sb = new StringBuilder();
-        List<Integer> stars = new ArrayList<Integer>();
-        List<Integer> slashes = new ArrayList<Integer>();
+        List<Integer> bolds = new ArrayList<Integer>();
+        List<Integer> dims = new ArrayList<Integer>();
 
         for (int i = 0; i < richTextString.length(); i++) {
             char c = richTextString.charAt(i);
             switch (c) {
-                case '*': stars.add(sb.length()); break;
-                case '/': slashes.add(sb.length()); break;
+                case '*': bolds.add(sb.length()); break;
+                case '|': dims.add(sb.length()); break;
                 default : sb.append(c); break;
             }
         }
 
         view.setText(sb.toString(), BufferType.SPANNABLE);
         Spannable spannable = (Spannable) view.getText();
-        for (int i = 1; i < stars.size(); i += 2) {
-            spannable.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), stars.get(i-1), stars.get(i), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        for (int i = 1; i < bolds.size(); i += 2) {
+            spannable.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), bolds.get(i-1), bolds.get(i), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         }
-        for (int i = 1; i < slashes.size(); i += 2) {
-            spannable.setSpan(new ForegroundColorSpan(0xFF808080), slashes.get(i-1), slashes.get(i), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        for (int i = 1; i < dims.size(); i += 2) {
+            spannable.setSpan(new ForegroundColorSpan(0xFF808080), dims.get(i-1), dims.get(i), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         }
     }
 
@@ -269,7 +269,9 @@ public class SearchResultCursorAdapter extends CursorAdapter implements Masks {
             s = sb.toString().replace(",", ", ")
                              .replace("(", " (")
                              .replace("]", "] ")
-                             .replaceAll(" +", " ");
+                             .replaceAll(" +", " ")
+                             .replace(" ,", ",")
+                             .trim();
             return s;
         }
 
@@ -285,6 +287,7 @@ public class SearchResultCursorAdapter extends CursorAdapter implements Masks {
     private final Displayer middleChineseDetailDisplayer = new Displayer() {
         public String lineBreak(String s) {return s.replace(",", "\n");}
         public String displayOne(String s) {return "(" + Orthography.MiddleChinese.detail(s) + ")";}
+        public String display(String s) {return " " + super.display(s);}
     };
 
     private final Displayer mandarinDisplayer = new Displayer() {
@@ -313,7 +316,7 @@ public class SearchResultCursorAdapter extends CursorAdapter implements Masks {
 
     private final Displayer minnanDisplayer = new Displayer() {
         public String displayOne(String s) {
-            return Orthography.Shanghai.display(s);
+            return Orthography.Minnan.display(s);
         }
     };
 

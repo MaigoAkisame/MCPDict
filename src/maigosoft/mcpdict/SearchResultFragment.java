@@ -53,7 +53,7 @@ public class SearchResultFragment extends ListFragment implements Masks {
     }
 
     private static final int[] DICT_LINK_MASKS = {
-        MASK_MC, MASK_PU, MASK_CT, MASK_SH, MASK_KR, MASK_VN
+        MASK_MC, MASK_PU, MASK_CT, MASK_SH, MASK_MN, MASK_KR, MASK_VN
     };
 
     private static final String[] DICT_LINK_BASES = {
@@ -62,6 +62,8 @@ public class SearchResultFragment extends ListFragment implements Masks {
         "http://humanum.arts.cuhk.edu.hk/Lexis/lexi-can/search.php?q=",
                                                         // plus Big5 encoded string
         "http://www.wu-chinese.com/minidict/search.php?searchlang=zaonhe&searchkey=",
+                                                        // plus UTF-8 encoded string
+        "http://twblg.dict.edu.tw/holodict_new/result.jsp?querytarget=1&radiobutton=0&limit=20&sample=",
                                                         // plus UTF-8 encoded string
         "http://hanja.naver.com/hanja?q=",              // plus UTF-8 encoded string
         "http://hanviet.org/hv_timchu.php?unichar=",    // plus UTF-8 encoded string
@@ -167,7 +169,7 @@ public class SearchResultFragment extends ListFragment implements Masks {
         try {utf8 = URLEncoder.encode(hanzi, "utf-8");} catch (UnsupportedEncodingException e) {}
         try {big5 = URLEncoder.encode(hanzi, "big5");} catch (UnsupportedEncodingException e) {}
         if (big5.equals("%3F")) big5 = null;    // Unsupported character
-        String[] linkArgs = {utf8, utf8, big5, utf8, utf8, utf8};
+        String[] linkArgs = {utf8, utf8, big5, utf8, utf8, utf8, utf8};
         for (int i = 0; i < menuDictLinks.size(); i++) {
             item = menuDictLinks.getItem(i);
             if ((tag & DICT_LINK_MASKS[i]) != 0) {

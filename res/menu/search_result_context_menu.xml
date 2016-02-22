@@ -72,6 +72,9 @@
                 android:id="@+id/menu_item_link_sh"
                 android:title="@string/dict_link_sh" />
             <item
+                android:id="@+id/menu_item_link_mn"
+                android:title="@string/dict_link_mn" />
+            <item
                 android:id="@+id/menu_item_link_kr"
                 android:title="@string/dict_link_kr" />
             <item

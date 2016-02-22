@@ -550,7 +550,7 @@ public class Orthography {
             if (s == null || s.equals("")) return null;     // Fail
             char tone = s.charAt(s.length() - 1);
             String base = s;
-            if (tone >= '1' && tone <= '8') {
+            if ("1234578".indexOf(tone) >= 0) {
                 base = s.substring(0, s.length() - 1);
             }
             else {
@@ -558,11 +558,21 @@ public class Orthography {
             }
             if (base.equals("")) return null;               // Fail
 
+            boolean isEnteringTone = "ptkh".indexOf(base.charAt(base.length() - 1)) >= 0;
             List<String> result = new ArrayList<String>();
             result.add(s);
-            for (char t = '1'; t <= '8'; t++) {
-                if (tone != t) result.add(base + t);
+            if (isEnteringTone) {
+                if (tone != '4') result.add(base + '4');
+                if (tone != '8') result.add(base + '8');
             }
+            else {
+                if (tone != '1') result.add(base + '1');
+                if (tone != '2') result.add(base + '2');
+                if (tone != '3') result.add(base + '3');
+                if (tone != '5') result.add(base + '5');
+                if (tone != '7') result.add(base + '7');
+            }
+            if (tone != '_') result.add(base);
             return result;
         }
     }

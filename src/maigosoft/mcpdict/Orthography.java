@@ -15,7 +15,7 @@ import android.content.res.Resources;
 public class Orthography {
 
     // One static inner class for each language.
-    // All inner classes (except for Character) have the two following methods:
+    // All inner classes (except for Hanzi) have the two following methods:
     //   public static String canonicalize(String s);
     //   public static String display(String s);
     // However, some may require an additional int argument specifying the format.
@@ -51,6 +51,7 @@ public class Orthography {
         private static Map<String, String> mapSjep = new HashMap<String, String>(); // 攝
         private static Map<String, String> mapTongx = new HashMap<String, String>();// 等
         private static Map<String, String> mapHo = new HashMap<String, String>();   // 呼
+        private static Map<Character, String> mapBiengSjyix = new HashMap<Character, String>();
 
         public static String canonicalize(String s) {
             // Replace apostrophes with zeros to make SQLite FTS happy
@@ -164,9 +165,9 @@ public class Orthography {
             char yonh = mapFinals.get(fin).charAt(fin.endsWith("d") ? 0 : tone);
             String tongx = mapTongx.get(fin);
             String ho = mapHo.get(fin);
-            char sjeng = "平上去入".charAt(tone);
+            String biengSjyix = mapBiengSjyix.get(yonh);
 
-            return mux + sjep + yonh + dryungNriux + tongx + ho + sjeng;
+            return mux + sjep + yonh + dryungNriux + tongx + ho + " " + biengSjyix;
         }
 
         public static List<String> getAllTones(String s) {
@@ -871,6 +872,18 @@ public class Orthography {
                 MiddleChinese.mapTongx.put(fields[0], fields[2]);
                 MiddleChinese.mapHo.put(fields[0], fields[3]);
                 MiddleChinese.mapFinals.put(fields[0], fields[4]);
+            }
+            reader.close();
+
+            // Middle Chinese: 平水韻
+            inputStream = resources.openRawResource(R.raw.orthography_mc_bieng_sjyix);
+            reader = new BufferedReader(new InputStreamReader(inputStream));
+            while ((line = reader.readLine()) != null) {
+                if (line.equals("") || line.charAt(0) == '#') continue;
+                fields = line.split("\\s+");
+                for (int i = 0; i < fields[1].length(); i++) {
+                    MiddleChinese.mapBiengSjyix.put(fields[1].charAt(i), fields[0]);
+                }
             }
             reader.close();
 

@@ -18,9 +18,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
         android:paddingLeft="2dp"
-        android:paddingRight="6dp"
+        android:paddingRight="5dp"
         android:orientation="vertical"
         android:gravity="center_horizontal" >
 
@@ -45,7 +44,7 @@
     </LinearLayout>
 
     <TableLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:stretchColumns="1,3"
@@ -61,11 +60,6 @@
                 android:orientation="horizontal"
                 android:gravity="top"
                 android:baselineAligned="false" >
-<!--
-    android:baselineAligned="false" is necessary to ensure correct vertical
-    alignment of text in the TextViews.
-    Reference: http://stackoverflow.com/a/13366950
--->
                 <TextView
                     style="@style/FontDetail"
                     android:id="@+id/text_mc"

@@ -6,18 +6,18 @@
     android:paddingBottom="16dp"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:orientation="vertical" >
+    android:orientation="horizontal" >
 
     <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:stretchColumns="1" >
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
 
         <TableRow
             android:gravity="center_vertical" >
             <TextView
                 style="@style/FontLabel"
-                android:text="@string/search_for" />
+                android:text="@string/search_for"
+                android:paddingRight="-4dp" />
             <maigosoft.mcpdict.CustomSearchView
                 android:id="@+id/search_view" />
         </TableRow>
@@ -26,7 +26,8 @@
             android:gravity="center_vertical" >
             <TextView
                 style="@style/FontLabel"
-                android:text="@string/search_as" />
+                android:text="@string/search_as"
+                android:paddingRight="-4dp" />
             <Spinner
                 android:id="@+id/spinner_search_as" />
         </TableRow>
@@ -36,11 +37,13 @@
             android:paddingTop="6dp" >
             <TextView
                 style="@style/FontLabel"
-                android:text="@string/search_options" />
+                android:text="@string/search_options"
+                android:paddingRight="-4dp" />
             <CheckBox
                 style="@style/CheckBoxOption"
                 android:id="@+id/check_box_kuangx_yonh_only"
-                android:text="@string/option_kuangx_yonh_only" />
+                android:text="@string/option_kuangx_yonh_only"
+                android:paddingRight="8dp" />
         </TableRow>
 
         <TableRow
@@ -65,14 +68,17 @@
     </TableLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
         android:background="?android:attr/listDivider" />
 
     <fragment
         android:name="maigosoft.mcpdict.SearchResultFragment"
         android:id="@+id/fragment_search_result"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
 
 </LinearLayout>

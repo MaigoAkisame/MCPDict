@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
@@ -48,16 +47,6 @@ public class SearchResultCursorAdapter extends CursorAdapter implements Masks {
         StringBuilder sb;
         TextView textView;
         int tag = 0;
-
-        // In landscape mode, remove the top padding of the first search result
-        boolean isLandscape = (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
-        if (isLandscape && cursor.isFirst()) {
-            view.setPadding(view.getPaddingLeft(), 0, view.getPaddingRight(), view.getPaddingBottom());
-        }
-        else {
-            // Because View items may be reused, we need to restore the top padding
-            view.setPadding(view.getPaddingLeft(), view.getPaddingBottom(), view.getPaddingRight(), view.getPaddingBottom());
-        }
 
         // Unicode
         string = cursor.getString(cursor.getColumnIndex("unicode"));

@@ -79,6 +79,7 @@
         android:id="@+id/fragment_search_result"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:layout_marginTop="-6dp" />
 
 </LinearLayout>

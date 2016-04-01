@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class DictionaryFragment extends Fragment implements RefreshableFragment {
 
@@ -26,9 +27,6 @@ public class DictionaryFragment extends Fragment implements RefreshableFragment 
     private CheckBox checkBoxAllowVariants;
     private CheckBox checkBoxToneInsensitive;
     private SearchResultFragment fragmentResult;
-
-    private String query;
-    private int mode;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,7 +46,8 @@ public class DictionaryFragment extends Fragment implements RefreshableFragment 
         searchView.setHint(getResources().getString(R.string.search_hint));
         searchView.setSearchButtonOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                search();
+                refresh();
+                fragmentResult.scrollToTop();
             }
         });
 
@@ -60,19 +59,10 @@ public class DictionaryFragment extends Fragment implements RefreshableFragment 
         adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
         spinnerSearchAs.setAdapter(adapter);
         spinnerSearchAs.setOnItemSelectedListener(new OnItemSelectedListener() {
-            private boolean initialized = false;
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // This method will be called for the first time when the UI is being drawn
-                // We don't want this to trigger the search button,
-                //   because that will reset the scroll position of the search results
-                if (initialized) {
-                    updateCheckBoxesEnabled();
-                    searchView.clickSearchButton();
-                }
-                else {
-                    initialized = true;
-                }
+                updateCheckBoxesEnabled();
+                searchView.clickSearchButton();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
@@ -130,21 +120,13 @@ public class DictionaryFragment extends Fragment implements RefreshableFragment 
                                            mode == MCPDatabase.SEARCH_AS_VN);
     }
 
-    private void search() {
-        query = searchView.getQuery();
-        if (query.equals("")) return;
-        mode = spinnerSearchAs.getSelectedItemPosition();
-        if (mode == Spinner.INVALID_POSITION) return;
-        refresh();
-        fragmentResult.scrollToTop();
-    }
-
     @Override
     public void refresh() {
         // Search on a separate thread
         // Because AsyncTasks are put in a queue,
         //   this will not run until the initialization of the orthography module finishes
-        if (query == null) return;
+        final String query = searchView.getQuery();
+        final int mode = spinnerSearchAs.getSelectedItemPosition();
         new AsyncTask<Void, Void, Cursor>() {
             @Override
             protected Cursor doInBackground(Void... params) {
@@ -153,6 +135,13 @@ public class DictionaryFragment extends Fragment implements RefreshableFragment 
             @Override
             protected void onPostExecute(Cursor data) {
                 fragmentResult.setData(data);
+                TextView textEmpty = (TextView) fragmentResult.getView().findViewById(android.R.id.empty);
+                if (query.trim().equals("")) {
+                    textEmpty.setText("");
+                }
+                else {
+                    textEmpty.setText(R.string.no_matches);
+                }
             }
         }.execute();
     }

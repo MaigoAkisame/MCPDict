@@ -2,7 +2,6 @@ package maigosoft.mcpdict;
 
 import java.lang.reflect.Field;
 
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -130,12 +129,6 @@ public class MainActivity extends ActivityWithOptionsMenu {
         if (fragment != null) {
             fragment.refresh();
         }
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-//        setContentView(R.layout.main_activity);
     }
 
     public RefreshableFragment getCurrentFragment() {

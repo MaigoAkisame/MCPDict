@@ -303,8 +303,6 @@ public class SearchResultFragment extends ListFragment implements Masks {
     public void setData(Cursor data) {
         if (adapter == null) return;
         adapter.changeCursor(data);
-        TextView textEmpty = (TextView) selfView.findViewById(android.R.id.empty);
-        textEmpty.setText(getString(R.string.no_matches));
     }
 
     public void scrollToTop() {

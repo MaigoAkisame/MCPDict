@@ -105,7 +105,7 @@ public class DictionaryFragment extends Fragment implements RefreshableFragment 
         sp.edit().putBoolean(r.getString(R.string.pref_key_kuangx_yonh_only), checkBoxKuangxYonhOnly.isChecked())
                  .putBoolean(r.getString(R.string.pref_key_allow_variants), checkBoxAllowVariants.isChecked())
                  .putBoolean(r.getString(R.string.pref_key_tone_insensitive), checkBoxToneInsensitive.isChecked())
-                 .commit();     // Use apply() for API level >= 9
+                 .apply();
     }
 
     private void updateCheckBoxesEnabled() {

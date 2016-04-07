@@ -57,7 +57,6 @@ public class MCPDatabase extends SQLiteAssetHelper {
         // db = getWritableDatabase();
     }
 
-    @SuppressWarnings("deprecation")
     public static Cursor search(String input, int mode) {
         // Search for one or more keywords, considering mode and options
 
@@ -174,8 +173,7 @@ public class MCPDatabase extends SQLiteAssetHelper {
                              ("\"" + variants.get(i) + "\"") : "null";
             String[] projection = {"rowid AS _id", i + " AS rank", variant + " AS variants"};
             for (String column : columns) {
-                queries.add(qb.buildQuery(projection, column + " MATCH ?", null, null, null, null, null));
-                    // For API level >= 11, omit the third argument (the first null)
+                queries.add(qb.buildQuery(projection, column + " MATCH ?", null, null, null, null));
                 args.add(keywords.get(i));
             }
         }
@@ -193,8 +191,7 @@ public class MCPDatabase extends SQLiteAssetHelper {
         if (kuangxYonhOnly) {
             selection += " AND mc IS NOT NULL";
         }
-        query = qb.buildQuery(projection, selection, null, null, null, "rank", null);
-            // For API level >= 11, omit the third argument (the first null)
+        query = qb.buildQuery(projection, selection, null, null, "rank", null);
 
         // Search
         return db.rawQuery(query, args.toArray(new String[0]));

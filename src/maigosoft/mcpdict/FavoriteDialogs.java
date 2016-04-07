@@ -1,8 +1,15 @@
 package maigosoft.mcpdict;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteException;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.CheckBox;
@@ -12,14 +19,12 @@ import android.widget.Toast;
 
 import com.mobiRic.ui.widget.Boast;
 
+@SuppressLint("SimpleDateFormat")
 public class FavoriteDialogs {
 
-    public static final int ACTION_NONE = 0;
-    public static final int ACTION_ADD = 1;
-    public static final int ACTION_EDIT = 2;
-    public static final int ACTION_DELETE = 3;
-
     private static MainActivity activity;
+
+    private static int importMode;
 
     public static void initialize(MainActivity activity) {
        FavoriteDialogs.activity = activity;
@@ -162,5 +167,203 @@ public class FavoriteDialogs {
             })
             .setNegativeButton(R.string.cancel, null)
             .show();
+    }
+
+    public static void export(boolean force) {
+        File backupFile = new File(UserDatabase.getBackupPath());
+        if (force || !backupFile.exists()) {
+            try {
+                UserDatabase.exportFavorites();
+                new AlertDialog.Builder(activity)
+                    .setIcon(R.drawable.ic_info)
+                    .setTitle(activity.getString(R.string.favorite_export))
+                    .setMessage(String.format(activity.getString(R.string.favorite_export_done),
+                                              UserDatabase.getBackupPath()))
+                    .setPositiveButton(R.string.ok, null)
+                    .show();
+            }
+            catch (IOException e) {
+                crash(e);
+            }
+        }
+        else {
+            long timestamp = backupFile.lastModified();
+            new AlertDialog.Builder(activity)
+                .setIcon(R.drawable.ic_alert)
+                .setTitle(activity.getString(R.string.favorite_export))
+                .setMessage(String.format(activity.getString(R.string.favorite_export_overwrite),
+                            UserDatabase.getBackupPath(),
+                            new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date(timestamp))))
+                .setPositiveButton(R.string.overwrite, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        export(true);
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
+        }
+    }
+
+    public static void import_(int state) {
+        // States:
+        //   0: check if the backup file exists, is readable, and contains entries,
+        //      and display info about the backup file
+        //   1: prompt for import mode
+        //   2: do the importing, and (optionally) delete the backup file
+
+        switch (state) {
+        case 0:
+            File backupFile = new File(UserDatabase.getBackupPath());
+            if (!backupFile.exists()) {
+                new AlertDialog.Builder(activity)
+                    .setIcon(R.drawable.ic_error)
+                    .setTitle(activity.getString(R.string.favorite_import))
+                    .setMessage(String.format(activity.getString(R.string.favorite_import_file_not_found),
+                                              UserDatabase.getBackupPath()))
+                    .setPositiveButton(R.string.ok, null)
+                    .show();
+                break;
+            }
+
+            int count = 0;
+            try {
+                count = UserDatabase.selectBackupFavoriteCount();
+            }
+            catch (SQLiteException e) {
+                new AlertDialog.Builder(activity)
+                    .setIcon(R.drawable.ic_error)
+                    .setTitle(activity.getString(R.string.favorite_import))
+                    .setMessage(String.format(activity.getString(R.string.favorite_import_read_fail),
+                                              UserDatabase.getBackupPath()))
+                    .setPositiveButton(R.string.ok, null)
+                    .show();
+                break;
+            }
+
+            if (count == 0) {
+                new AlertDialog.Builder(activity)
+                    .setIcon(R.drawable.ic_error)
+                    .setTitle(activity.getString(R.string.favorite_import))
+                    .setMessage(String.format(activity.getString(R.string.favorite_import_empty_file),
+                                              UserDatabase.getBackupPath()))
+                    .setPositiveButton(R.string.ok, null)
+                    .show();
+                break;
+            }
+
+            if (UserDatabase.selectAllFavorites().getCount() == 0) {
+                new AlertDialog.Builder(activity)
+                .setIcon(R.drawable.ic_info)
+                .setTitle(activity.getString(R.string.favorite_import))
+                .setMessage(String.format(activity.getString(R.string.favorite_import_detail),
+                                          UserDatabase.getBackupPath(),
+                                          count))
+                .setPositiveButton(R.string.import_, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        importMode = 0;
+                        import_(2);
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
+            }
+            else {
+                new AlertDialog.Builder(activity)
+                    .setIcon(R.drawable.ic_info)
+                    .setTitle(activity.getString(R.string.favorite_import))
+                    .setMessage(String.format(activity.getString(R.string.favorite_import_detail_select_mode),
+                                              UserDatabase.getBackupPath(),
+                                              count))
+                    .setPositiveButton(R.string.next, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            import_(1);
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, null)
+                    .show();
+            }
+            break;
+
+        case 1:
+            new AlertDialog.Builder(activity)
+                .setIcon(R.drawable.ic_question)
+                .setTitle(activity.getString(R.string.favorite_import_select_mode))
+                .setSingleChoiceItems(R.array.favorite_import_modes, -1, null)
+                .setPositiveButton(R.string.import_, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        importMode = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                        import_(2);
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
+            break;
+
+        case 2:
+            try {
+                switch (importMode) {
+                    case 0: UserDatabase.importFavoritesOverwrite(); break;
+                    case 1: UserDatabase.importFavoritesMix(); break;
+                    case 2: UserDatabase.importFavoritesAppend(); break;
+                }
+            }
+            catch (IOException | SQLiteException e) {
+                crash(e);
+                break;
+            }
+
+            FavoriteFragment fragment = activity.getFavoriteFragment();
+            if (fragment != null) {
+                fragment.notifyAddItem();
+                FavoriteCursorAdapter adapter = (FavoriteCursorAdapter) fragment.getListAdapter();
+                adapter.collapseAll();
+            }
+            activity.getCurrentFragment().refresh();
+
+            new AlertDialog.Builder(activity)
+                .setIcon(R.drawable.ic_info)
+                .setTitle(activity.getString(R.string.favorite_import))
+                .setMessage(String.format(activity.getString(R.string.favorite_import_done),
+                        UserDatabase.getBackupPath()))
+                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        File backupFile = new File(UserDatabase.getBackupPath());
+                        backupFile.delete();
+                        String message = activity.getString(backupFile.exists() ?
+                                                            R.string.favorite_import_delete_backup_fail :
+                                                            R.string.favorite_import_delete_backup_done);
+                        Boast.showText(activity, message, Toast.LENGTH_SHORT);
+                    }
+                })
+                .setNegativeButton(R.string.keep, null)
+                .show();
+            break;
+        }
+    }
+
+    public static void crash(Throwable e) {
+        try {
+            String logPath = activity.getExternalFilesDir(null) + "/crash.log";
+            FileUtils.dumpException(logPath, e);
+            new AlertDialog.Builder(activity)
+                .setIcon(R.drawable.ic_error)
+                .setTitle(activity.getString(R.string.crash))
+                .setMessage(String.format(activity.getString(R.string.crash_saved), logPath))
+                .setPositiveButton(R.string.ok, null)
+                .show();
+        }
+        catch (IOException ex) {
+            new AlertDialog.Builder(activity)
+                .setIcon(R.drawable.ic_error)
+                .setTitle(activity.getString(R.string.crash))
+                .setMessage(activity.getString(R.string.crash_unsaved))
+                .setPositiveButton(R.string.ok, null)
+                .show();
+        }
     }
 }

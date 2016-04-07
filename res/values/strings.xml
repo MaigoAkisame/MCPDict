@@ -10,9 +10,15 @@
     <string name="ok">確定</string>
     <string name="cancel">取消</string>
     <string name="back">返回</string>
+    <string name="next">下一步</string>
     <string name="save">保存</string>
+    <string name="keep">保留</string>
     <string name="delete">刪除</string>
+    <string name="manage">管理</string>
+    <string name="export">導出</string>
+    <string name="import_">導入</string>
     <string name="clear">清空</string>
+    <string name="overwrite">覆蓋</string>
 
     <string name="tab_dictionary">字典</string>
     <string name="tab_favorite">生字本</string>
@@ -74,27 +80,52 @@
     <string name="dict_link_kr">去 Naver漢字辭典 查詢“%c”字</string>
     <string name="dict_link_vn">去 漢越辭典摘引 查詢“%c”字</string>
 
+    <string name="favorite_total">當前生字本中共有 %d 個生字</string>
+    <string name="favorite_empty">當前生字本中沒有生字。\n\n在“字典”頁面，點擊查詢結果右上角的五角星，可以把相應的漢字加入生字本中。\n\n若您備份過生字本，可以按此導入。</string>
+
     <string name="favorite_add">把“%c”字加入生字本</string>
+    <string name="favorite_add_hint">寫點筆記吧…</string>
+    <string name="favorite_add_done">已將“%c”字加入生字本</string>
+
     <string name="favorite_view">查看“%c”字的筆記</string>
     <string name="favorite_edit">編輯“%c”字的筆記</string>
     <string name="favorite_edit_2lines">編輯“%c”字\n的筆記</string>
     <string name="favorite_view_or_edit">查看或編輯“%c”字的筆記</string>
+    <string name="favorite_edit_done">已保存“%c”字的筆記</string>
+
     <string name="favorite_delete">把“%c”字從生字本中刪除</string>
     <string name="favorite_delete_2lines">從生字本中\n刪除“%c”字</string>
-    <string name="favorite_clear">清空生字本</string>
-
-    <string name="favorite_add_hint">寫點筆記吧…</string>
     <string name="favorite_delete_confirm">確定把“%c”字從生字本中刪除嗎？刪除後無法恢復！</string>
     <string name="favorite_delete_no_confirm">1小時內不再提示</string>
-    <string name="favorite_clear_confirm">確定清空生字本嗎？清空後無法恢復！</string>
-
-    <string name="favorite_add_done">已將“%c”字加入生字本</string>
-    <string name="favorite_edit_done">已保存“%c”字的筆記</string>
     <string name="favorite_delete_done">已將“%c”字從生字本中刪除</string>
+
+    <string name="favorite_export">把生字本導出到文件</string>
+    <string name="favorite_export_done">已將生字本導出到備份文件 %s。\n\n今後，您可以將此文件複製到其它手機上的同一位置，並導入進那臺手機上的生字本。</string>
+    <string name="favorite_export_overwrite">生字本備份文件 %1$s 已存在，最後修改於 %2$s。\n\n要覆蓋它嗎？</string>
+
+    <string name="favorite_import">把文件導入到生字本</string>
+    <string name="favorite_import_file_not_found">未找到生字本備份文件 %s。\n\n請確認文件存在，再試一次。</string>
+    <string name="favorite_import_read_fail">讀取生字本備份文件 %s 失敗。文件可能已損壞。</string>
+    <string name="favorite_import_empty_file">找到了生字本備份文件 %s，但其中並不含有生字。</string>
+    <string name="favorite_import_detail">找到了生字本備份文件 %1$s，其中含有 %2$d 條生字。\n\n按“導入”按鈕可將這些生字導入進生字本。</string>
+    <string name="favorite_import_detail_select_mode">找到了生字本備份文件 %1$s，其中含有 %2$d 條生字。\n\n在下一步，請仔細閱讀並選擇一種導入模式。</string>
+    <string name="favorite_import_select_mode">選擇導入模式</string>
+    <string-array name="favorite_import_modes">
+        <item>捨棄生字本原有內容，僅保留導入的內容。</item>
+        <item>保留生字本原有內容，將導入的內容按時間戳與原有內容混排。</item>
+        <item>保留生字本原有內容，將導入內容的時間戳修改爲當前時間，導入的內容將排在原有內容之前。</item>
+    </string-array>
+    <string name="favorite_import_done">已將備份文件 %s 的內容導入進生字本。\n\n是否刪除備份文件？</string>
+    <string name="favorite_import_delete_backup_done">已刪除生字本備份文件。</string>
+    <string name="favorite_import_delete_backup_fail">刪除失敗，文件仍存在</string>
+
+    <string name="favorite_clear">清空生字本</string>
+    <string name="favorite_clear_confirm">確定清空生字本嗎？清空後無法恢復！</string>
     <string name="favorite_clear_done">已清空生字本</string>
 
-    <string name="favorite_total">當前生字本中共有 %d 個生字</string>
-    <string name="favorite_empty">當前生字本中沒有生字。\n\n在“字典”頁面，點擊查詢結果右上角的五角星，可以把相應的漢字加入生字本中。</string>
+    <string name="crash">操作失敗</string>
+    <string name="crash_saved">已將錯誤信息保存至文件 %s。\n\n請與作者 Maigo (maigoakisame@gmail.com) 聯繫。</string>
+    <string name="crash_unsaved">保存錯誤信息也失敗了 (T_T)\n\n有可能是您的手機沒有SD卡，SD卡已滿，或無法寫入。</string>
 
     <string name="pref_key_favorite_delete_no_confirm_expiry">FAVORITE_DELETE_NO_CONFIRM_EXPIRY</string>
 

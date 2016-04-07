@@ -30,11 +30,10 @@
                 android:gravity="center" />
 
             <Button
-                android:id="@+id/button_clear"
-                android:text="@string/clear"
+                android:id="@+id/button_favorite_manage"
+                android:text="@string/manage"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -54,6 +53,7 @@
     <TextView
         style="@style/FontLabel"
         android:id="@id/android:empty"
+        android:text="@string/favorite_empty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="12dp"

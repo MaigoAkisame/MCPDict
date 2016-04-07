@@ -1,5 +1,7 @@
 package maigosoft.mcpdict;
 
+import java.io.IOException;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -26,6 +28,10 @@ class UserDatabase extends SQLiteOpenHelper {
         return context.getDatabasePath(DATABASE_NAME).getAbsolutePath();
     }
 
+    public static String getBackupPath() {
+        return context.getExternalFilesDir(null) + "/" + DATABASE_NAME + ".db";
+    }
+
     // "READ" OPERATIONS
 
     public static Cursor selectAllFavorites() {
@@ -34,13 +40,6 @@ class UserDatabase extends SQLiteOpenHelper {
                        "FROM favorite ORDER BY timestamp DESC";
         Cursor data = db.rawQuery(query, null);
         return data;
-    }
-
-    public static String getFavoriteMessage(char unicode) {
-        String query = "SELECT comment FROM favorite WHERE unicode = ?";
-        String[] args = {String.format("%04X", (int) unicode)};
-        Cursor data = db.rawQuery(query, args);
-        return data.getString(data.getColumnIndex("comment"));
     }
 
     // "WRITE" OPERATIONS
@@ -68,6 +67,38 @@ class UserDatabase extends SQLiteOpenHelper {
         db.delete("favorite", null, null);
     }
 
+    // EXPORTING AND IMPORTING
+
+    public static void exportFavorites() throws IOException {
+        FileUtils.copyFile(getDatabasePath(), getBackupPath());
+    }
+
+    public static int selectBackupFavoriteCount() {
+        db.execSQL("ATTACH DATABASE '" + getBackupPath() + "' AS backup");
+        String query = "SELECT rowid, unicode, comment, timestamp FROM backup.favorite";
+        int count = db.rawQuery(query, null).getCount();
+        db.execSQL("DETACH DATABASE backup");
+        return count;
+    }
+
+    public static void importFavoritesOverwrite() throws IOException {
+        FileUtils.copyFile(getBackupPath(), getDatabasePath());
+    }
+
+    public static void importFavoritesMix() {
+        db.execSQL("ATTACH DATABASE '" + getBackupPath() + "' AS backup");
+        db.execSQL("DELETE FROM favorite WHERE unicode IN (SELECT unicode FROM backup.favorite)");
+        db.execSQL("INSERT INTO favorite(unicode, comment, timestamp) SELECT unicode, comment, timestamp FROM backup.favorite");
+        db.execSQL("DETACH DATABASE backup");
+    }
+
+    public static void importFavoritesAppend() {
+        db.execSQL("ATTACH DATABASE '" + getBackupPath() + "' AS backup");
+        db.execSQL("DELETE FROM favorite WHERE unicode IN (SELECT unicode FROM backup.favorite)");
+        db.execSQL("INSERT INTO favorite(unicode, comment) SELECT unicode, comment FROM backup.favorite");
+        db.execSQL("DETACH DATABASE backup");
+    }
+
     // NON-STATIC METHODS IMPLEMENTING THOSE OF THE ABSTRACT SUPER-CLASS
 
     public UserDatabase(Context context) {
@@ -77,7 +108,7 @@ class UserDatabase extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE favorite (" +
-                   "    unicode TEXT," +
+                   "    unicode TEXT UNIQUE NOT NULL," +
                    "    comment STRING," +
                    "    timestamp REAL DEFAULT (JULIANDAY('now')) NOT NULL" +
                    ")");

@@ -32,7 +32,7 @@ public class ActivityWithOptionsMenu extends FragmentActivity {
             return true;
         case R.id.menu_item_about:
             Dialog dialog = new AlertDialog.Builder(this)
-                                .setIcon(R.drawable.ic_launcher)
+                                .setIcon(R.drawable.ic_info)
                                 .setTitle(R.string.about)
                                 .setMessage(R.string.about_message)
                                 .setPositiveButton(R.string.ok, null)

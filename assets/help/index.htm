@@ -32,40 +32,60 @@ function toggle(id) {
 }
 </script>
 
+<a name=sec_contents>
+<h1>目錄</h1>
+
+<ul>
+  <li><a href=#sec_intro>程序簡介</a>
+  <li><a href=#sec_data>數據來源</a>
+  <li><a href=#sec_interface>界面介紹</a>
+  <li><a href=#sec_example>查詢舉例</a>
+  <li><a href=#sec_romanization>輸入及顯示方式</a>
+</ul>
+
+<a name=sec_intro>
 <h1>程序簡介</h1>
 
-<p>　　本程序可以查詢漢字在古今中外多種語言中的讀音（包括中古漢語、普通話、粵語、朝鮮語、越南語、日語），也可以通過這些語言中的讀音來反查漢字。收字範圍爲Unicode編碼4E00至9FA5（共20902字）；此範圍外的漢字多爲生僻字，且在手機上輸入、顯示均有不便，故未收錄。</p>
-<p>　　本程序有兩大優點：一是把各種語言的漢字發音數據庫集成在一起，免去了一一查詢每種語言讀音的麻煩；二是把數據庫放在本地，不需要連接互聯網，提高了查詢效率。</p>
-<p>　　本程序的主要目標用戶是希望尋找漢字中古音、各方言現代音及域外方音之間聯繫的音韻學愛好者。如果您只是在學習本程序涉及的方言或外語中的一種，那麼本程序只能給您提供有限的幫助，因爲它不含有多音字辨析及釋義的功能。建議您查詢“數據來源”一節中提到的資源。</p>
+<p>　　本程序可以查詢漢字在古今中外多種語言中的讀音（包括中古漢語、普通話、粵語、吳語（上海話）、閩南語、朝鮮語、越南語、日語），也可以通過這些語言中的讀音來反查漢字。收字範圍爲Unicode編碼4E00至9FA5（共20902字）；此範圍外的漢字多爲生僻字，且在手機上輸入、顯示均有不便，故未收錄。</p>
+<p>　　本程序有兩大優點：一是把各種語言的漢字讀音數據庫集成在一起，免去了一一查詢每種語言讀音的麻煩；二是把數據庫放在本地，不需要連接互聯網，提高了查詢效率。</p>
+<p>　　本程序的主要目標用戶是希望尋找漢字中古音、各方言現代音及域外方音之間聯繫的音韻學愛好者。如果您只是在學習本程序涉及的方言或外語中的一種，那麼本程序只能給您提供有限的幫助，因爲它不含有多音字辨析及釋義的功能。建議您查詢“<a href=#sec_data>數據來源</a>”一節中提到的資源。</p>
 
+<p align=right><a href=#sec_contents>回頁首</a></p>
+
+<a name=sec_data>
 <h1>數據來源</h1>
 
 <p>
-　　中古音來自知乎網上poem整理的《<a href=http://zhuanlan.zhihu.com/poetry/19854191>廣韻字音表</a>》（2014年9月30日版），本程序兼收了核校前、後的字頭。這份字表修正了北大中文論壇上曾有的《<a href=http://www.pkucn.com/viewthread.php?tid=175767>廣韻全字表</a>》（2007年4月7日版，鏈接現已失效）中的一些錯誤。不過，後者的“備考”欄提供了《廣韻》中一些字更常見的異體字形，以及《廣韻》未收但後世比較常用的字，本程序對這些字也予以收錄。需要注意的是，<a href=http://ytenx.org/>韻典網</a>上的數據是來自後者的，所以個別字的讀音與本程序略有不同。<br>
-　　簡體、繁體、異體字轉換表來自<a href=http://ytenx.org/>韻典網</a>的<a href=https://github.com/BYVoid/ytenx>GitHub開源代碼庫</a>；<br>
-　　普通話讀音來自<a href=http://www.zdic.net/>漢典網</a>；<br>
-　　粵語讀音來自<a href=http://humanum.arts.cuhk.edu.hk/Lexis/lexi-can/>粵語審音配詞字庫</a>；<br>
-　　朝鮮語讀音來自<a href=http://hanja.naver.com/>Naver漢字辭典</a>；<br>
-　　越南語讀音來自<a href=http://hanviet.org/>漢越辭典摘引</a>；<br>
+　　中古音來自知乎網上poem整理的《<a href=http://zhuanlan.zhihu.com/poetry/19854191>廣韻字音表</a>》（2014年9月30日版），本程序兼收了覈校前、後的字頭。這份字表修正了北大中文論壇上曾有的《<a href=http://www.pkucn.com/viewthread.php?tid=175767>廣韻全字表</a>》（2007年4月7日版，鏈接現已失效）中的一些錯誤。不過，後者的“備考”欄提供了《廣韻》中一些字更常見的異體字形，以及《廣韻》未收但後世比較常用的字，本程序對這些字也予以收錄。需要注意的是，<a href=http://ytenx.org/>韻典網</a>上的數據是來自後者的，所以個別字的讀音與本程序略有不同。<br>
+　　簡體、繁體、異體字轉換表來自<a href=http://ytenx.org/>韻典網</a>的<a href=https://github.com/BYVoid/ytenx>GitHub開源代碼庫</a>，我修訂了其中約10%的條目。<br>
+　　普通話讀音來自<a href=http://www.zdic.net/>漢典網</a>。<br>
+　　粵語讀音來自<a href=http://humanum.arts.cuhk.edu.hk/Lexis/lexi-can/>粵語審音配詞字庫</a>。<br>
+　　吳語（上海話）讀音來自《上海市區方言志》（1988年版），感謝蔡子文錄入。書中字表採用的是簡體字，我把它們轉換成了繁體。該書記錄的是中派上海話音系（使用者多出生於20世紀40至70年代），與<a href=http://www.wu-chinese.com/minidict/>吳音小字典</a>記錄的音系並不完全相同。<br>
+　　閩南語讀音來自臺灣教育部<a href=http://twblg.dict.edu.tw/holodict_new/>臺灣閩南語常用詞辭典</a>。<br>
+　　朝鮮語讀音來自<a href=http://hanja.naver.com/>Naver漢字辭典</a>。<br>
+　　越南語讀音來自<a href=http://hanviet.org/>漢越辭典摘引</a>。<br>
 　　日語讀音來自《漢字源》改訂第五版。《漢字源》區分了漢字的吳音、漢音、唐音與慣用音，並提供了“歷史假名遣”寫法。該辭典曾經有<a href=http://ocn.study.goo.ne.jp/online/contents/kanjigen/>在線版本</a>，但已於2014年1月底終止服務。
 </p>
 <p>　　在上述數據的基礎上，我對一些明顯的錯誤進行了修正。</p>
 
+<p align=right><a href=#sec_contents>回頁首</a></p>
+
+<a name=sec_interface>
 <h1>界面介紹</h1>
 
 <p>　　程序界面由“字典”和“生字本”兩個標籤頁組成。</p>
 
 <p>　　“字典”頁面分爲兩部分，上半部分爲輸入，下半部分爲查詢結果。</p>
 
-<p align=center><img class=example src=ex0.png></p>
+<p align=center><img class=example src=ex_gu.png></p>
 
 <p>　　在“查詢內容”欄中，可以輸入要查詢的漢字或讀音。若要同時查詢多個漢字或讀音，可以用空格隔開；若查詢內容爲漢字或朝鮮語諺文，可以不空格。</p>
 <p>　　在“查詢模式”欄中，可以指定查詢內容的類別，即漢字或某種語言的讀音。</p>
 <p>　　“查詢選項”包括以下三項：</p>
 <p>　　<b>(1) 僅在《廣韻》中查找：</b>在“查詢模式”不是“中古拼音”時有效。選中該項時，只返回《廣韻》中收錄的字，即數據庫中有中古音的字。這些字一般爲繁體字。當“查詢模式”爲“中古拼音”的時候，當然只能查到《廣韻》中的字。</p>
 <p>　　<b>(2) 簡繁、異體轉換：</b>僅在“查詢模式”爲“漢字”時有效。選中該項時，可以同時查詢所輸入漢字的簡體字、繁體字、異體字。如果在手機上輸入繁體字有困難，這個選項就很有用了。</p>
-<p>　　<b>(3) 聲調不敏感：</b>在“查詢模式”爲“中古拼音”、“普通話”、“粵語”、“越南語”時有效。選中該項時，可以同時查詢與所輸入的讀音聲母、韻母均相同但聲調不同的音節。</p>
-<p>　　查詢結果顯示了漢字的Unicode編碼及各種語言的讀音。若某字的查詢結果右上角顯示一顆灰色五角星，則表示該字尚未被加入生字本，點擊灰色五角星可以將該字添加到生字本中（同時可以寫一條筆記）；若顯示一顆黃色五角星，則表示該字已在生字本中，點擊黃色五角星可以查看、修改該字的筆記，或者把該字從生字本中刪除。點擊某一漢字的查詢結果中除五角星外的部分，可以呼出一個菜單（如下圖）。利用這個菜單，可以將該字的讀音複製到剪貼板，或者去“數據來源”一節中提到的各個網站查詢該字，也可以進行生字本操作（添加、刪除、修改筆記等）。</p>
+<p>　　<b>(3) 聲調不敏感：</b>在“查詢模式”爲“中古拼音”、“普通話”、“粵語”、“吳語（上海話）”、“閩南語”、“越南語”時有效。選中該項時，可以同時查詢與所輸入的讀音聲母、韻母均相同但聲調不同的音節。</p>
+<p>　　查詢結果顯示了漢字的Unicode編碼及各種語言的讀音。若某字的查詢結果右上角顯示一顆灰色五角星，則表示該字尚未被加入生字本，點擊灰色五角星可以將該字添加到生字本中（同時可以寫一條筆記）；若顯示一顆黃色五角星，則表示該字已在生字本中，點擊黃色五角星可以查看、修改該字的筆記，或者把該字從生字本中刪除。點擊某一漢字的查詢結果中除五角星外的部分，可以呼出一個菜單（如下圖）。利用這個菜單，可以將該字的讀音複製到剪貼板，或者去“<a href=#sec_data>數據來源</a>”一節中提到的各個網站查詢該字，也可以進行生字本操作（添加、刪除、修改筆記等）。</p>
 
 <p align=center><img class=example src=context_menu.png></p>
 
@@ -73,60 +93,80 @@ function toggle(id) {
 
 <p align=center><img class=example src=favorite.png></p>
 
-<p>　　另外，按手機上的“菜單”鍵，或按屏幕右上角的“<img class=icon src=ic_overflow.png>”按鈕（Android 4.0以前的版本沒有），可以呼出主菜單，其中有“設置”、“幫助”、“關於”三項功能。</p>
+<p>　　點擊生字本界面右上角的“管理”按鈕，可以導出、導入或清空生字本。導出、導入功能在更換手機時非常有用：您可以將舊手機中的生字本導出至文件，將此文件直接或經過電腦傳送至新手機，再導入至新手機上的本程序。</p>
 
+<p>　　另外，按手機上的“菜單”鍵，或按屏幕右上角的“<img class=icon src=ic_overflow.png>”按鈕，可以呼出主菜單，其中有“設置”、“幫助”、“關於”三項功能。</p>
+
+<p align=right><a href=#sec_contents>回頁首</a></p>
+
+<a name=sec_example>
 <h1>查詢舉例</h1>
 
 <h2>1. 查詢“良”字的讀音</h2>
 
-<p align=center><img class=example src=ex1.png></p>
+<p align=center><img class=example src=ex_liang.png></p>
 
-<p>　　如圖，在“查詢內容”欄中輸入“良”字，“查詢模式”選擇“漢字”，然後按屏幕右上角的放大鏡圖標（或軟鍵盤右下角的搜索鍵），即可看到“良”字在各種語言中的讀音。</p>
+<p>　　如圖，在“查詢內容”欄中輸入“良”字，“查詢模式”選擇“漢字”，然後按屏幕右上角的放大鏡圖標（或軟鍵盤右下角的“搜索”鍵），即可看到“良”字在各種語言中的讀音。</p>
 <p>　　有如下幾點需要說明：</p>
-<p>　　(1) 中古音採用<a href=http://zh.wikipedia.org/wiki/User:Polyhedron/%E4%B8%AD%E5%8F%A4%E6%BC%A2%E8%AA%9E%E6%8B%BC%E9%9F%B3>Polyhedron的中古拼音</a>表示，括號中的“來宕陽三開平”表示“來母、宕攝、陽韻、三等、開口、平聲”。</p>
+<p>　　(1) 中古音採用<a href=http://zh.wikipedia.org/wiki/User:Polyhedron/%E4%B8%AD%E5%8F%A4%E6%BC%A2%E8%AA%9E%E6%8B%BC%E9%9F%B3>Polyhedron的中古拼音</a>表示，括號中的“來宕陽三開”表示“來母、宕攝、陽韻、三等、開口”，“下平7陽”給出了“良”字的聲調和它在《平水韻》中的韻部。</p>
 <p>　　(2) 本例中粵語讀音用耶魯式拼音表示，朝鮮語採用諺文，日語採用平假名。這幾種語言讀音的表示方式可以用菜單中“設置”功能設置。</p>
 <p>　　(3) 朝鮮語括號前的讀音爲漢字本來的讀音，也是朝鮮的標準音，而括號內的讀音爲韓國應用<a href=http://zh.wikipedia.org/wiki/%E9%A0%AD%E9%9F%B3%E6%B3%95%E5%89%87>頭音法則</a>之後的讀音。</p>
 <p>　　(4) 日語讀音的表示比較複雜：<br>
 　　(a) 每個漢字一般具有吳音、漢音兩種讀音，個別漢字還具有唐音和慣用音。這四種讀音分別用<img class=icon src=file:///android_res/drawable/lang_jp_go.png>、<img class=icon src=file:///android_res/drawable/lang_jp_kan.png>、<img class=icon src=file:///android_res/drawable/lang_jp_tou.png>、<img class=icon src=file:///android_res/drawable/lang_jp_kwan.png>表示。另外，對於一些生僻字，《漢字源》中沒有註明讀音的種類，也沒有提供“歷史假名遣”寫法，這一類“其他”讀音用<img class=icon src=file:///android_res/drawable/lang_jp_other.png>表示。<br>
 　　(b) 有的讀音會帶有括號，括號前的讀音爲“現代假名遣”寫法，括號內的讀音爲對應的“歷史假名遣”寫法。<br>
-　　(c) 讀音的顏色和粗細代表讀音的常用程度。<b>黑色粗體</b>爲“常用漢字表”內的讀音；黑色細體爲《漢字源》中列第一位，但不在“常用漢字表”中的讀音；<span class=dim>灰色細體</span>爲既不在“常用漢字表”中，也不在《漢字源》中列第一位的讀音。<br>
+　　(c) 讀音的顏色和粗細代表讀音的常用程度。<b>黑色粗體</b>爲“常用漢字表”內的讀音；黑色細體爲《漢字源》中列第一位，但不在“常用漢字表”中的讀音；<span class=dim>灰色細體</span>爲既不在“常用漢字表”中，也不在《漢字源》中列第一位的讀音。</p>
 </p>
 
-<h2>2. 查詢“乐”字的讀音</h2>
+<h2>2. 比較“心”、“新”兩字的讀音</h2>
 
-<p align=center><img class=example src=ex2.png></p>
-
-<p>　　本例與上例相比，有兩個地方比較複雜：一是“乐”字的簡繁體不同，二是“乐”是個多音字。</p>
-<p>　　如果直接查詢“乐”字，會發現很多種語言的讀音查不到。這是因爲這些語言讀音的數據來源使用的是繁體字。爲了能夠查詢到這些讀音，需要勾選“簡繁、異體轉換”選項。這樣，就能夠查到大陸簡體字“乐”、繁體字“樂”和日本簡化字“楽”了。在“樂”“楽”兩字的Unicode下方顯示的“(乐)”表明它們是“乐”的異體（或簡體、繁體）字。可以看到，繁體字“樂”的讀音是最全的。如果想只看繁體字“樂”，可以再勾選“僅在《廣韻》內查找”選項，《廣韻》中沒有的“乐”“楽”兩字就會被隱藏。</p>
-<p>　　“樂”是個多音字，它的多種中古音會分行顯示，並按《廣韻》中出現的順序排列。普通話、粵語、朝鮮語、越南語中的多種讀音用逗號分隔；粵語讀音按數據來源中例詞的數量降序排列，另外三者按數據來源中本來的順序排列，都近似達到按使用頻率降序排列的效果。而日語爲了能夠把不同義項的吳音、漢音等對應起來，採用數字來區分不同義項的讀音。可以看到，每種語言給出的讀音數目不同，順序也不盡相同。這受限於數據來源本身，用戶需要根據自己的音韻學知識來確定不同語言的讀音之間的對應關係。</p>
-
-<h2>3. 比較“心”“新”兩字的讀音</h2>
-
-<p align=center><img class=example src=ex3.png></p>
+<p align=center><img class=example src=ex_xin.png></p>
 
 <p>　　在“查詢內容”欄中輸入多個漢字（可以不空格），就可以同時顯示它們的讀音，方便比較。</p>
-<p>　　從本例中可以看出，“心”“新”兩字的差別在於韻尾不同。這個區別在普通話和日語現代假名遣中已經消失，但在粵語、朝鮮語、越南語及日語歷史假名遣中得到保留。</p>
+<p>　　從本例中可以看出，“心”“新”兩字的差別在於韻尾不同。這個區別在普通話、吳語（上海話）和日語現代假名遣中已經消失，但在粵語、閩南語、朝鮮語、越南語及日語歷史假名遣中得到保留。</p>
 
-<h2>4. 查詢粵語中讀“hak1”的字</h2>
+<h2>3. 查詢“大”、“人”兩字的讀音</h2>
 
-<p align=center><img class=example src=ex4.png></p>
+<p align=center><img class=example src=ex_da_ren.png></p>
+
+<p>　　本例主要體現吳語（上海話）和閩南語的文白異讀現象。</p>
+
+<p>　　吳語（上海話）中的白讀用<span class=dim>灰色</span>表示，文讀沒有特殊標記。</p>
+
+<p>　　閩南語中的文讀用<b>黑色粗體</b>表示，白讀用<span class=dim>灰色細體</span>表示。若數據來源中未註明是文讀還是白讀，則沒有特殊標記。<br>
+　　除文白異讀外，閩南語中還有“俗讀音”和“替代字”的現象。“俗讀音”用小括號表示（本例中未體現）。“替代字”指的是某個字的讀音其實來自另一個字，比如“人”字的lang5音其實來自“儂”字。“替代字”讀音用中括號表示。<br>
+　　有些字會有用斜線分隔的兩個閩南語讀音（如“人”字的jin5/lin5），前者爲高雄音（第一優勢腔），後者爲臺北音（第二優勢腔）。</p>
+
+<h2>4. 查詢“乐”字的讀音</h2>
+
+<p align=center><img class=example src=ex_le.png></p>
+
+<p>　　本例與之前的例子相比，有兩個地方比較複雜：一是“乐”字的簡繁體不同，二是“乐”是個多音字。</p>
+<p>　　如果直接查詢“乐”字，會發現很多種語言的讀音查不到。這是因爲這些語言讀音的數據來源使用的是繁體字。爲了能夠查詢到這些讀音，需要勾選“簡繁、異體轉換”選項。這樣，就能夠查到大陸簡體字“乐”、繁體字“樂”和日本簡化字“楽”了。在“樂”“楽”兩字的Unicode下方顯示的“(乐)”表明它們是“乐”的異體（或簡體、繁體）字。可以看到，繁體字“樂”的讀音是最全的。如果想只看繁體字“樂”，可以再勾選“僅在《廣韻》內查找”選項，《廣韻》中沒有的“乐”“楽”兩字就會被隱藏。</p>
+<p>　　“樂”是個多音字，它的多種中古音會分行顯示，並按《廣韻》中出現的順序排列。普通話、粵語、吳語（上海話）、閩南語、朝鮮語、越南語中的多種讀音用逗號分隔；粵語讀音按數據來源中例詞的數量降序排列，其它語言讀音按數據來源中本來的順序排列，都近似達到按使用頻率降序排列的效果。而日語爲了能夠把不同義項的吳音、漢音等對應起來，採用數字來區分不同義項的讀音。可以看到，每種語言給出的讀音數目不同，順序也不盡相同。這受限於數據來源本身，用戶需要根據自己的音韻學知識來確定不同語言的讀音之間的對應關係。</p>
+
+<h2>5. 查詢粵語中讀“hak1”的字</h2>
+
+<p align=center><img class=example src=ex_hak.png></p>
 
 <p>　　在“查詢內容”欄中輸入“hak1”，“查詢模式”選擇“粵語”，即可查到所有粵語中讀“hak1”的字。圖片中只截取了前兩個。</p>
 <p>　　圖片中，“克”字的粵語讀音注爲“hak1 (haak1)”，這表示“haak1”是“hak1”的異讀。</p>
 <p>　　如果同時勾選“聲調不敏感”，則可以同時查詢讀音爲hak但聲調不同的漢字。</p>
 
-<h2>5. 查詢朝鮮語中讀“권”的字</h2>
+<h2>6. 查詢朝鮮語中讀“권”的字</h2>
 
-<p align=center><img class=example src=ex5.png></p>
+<p align=center><img class=example src=ex_gwon.png></p>
 
 <p>　　查詢朝鮮語時，可以在“查詢內容”欄中輸入諺文；若手機輸入不方便，也可以輸入羅馬字。在此，輸入“권”的羅馬字“gwon”。圖片截取了前兩個朝鮮語讀“권”的字。</p>
-<p>　　查詢普通話、越南語、日語時也都可以輸入羅馬字，詳細的羅馬字方案請參見“輸入和顯示方式”一節。</p>
+<p>　　查詢其它語言時也都可以輸入羅馬字，詳細的羅馬字方案請參見下面“<a href=#sec_romanization>輸入和顯示方式</a>”一節。</p>
 
+<p align=right><a href=#sec_contents>回頁首</a></p>
+
+<a name=sec_romanization>
 <h1>輸入及顯示方式</h1>
 
 <h2>中古漢語</h2>
 
-<p>　　中古音採用<a href=http://zh.wikipedia.org/wiki/User:Polyhedron/%E4%B8%AD%E5%8F%A4%E6%BC%A2%E8%AA%9E%E6%8B%BC%E9%9F%B3>Polyhedron的中古拼音</a>表示，同時附註《廣韻》中的聲母、韻攝、韻目、等、呼、聲調。對於“支脂祭真仙宵侵鹽”八個有重紐的韻，僅在聲母爲脣牙喉音時標註A、B類。</p>
+<p>　　中古音採用<a href=http://zh.wikipedia.org/wiki/User:Polyhedron/%E4%B8%AD%E5%8F%A4%E6%BC%A2%E8%AA%9E%E6%8B%BC%E9%9F%B3>Polyhedron的中古拼音</a>表示，同時附註《廣韻》中的聲母、韻攝、韻目、等、呼、聲調，以及《平水韻》中的韻部。對於“支脂祭真仙宵侵鹽”八個有重紐的韻，僅在聲母爲脣牙喉音時標註A、B類。</p>
 <p>　　廣韻韻目中缺少冬系上聲、臻系上聲、臻系去聲和痕系入聲，“韻典網”上把它們補全了，分別作“湩”、“[角秦]”、“櫬”、“麧”。由於“[角秦]”字不在本程序的收字範圍內，故以同韻目的“齔”字代替。</p>
 
 <h2>普通話</h2>
@@ -180,7 +220,7 @@ function toggle(id) {
     <tr><td>ㄚ<td>a<td>啊
     <tr><td>ㄛ<td>o<td>哦
     <tr><td>ㄜ<td>e<td>餓
-    <tr><td>ㄝ<td>ê<a href=#note_pu_final_1><sup>1</sup></a><td>誒
+    <tr><td>ㄝ<td>ê<sup><a href=note_pu_final_1>1</a></sup><td>誒
     <tr><td>ㄧ<td>i (yi)<td>衣
     <tr><td>ㄨ<td>u (wu)<td>屋
     <tr><td>ㄩ<td>ü (yu)<td>魚
@@ -216,9 +256,9 @@ function toggle(id) {
     <tr><td>ㄩㄥ<td>iong (yong)<td>雍
     <tr><td>ㄇ<td>m<td>呣
     <tr><td>ㄋ<td>n<td>嗯
-    <tr><td>ㄫ<a href=#note_pu_final_2><sup>2</sup></a><td>ng<td>哼
+    <tr><td>ㄫ<sup><a href=note_pu_final_2>2</a></sup><td>ng<td>哼
   </table>
-  <p><b>注：</b></p>
+  <p><b>註：</b></p>
   <ol>
     <li><a name=note_pu_final_1>漢典網上把語氣詞“誒”字的讀音拼成了韻母ei。這樣，本程序所收漢字的普通話讀音恰好不涉及字母ê，避免了輸入的麻煩。
     <li><a name=note_pu_final_2>輔音ng單獨作韻母時，注音符號寫作“ㄫ”（形似漢字“兀”），此符號在有些手機上可能顯示不出來。
@@ -298,10 +338,10 @@ function toggle(id) {
     <tr><td>ak<td>ak<td>ak<td>ak<td>則
     <tr><td>e<td>e<td>e<td>e<td>些
     <tr><td>ei<td>ei<td>ei<td>ei<td>四
-    <tr><td>eu<td>eu<th>eo<a href=#note_ct_final_1><sup>1</sup></a><td>eu<a href=#note_ct_final_1><sup>1</sup></a><td>掉
-    <tr><td>em<td>em<td>em<a href=#note_ct_final_1><sup>1</sup></a><td>em<a href=#note_ct_final_1><sup>1</sup></a><td>舐
+    <tr><td>eu<td>eu<th>eo<sup><a href=note_ct_final_1>1</a></sup><td>eu<sup><a href=note_ct_final_1>1</a></sup><td>掉
+    <tr><td>em<td>em<td>em<sup><a href=note_ct_final_1>1</a></sup><td>em<sup><a href=note_ct_final_1>1</a></sup><td>舐
     <tr><td>eng<td>eng<td>eng<td>eng<td>鄭
-    <tr><td>ep<td>ep<td>ep<a href=#note_ct_final_1><sup>1</sup></a><td>ep<a href=#note_ct_final_1><sup>1</sup></a><td>夾
+    <tr><td>ep<td>ep<td>ep<sup><a href=note_ct_final_1>1</a></sup><td>ep<sup><a href=note_ct_final_1>1</a></sup><td>夾
     <tr><td>ek<td>ek<td>ek<td>ek<td>石
     <tr><td>i<td>i<td>i<td>i<td>思
     <tr><td>iu<td>iu<td>iu<td>iu<td>消
@@ -336,7 +376,7 @@ function toggle(id) {
     <tr><td>m<td>m<td>m<td>m<td>唔
     <tr><td>ng<td>ng<td>ng<td>ng<td>吳
   </table>
-  <p><b>注：</b></p>
+  <p><b>註：</b></p>
   <ol>
     <li><a name=note_ct_final_1>粵拼及教院式拼音中的eu、em、ep僅用於拼寫“調、掉”“舐”“夾”等字的口語讀音，在耶魯式及劉錫祥式拼音中不存在。爲了拼音系統的完整性，本程序把這三個韻母照搬到耶魯式與劉錫祥式拼音中。由於在耶魯式拼音中eu已經被用來表示“靴”字的韻母，故把eu改拼成eo。
   </ol>
@@ -366,6 +406,256 @@ function toggle(id) {
   <div align=center><a class=switch onclick="toggle('ct_tone')">收起</a></div>
 </div>
 
+<h2>吳語（上海話）</h2>
+
+<p>　　本程序使用的吳語拼音基於<a href=http://wu-chinese.com/>吳語協會</a>創制的<a href=http://wu-chinese.com/romanization/>通用吳語拼音</a>，對個別地方進行了修改。</p>
+
+<table class=switch>
+  <tr><th align=left>通用吳語拼音方案：聲母
+      <td align=right><a class=switch id=switch_sh_initial onclick="toggle('sh_initial')">展開</a>
+</table>
+<div class=romanization id=detail_sh_initial>
+  <table>
+    <tr><th>國際音標<th>拼音<th>例字
+    <tr><td>[p]<td>p<td>波
+    <tr><td>[pʰ]<td>ph<td>坡
+    <tr><td>[b]<td>b<td>婆
+    <tr><td>[m]<td>m<td>母
+    <tr><td>[f]<td>f<td>夫
+    <tr><td>[v]<td>v<td>父
+    <tr><td>[t]<td>t<td>多
+    <tr><td>[tʰ]<td>th<td>妥
+    <tr><td>[d]<td>d<td>度
+    <tr><td>[n], [ȵ]<sup><a href=#note_sh_initial_1>1</a></sup><td>n<td>奴
+    <tr><td>[l]<td>l<td>路
+    <tr><td>[ts]<td>ts<td>租
+    <tr><td>[tsʰ]<td>tsh<td>初
+    <tr><td>[s]<td>s<td>蘇
+    <tr><td>[z]<td>z<td>坐
+    <tr><td>[tɕ]<td>c<td>居
+    <tr><td>[tɕʰ]<td>ch<td>去
+    <tr><td>[dʑ]<td>j<td>巨
+    <tr><td>[ɕ]<td>sh<td>虛
+    <tr><td>[ʑ]<td>zh<td>序
+    <tr><td>[k]<td>k<td>哥
+    <tr><td>[kʰ]<td>kh<td>可
+    <tr><td>[g]<td>g<td>共
+    <tr><td>[ŋ]<td>ng<td>我
+    <tr><td>[h]<td>h<td>火
+    <tr><td>[ɦ]<td>gh, y, w<sup><a href=#note_sh_initial_2>2</a></sup><td>胡
+    <tr><td>[ʔ]<td>(無)<td>烏
+  </table>
+  <p><b>註：</b></p>
+  <ol>
+    <li><a name=note_sh_initial_1>上海話中[n]、[ȵ]爲互補分佈，[ȵ]僅出現在以[i]、[y]開頭的韻母前，[n]僅出現在其它韻母前（“你”[ni]字是唯一的例外）。在原本的通用吳語拼音方案中，[n]拼作n，[ȵ]拼作ny；爲簡便起見，本程序中都拼作n。
+    <li><a name=note_sh_initial_2>聲母[ɦ]默認拼作gh，但在韻母以i或u開頭時拼作y或w，且若i或u後還有其它的元音字母，i或u也省略。例如：蟹gha，移yi，野ya，胡wu，偉we。另外，在r、m、n、ng这几个特殊韵母前，[ɦ]拼作零声母。
+  </ol>
+  <div align=center><a class=switch onclick="toggle('sh_initial')">收起</a></div>
+</div>
+
+<br>
+
+<table class=switch>
+  <tr><th align=left>通用吳語拼音方案：韻母
+      <td align=right><a class=switch id=switch_sh_final onclick="toggle('sh_final')">展開</a>
+</table>
+<div class=romanization id=detail_sh_final>
+  <table>
+    <tr><th width=1><th>國際音標<th>拼音<th>例字
+    <tr><th rowspan=18 width=1>開尾韻母<td>[ɿ]<td>y<td>知
+    <tr><td>[i]<td>i<td>基
+    <tr><td>[u]<td>u<td>租
+    <tr><td>[y]<td>iu<sup><a href=#note_sh_final_2>2</a></sup><td>居
+    <tr><td>[ᴀ]<td>a<td>蟹
+    <tr><td>[iᴀ]<td>ia<td>野
+    <tr><td>[uᴀ]<td>ua<td>壞
+    <tr><td>[o]<td>o<td>麻
+    <tr><td>[ɔ]<td>au<td>早
+    <tr><td>[iɔ]<td>iau<td>叫
+    <tr><td>[ɤ]<td>eu<td>走
+    <tr><td>[iɤ]<td>ieu<td>酒
+    <tr><td>[ᴇ]<td>e<td>改
+    <tr><td>[iᴇ]<td>ie<td>廿
+    <tr><td>[uᴇ]<td>ue<td>關
+    <tr><td>[ø]<td>oe<td>甘
+    <tr><td>[uø]<td>uoe<td>官
+    <tr><td>[yø]<td>ioe<td>娟
+    <tr><th rowspan=12 width=1>鼻化及鼻尾韻母<td>[ã]<td>an<td>杏
+    <tr><td>[iã]<td>ian<td>羊
+    <tr><td>[uã]<td>uan<td>橫
+    <tr><td>[ɑ̃]<td>aon<td>航
+    <tr><td>[iɑ̃]<td>iaon<td>旺（白讀）
+    <tr><td>[uɑ̃]<td>uaon<td>黃
+    <tr><td>[ən]<td>en<td>真
+    <tr><td>[in]<td>in<td>金
+    <tr><td>[uən]<td>uen<td>滾
+    <tr><td>[yn]<td>iun<sup><a href=#note_sh_final_2>1</a>,<a href=#note_sh_final_2>2</a></sup><td>軍
+    <tr><td>[oŋ]<td>on<td>松
+    <tr><td>[ioŋ]<td>ion<td>兄
+    <tr><th rowspan=9 width=1>入聲韻母<td>[ᴀʔ]<td>ah<td>扎
+    <tr><td>[iᴀʔ]<td>iah<td>腳
+    <tr><td>[uᴀʔ]<td>uah<td>刮
+    <tr><td>[oʔ]<td>oh<td>足
+    <tr><td>[ioʔ]<td>ioh<td>玉
+    <tr><td>[əʔ]<td>eh<td>則
+    <tr><td>[uəʔ]<td>ueh<td>骨
+    <tr><td>[iɪʔ]<td>ih<td>接
+    <tr><td>[yɪʔ]<td>iuh<sup><a href=#note_sh_final_2>1</a>,<a href=#note_sh_final_2>2</a></sup><td>育
+    <tr><th rowspan=9 width=1>特殊韻母<td>[əl]<td>r<td>而
+    <tr><td>[m̩]<td>m<td>姆
+    <tr><td>[n̩]<td>n<td>嗯
+    <tr><td>[ŋ̍]<td>ng<td>五
+  </table>
+  <p><b>註：</b></p>
+  <ol>
+    <li><a name=note_sh_final_1>韻母iun、iuh在原本的通用吳語拼音方案中拼作iuin、iuih。
+    <li><a name=note_sh_final_2>韻母iu、iun、iuh在聲母c、ch、j、sh、zh、y後省略i，僅在聲母l、n及零聲母后保持原狀。
+  </ol>
+  <div align=center><a class=switch onclick="toggle('sh_final')">收起</a></div>
+</div>
+
+<br>
+
+<table class=switch>
+  <tr><th align=left>吳語（上海話）聲調標法
+      <td align=right><a class=switch id=switch_sh_tone onclick="toggle('sh_tone')">展開</a>
+</table>
+<div class=romanization id=detail_sh_tone>
+  <table>
+    <tr><th>聲調<th>記號<th>例字
+    <tr><td>陰平<td>1<td>詩
+    <tr><td>陰去<td>5<td>史、試
+    <tr><td>陽去<td>6<td>時、市、事
+    <tr><td>陰入<td>7<td>色
+    <tr><td>陽入<td>8<td>食
+  </table>
+  <p><b>註：</b>原本的通用吳語拼音方案不標聲調；<a href=http://www.wu-chinese.com/minidict/>吳音小字典</a>用1、2、3、4分別表示平、上、去、入，但這種標法不能反映上海話的實際調類。因此本程序採用了與兩者均不同的聲調標法。</p>
+  <div align=center><a class=switch onclick="toggle('sh_tone')">收起</a></div>
+</div>
+
+<h2>閩南語</h2>
+
+<p>　　本程序採用<a href=https://zh.wikipedia.org/wiki/%E8%87%BA%E7%81%A3%E9%96%A9%E5%8D%97%E8%AA%9E%E7%BE%85%E9%A6%AC%E5%AD%97%E6%8B%BC%E9%9F%B3%E6%96%B9%E6%A1%88>臺灣閩南語羅馬字拼音方案</a>（簡稱“臺羅拼音”）標註閩南語讀音。</p>
+
+<table class=switch>
+  <tr><th align=left>臺羅拼音方案：聲母
+      <td align=right><a class=switch id=switch_mn_initial onclick="toggle('mn_initial')">展開</a>
+</table>
+<div class=romanization id=detail_mn_initial>
+  <table>
+    <tr><th>國際音標<th>拼音<th>例字
+    <tr><td>[p]<td>p<td>邊
+    <tr><td>[pʰ]<td>ph<td>波
+    <tr><td>[b]<td>b<td>文
+    <tr><td>[m]<td>m<td>毛
+    <tr><td>[t]<td>t<td>帝
+    <tr><td>[tʰ]<td>th<td>他
+    <tr><td>[n]<td>n<td>耐
+    <tr><td>[l]<td>l<td>柳
+    <tr><td>[ts]<td>ts<td>貞
+    <tr><td>[tsʰ]<td>tsh<td>出
+    <tr><td>[dz]<td>j<td>入
+    <tr><td>[s]<td>s<td>時
+    <tr><td>[k]<td>k<td>求
+    <tr><td>[kʰ]<td>kh<td>去
+    <tr><td>[g]<td>g<td>語
+    <tr><td>[ŋ]<td>ng<td>雅
+    <tr><td>[h]<td>h<td>喜
+    <tr><td>[ʔ]<td>(無)<td>英
+  </table>
+  <br>
+  <div align=center><a class=switch onclick="toggle('mn_initial')">收起</a></div>
+</div>
+
+<br>
+
+<table class=switch>
+  <tr><th align=left>臺羅拼音方案：韻腹
+      <td align=right><a class=switch id=switch_mn_medial onclick="toggle('mn_medial')">展開</a>
+</table>
+<div class=romanization id=detail_mn_medial>
+  <table>
+    <tr><th>國際音標<th>拼音<th>例字
+    <tr><td>[a]<td>a<td>鴉
+    <tr><td>[e]<td>e<td>蝦
+    <tr><td>[i]<td>i<td>伊
+    <tr><td>[ə]<td>o<sup><a href=#note_mn_medial_1>1</a></sup><td>蚵
+    <tr><td>[ɔ]<td>oo<sup><a href=#note_mn_medial_1>1</a></sup><td>鷗
+    <tr><td>[u]<td>u<td>污
+    <tr><td>[ai]<td>ai<td>哀
+    <tr><td>[au]<td>au<td>甌
+    <tr><td>[ia]<td>ia<td>耶
+    <tr><td>[iə]<td>io<sup><a href=#note_mn_medial_2>2</a></sup><td>趙
+    <tr><td>[iɔ]<td>(io)<sup><a href=#note_mn_medial_2>2</a></sup><td>(雍)
+    <tr><td>[iu]<td>iu<td>優
+    <tr><td>[iau]<td>iau<td>妖
+    <tr><td>[ua]<td>ua<td>娃
+    <tr><td>[uai]<td>uai<td>歪
+    <tr><td>[ue]<td>ue<td>話
+    <tr><td>[ui]<td>ui<td>威
+    <tr><td>[m̩]<td>m<td>姆
+    <tr><td>[ŋ̍]<td>ng<td>糖
+  </table>
+  <p><b>註：</b></p>
+  <ol>
+    <li><a name=note_mn_medial_1>韻腹[ə]僅出現在韻母o和oh中；韻腹[ɔ]不帶韻尾及帶喉塞韻尾時拼作oo，帶其它韻尾時簡略作o。
+    <li><a name=note_mn_medial_2>韻腹[iə]僅出現在韻母io和ioh中；韻腹[iɔ]不單獨出現，僅能帶[ŋ]、[k]韻尾，拼作iong、iok。
+  </ol>
+  <div align=center><a class=switch onclick="toggle('mn_medial')">收起</a></div>
+</div>
+
+<br>
+
+<table class=switch>
+  <tr><th align=left>臺羅拼音方案：韻尾
+      <td align=right><a class=switch id=switch_mn_final onclick="toggle('mn_final')">展開</a>
+</table>
+<div class=romanization id=detail_mn_final>
+  <table>
+    <tr><th>國際音標<th>拼音<th>例字
+    <tr><td>[m]<td>m<td>甘
+    <tr><td>[n]<td>n<td>艱
+    <tr><td>[ŋ]<td>ng<td>江
+    <tr><td>(鼻化)<td>nn<td>監 (白讀)
+    <tr><td>[p]<td>p<td>甲 (文讀)
+    <tr><td>[t]<td>t<td>結
+    <tr><td>[k]<td>k<td>角
+    <tr><td>(喉塞)<td>h<td>甲 (白讀)
+    <tr><td>(鼻化+喉塞)<td>nnh<sup><a href=#note_mn_final_1>1</a></sup><td>煞
+  </table>
+  <p><b>註：</b></p>
+  <ol>
+    <li><a name=note_mn_final_1>韻尾nnh比較罕見。
+  </ol>
+  <div align=center><a class=switch onclick="toggle('mn_final')">收起</a></div>
+</div>
+
+<br>
+
+<table class=switch>
+  <tr><th align=left>閩南語聲調標法
+      <td align=right><a class=switch id=switch_mn_tone onclick="toggle('mn_tone')">展開</a>
+</table>
+<div class=romanization id=detail_mn_tone>
+  <table>
+    <tr><th>聲調<th>臺羅拼音<th>數字標法<th>例字
+    <tr><td>陰平<td>tong<td>1<td>東
+    <tr><td>陰上<td>tóng<td>2<td>黨
+    <tr><td>陰去<td>tòng<td>3<td>棟
+    <tr><td>陰入<td>tok<td>4<td>督
+    <tr><td>陽平<td>tông<td>5<td>同
+    <tr><td>陽去<td>tōng<td>7<td>動、洞
+    <tr><td>陽入<td>to̍k<td>8<td>毒
+  </table>
+  <p><b>註：</b></p>
+  <ol>
+    <li>爲輸入及顯示方便，本程序中聲調用數字表示。
+    <li>閩南語中的陽上調併入了陽去調，故沒有第6聲。
+    <li>一些語氣詞爲輕聲，不標數字。
+  </ol>
+  <div align=center><a class=switch onclick="toggle('mn_tone')">收起</a></div>
+</div>
+
 <h2>朝鮮語</h2>
 
 <p>　　本程序支持兩種朝鮮語顯示方式：諺文和羅馬字（<a href=http://zh.wikipedia.org/wiki/%E6%96%87%E8%A7%82%E9%83%A8%E5%BC%8F>文觀部2000年式</a>），可以在“設置”中選擇。</p>
@@ -387,7 +677,7 @@ function toggle(id) {
     <tr><td>ㅂ<td>b<td>ㅍ<td>p<td><td>
     <tr><td>ㅅ<td>s<td>ㅎ<td>h<td><td>
   </table>
-  <p><b>注：</b>初聲ㄸ、ㅃ、ㅉ不出現在漢字音中，ㄲ、ㅆ、ㅋ只出現在少數漢字音中。</p>
+  <p><b>註：</b>初聲ㄸ、ㅃ、ㅉ不出現在漢字音中，ㄲ、ㅆ、ㅋ只出現在少數漢字音中。</p>
   <div align=center><a class=switch onclick="toggle('kr_initial')">收起</a></div>
 </div>
 
@@ -409,7 +699,7 @@ function toggle(id) {
     <tr><td>ㅡ<td>eu<td><td><td>ㅢ<td>ui (eui)
     <tr><td>ㅣ<td>i<td><td><td><td>
   </table>
-  <p><b>注：</b>元音ㅒ不會出現在漢字音中。</p>
+  <p><b>註：</b>元音ㅒ不會出現在漢字音中。</p>
   <div align=center><a class=switch onclick="toggle('kr_vowel')">收起</a></div>
 </div>
 
@@ -426,7 +716,7 @@ function toggle(id) {
     <tr><td>ㄹ<td>l (r)<td>ㄴ<td>n
     <tr><td>ㅂ<td>p (b)<td>ㅁ<td>m
   </table>
-  <p><b>注：</b>漢字音中出現的終聲只有上述六種。</p>
+  <p><b>註：</b>漢字音中出現的終聲只有上述六種。</p>
   <div align=center><a class=switch onclick="toggle('kr_final')">收起</a></div>
 </div>
 
@@ -463,7 +753,7 @@ function toggle(id) {
 　　(3) 日本式羅馬字；<br>
 　　(4) 黑本式羅馬字。<br>
 </p>
-<p>　　兩種羅馬字的差別在於：日本式羅馬字試圖體現假名在五十音圖中的位置，而黑本式羅馬字試圖表現假名的實際發音。例如假名“ち”在日本式羅馬字中拼作“ti”，而在黑本式羅馬字中拼作“chi”。兩種羅馬字的對照表見下。</p>
+<p>　　兩種羅馬字的差別在於：日本式羅馬字試圖體現假名在五十音圖中的位置，而黑本式羅馬字試圖體現假名的實際發音。例如，假名“ち”在日本式羅馬字中拼作“ti”，而在黑本式羅馬字中拼作“chi”。兩種羅馬字的對照表見下。</p>
 <p>　　在輸入日語時，可以採用四種書寫方式的任一種。</p>
 
 <table class=switch>
@@ -505,7 +795,7 @@ function toggle(id) {
     <tr><th>平假名<td>だ<td class=dim>ぢ<td class=dim>づ<td>ぜ<td>ぞ
     <tr><th>片假名<td>ダ<td class=dim>ヂ<td class=dim>ヅ<td>デ<td>ド
     <tr><th>日本式羅馬字<td>da<td class=emph>di<td class=emph>du<td>de<td>do
-    <tr><th>黑本式羅馬字<td>da<td class=emph>dji<a href=#note_jp_1><sup>1</sup></a><td class=emph>dzu<a href=#note_jp_1><sup>1</sup></a><td>de<td>do
+    <tr><th>黑本式羅馬字<td>da<td class=emph>dji<sup><a href=note_jp_1>1</a></sup><td class=emph>dzu<sup><a href=note_jp_1>1</a></sup><td>de<td>do
     <tr class=separator>
     <tr><th>平假名<td>な<td>に<td>ぬ<td>ね<td>の
     <tr><th>片假名<td>ナ<td>ニ<td>ヌ<td>ネ<td>ノ
@@ -589,7 +879,7 @@ function toggle(id) {
     <tr><th>平假名<td class=dim>ぢゃ<td class=dim>ぢゅ<td class=dim>ぢょ
     <tr><th>片假名<td class=dim>ヂャ<td class=dim>ヂュ<td class=dim>ヂョ
     <tr><th>日本式羅馬字<td class=emph>dya<td class=emph>dyu<td class=emph>dyo
-    <tr><th>黑本式羅馬字<td class=emph>dja<a href=#note_jp_1><sup>1</sup></a><td class=emph>dju<a href=#note_jp_1><sup>1</sup></a><td class=emph>djo<a href=#note_jp_1><sup>1</sup></a>
+    <tr><th>黑本式羅馬字<td class=emph>dja<sup><a href=note_jp_1>1</a></sup><td class=emph>dju<sup><a href=note_jp_1>1</a></sup><td class=emph>djo<sup><a href=note_jp_1>1</a></sup>
     <tr class=separator>
     <tr><th>平假名<td>にゃ<td>にゅ<td>にょ
     <tr><th>片假名<td>ニャ<td>ニュ<td>ニョ
@@ -638,12 +928,12 @@ function toggle(id) {
   </table>
   <br>
   <table>
-    <tr><th>平假名<td>ん<td>っ<a href=#note_jp_2><sup>2</sup></a>
+    <tr><th>平假名<td>ん<td>っ<sup><a href=note_jp_2>2</a></sup>
     <tr><th>片假名<td>ン<td>ッ
     <tr><th>日本式羅馬字<td>n<td>q
     <tr><th>黑本式羅馬字<td>n<td>q
   </table>
-  <p><b>注：</b></p>
+  <p><b>註：</b></p>
   <ol start=0>
     <li><span class=emph>紅色</span>表示日本式與黑本式羅馬字拼寫不同之處；<span class=dim>灰色</span>表示只用於歷史假名遣的音節。
     <li><a name=note_jp_1>在黑本式羅馬字中，爲了能夠區分“じ”、“ぢ”和“ず”、“づ”，在所有與“ぢ”“づ”有關的音節前加“d”。
@@ -653,4 +943,4 @@ function toggle(id) {
   <div align=center><a class=switch onclick="toggle('jp')">收起</a></div>
 </div>
 
-<br>
+<p align=right><a href=#sec_contents>回頁首</a></p>
